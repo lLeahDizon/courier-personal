@@ -7,6 +7,9 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
+    meta: {
+      title: '环球旅递'
+    },
     component: () => import(/* webpackChunkName: "login" */ '../views/Home')
   },
   {

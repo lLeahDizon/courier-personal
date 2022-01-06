@@ -1,12 +1,47 @@
 <template>
-  <Layout>
+  <Layout class-prefix="layout">
+    <div class="card">
+      <Tabs @click="checkTab"/>
+      <Online v-if="activeTab === 1"/>
+      <Phone v-else/>
+    </div>
   </Layout>
 </template>
 
 <script>
-export default {}
+import Tabs from '@/components/Home/Tabs'
+import Online from '@/components/Home/Online'
+import Phone from '@/components/Home/Phone'
+
+export default {
+  components: {Phone, Online, Tabs},
+  data() {
+    return {
+      activeTab: 1
+    }
+  },
+  methods: {
+    checkTab(value) {
+      this.activeTab = value
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
 
+::v-deep .layout-content {
+  background: url("~@/assets/icons/home-bg.png") no-repeat;
+  background-size: 100% auto;
+  padding: 275px 60px 0;
+}
+
+.card {
+  @extend %outerShadow;
+  border-radius: 20px;
+  width: 100%;
+  padding: 30px 36px 80px;
+  background: white;
+}
 </style>
