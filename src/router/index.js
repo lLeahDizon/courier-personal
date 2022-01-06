@@ -1,14 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
-    component: Home
+    component: () => import(/* webpackChunkName: "login" */ '../views/Home')
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: () => import(/* webpackChunkName: "login" */ '../views/Order')
+  },
+  {
+    path: '/my',
+    name: 'My',
+    component: () => import(/* webpackChunkName: "login" */ '../views/My')
   },
   {
     path: '/login',
@@ -20,8 +29,8 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   routes,
-  scrollBehavior (to, from, savedPosition) {
-    return savedPosition || { x: 0, y: 0 }
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || {x: 0, y: 0}
   }
 })
 

@@ -3,14 +3,13 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import Icon from '@/components/Icon'
+import '@/assets/icons'
 import Nav from '@/components/Nav'
 import Layout from '@/components/Layout'
 import '@/components/vant'
 
 Vue.config.productionTip = false
 
-Vue.component('Icon', Icon)
 Vue.component('Nav', Nav)
 Vue.component('Layout', Layout)
 

@@ -40,7 +40,7 @@ module.exports = {
     svgRule.uses.clear()
     svgRule
       .include
-      .add(resolve('src/icons'))
+      .add(resolve('src/assets/icons'))
       .end()
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
@@ -52,5 +52,16 @@ module.exports = {
 
     // 给异步加载的静态资源标签添加crossorigin属性
     config.output.crossOriginLoading('anonymous')
+  },
+  devServer: {
+    port: 8080,
+    proxy: {
+      '/api': {
+        target: 'https://t-customer.travelsender.com',
+        pathRewrite: { '^': '' },
+        secure: false,
+        changeOrigin: true
+      }
+    }
   }
 }

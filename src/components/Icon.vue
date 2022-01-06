@@ -1,6 +1,6 @@
 <template>
   <svg class="icon" @click="$emit('click', $event)">
-    <use :xlink:href="'#'+name" />
+    <use :xlink:href="iconName" />
   </svg>
 </template>
 
@@ -8,12 +8,9 @@
 export default {
   name: 'Icon',
   props: ['name'],
-  created() {
-    const importAll = (requireContext) => requireContext.keys().forEach(requireContext);
-    try {
-      importAll(require.context('../assets/icons/', true, /\.svg$/));
-    } catch (error) {
-      console.log(error);
+  computed: {
+    iconName () {
+      return `#icon-${this.name}`
     }
   }
 }
