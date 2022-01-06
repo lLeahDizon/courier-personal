@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>切片</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#53C3FF" offset="0%"></stop>
+            <stop stop-color="#2990FF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M24.4442311,57.1750573 C25.7883643,53.6982735 27.3134921,51.2111662 29.0196146,49.7137355 C36.2636125,43.3558184 48,36.4857427 48,23.3515346 C48,10.4548382 37.254834,0 24,0 C10.745166,0 0,10.4548382 0,23.3515346 C0,36.6363331 11.7418778,43.4390388 18.9753283,49.7200838 C20.7084515,51.2250122 22.2466552,53.7369862 23.5899393,57.2560059 C23.7287064,57.6195358 24.2938898,57.5639357 24.4442311,57.1750573 Z" id="path-2"></path>
+        <filter x="-7.3%" y="-6.1%" width="114.6%" height="112.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="3" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.668769055   0 0 0 0 0.910370035   0 0 0 0 1  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#BFE5FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="订单备份-3" transform="translate(-343.000000, -392.000000)">
+            <g id="地址信息" transform="translate(343.000000, 392.000000)">
+                <g>
+                    <rect id="矩形" stroke="#979797" fill="#D8D8D8" opacity="0" x="0" y="0" width="64" height="64"></rect>
+                    <g id="分组-25-copy-2" transform="translate(8.000000, 2.000000)" fill-rule="nonzero">
+                        <ellipse id="椭圆形" fill="#CEE6FF" cx="24" cy="57.5" rx="10.1052632" ry="2.5"></ellipse>
+                        <g id="椭圆形-copy-9">
+                            <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                        </g>
+                        <circle id="椭圆形" fill="url(#linearGradient-4)" cx="24" cy="24" r="9.81818182"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

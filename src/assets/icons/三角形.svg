@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="14px" viewBox="0 0 11 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>三角形@3x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="发件信息备份" transform="translate(-455.000000, -590.000000)" fill="#FFFFFF">
+            <g id="编组" transform="translate(271.000000, 577.000000)">
+                <g id="编组-3">
+                    <path d="M191.664101,16.4961509 L195.927066,22.8905996 C196.539771,23.809657 196.291424,25.0513957 195.372366,25.6641006 C195.043831,25.8831239 194.657816,26 194.262966,26 L185.737034,26 C184.632465,26 183.737034,25.1045695 183.737034,24 C183.737034,23.60515 183.85391,23.2191346 184.072934,22.8905996 L188.335899,16.4961509 C188.948604,15.5770935 190.190343,15.3287458 191.1094,15.9414507 C191.329105,16.0879204 191.517631,16.2764463 191.664101,16.4961509 Z" id="三角形" transform="translate(190.000000, 20.000000) rotate(90.000000) translate(-190.000000, -20.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

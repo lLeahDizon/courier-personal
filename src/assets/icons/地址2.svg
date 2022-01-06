@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>切片</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="发件信息" transform="translate(-30.000000, -193.000000)">
+            <g id="地址2" transform="translate(30.000000, 193.000000)">
+                <g>
+                    <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="40" height="40"></rect>
+                    <path d="M20.0368042,35.4530842 C20.7190034,34.0149402 21.4511291,32.9182395 22.2567618,32.1884768 C23.0232813,31.4941439 25.9502708,29.0521411 26.1863665,28.84882 C30.8524704,24.8304593 33,21.5728416 33,17.0585405 C33,9.84557579 27.1787655,4 20,4 C12.8212345,4 7,9.84557579 7,17.0585405 C7,21.6272722 9.15178907,24.9006192 13.8020326,28.8769363 C14.1110421,29.1411633 16.9824579,31.5131287 17.7363323,32.1887345 C18.6201649,32.9808061 19.3774418,34.0510295 20.0368042,35.4530842 Z" id="椭圆形-copy-9" stroke="#888888" stroke-width="2" fill-rule="nonzero"></path>
+                    <circle id="椭圆形" stroke="#888888" stroke-width="2" fill-rule="nonzero" cx="20" cy="17" r="4.89473684"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>编组@3x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="订单详情" transform="translate(-341.000000, -305.000000)">
+            <g id="编组" transform="translate(341.000000, 305.000000)">
+                <path d="M25.4666667,32.3333333 L20.8,27.6666667 C20.3581722,27.2248389 20.3581722,26.5084945 20.8,26.0666667 C21.2418278,25.6248389 21.9581722,25.6248389 22.4,26.0666667 L25.4666667,29.1333333 L25.4666667,29.1333333 L25.4666667,12.2666667 C25.4666667,11.567106 26.0337727,11 26.7333333,11 C27.432894,11 28,11.567106 28,12.2666667 L28,32.4954617 C28,33.0477464 27.5522847,33.4954617 27,33.4954617 C26.7258888,33.4954617 26.4637945,33.3829416 26.2750006,33.1842111 L25.4666667,32.3333333 L25.4666667,32.3333333 Z" id="路径" fill="#12A0FF" fill-rule="nonzero" transform="translate(24.000000, 23.000000) scale(1, -1) rotate(-90.000000) translate(-24.000000, -23.000000) "></path>
+                <circle id="椭圆形" stroke="#12A0FF" cx="24" cy="24" r="23.5"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

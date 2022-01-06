@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>切片</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="发件信息" transform="translate(-30.000000, -311.000000)">
+            <g id="楼号" transform="translate(30.000000, 311.000000)">
+                <g>
+                    <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="40" height="40"></rect>
+                    <g id="编组" transform="translate(4.000000, 5.000000)">
+                        <path d="M3,29 L20,29 L20,2.28039662 C20,2.23677193 19.9971453,2.19319399 19.9914543,2.14994211 C19.9194063,1.60237702 19.4171106,1.21689429 18.8695455,1.28894233 L3.86954549,3.26262654 C3.37197558,3.32809626 3,3.75222219 3,4.25408083 L3,29 Z" id="矩形" stroke="#888888" stroke-width="2"></path>
+                        <rect id="矩形" fill="#888888" x="0" y="28" width="32" height="2" rx="1"></rect>
+                        <path d="M29.202488,3 L30,4.78935769 L21.6100263,7.89028727 L21.5861651,7.90771142 C21.4043333,8.06596413 21.1584552,8.70453732 21.1242574,9.4930387 L21.1202488,9.67751162 L21.1202488,29 L19,29 L19,9.67751162 C19,8.18308363 19.5160748,6.8294208 20.4769645,6.25794183 L20.6323701,6.17430197 L20.730861,6.13240632 L29.202488,3 Z" id="形状" fill="#888888" fill-rule="nonzero" transform="translate(24.500000, 16.000000) scale(-1, 1) translate(-24.500000, -16.000000) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

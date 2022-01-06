@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>切片</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="发件信息" transform="translate(-30.000000, -539.000000)">
+            <g id="电话" transform="translate(30.000000, 539.000000)">
+                <g id="矩形">
+                    <rect fill="#D8D8D8" opacity="0" x="0" y="0" width="40" height="40"></rect>
+                    <rect stroke="#888888" stroke-width="2" x="9" y="5" width="22" height="30" rx="2"></rect>
+                    <rect fill="#888888" x="16" y="30" width="8" height="2" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

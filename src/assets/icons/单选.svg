@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>单选@3x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="实名认证备份-4" transform="translate(-225.000000, -543.000000)">
+            <g id="编组-8" transform="translate(85.000000, 392.000000)">
+                <g id="单选" transform="translate(140.000000, 151.000000)">
+                    <g id="选择">
+                        <path d="M0,14.9993127 C0,6.72785905 6.72944321,0 15,0 C23.2705568,0 30,6.72906189 30,14.9993127 C30,23.2697353 23.2719335,30 15,30 C6.72944321,30 0,23.2709381 0,14.9993127 Z" id="Fill-" fill="#12A0FF"></path>
+                        <path d="M12.5826446,17.906527 L22.0895623,8.94122279 C22.1850021,8.85122029 22.3294045,8.83807593 22.4394659,8.9093725 L23.8636364,9.83193537 L12.5826446,21.1363636 L6.13636364,14.6766903 L7.56666976,13.7501529 C7.67386661,13.6807119 7.81407316,13.6911978 7.9097959,13.7758149 L12.5826446,17.906527 Z" id="路径" fill="#FFFFFF"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

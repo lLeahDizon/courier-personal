@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>切片</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="22.8682711%" y1="95.9580954%" x2="73.9852142%" y2="5.32254726%" id="linearGradient-1">
+            <stop stop-color="#12A0FF" offset="0%"></stop>
+            <stop stop-color="#65C1FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="订单备份-6" transform="translate(-601.000000, -1236.000000)">
+            <g id="编组-3备份" transform="translate(0.000000, 1226.000000)">
+                <g id="我的选中" transform="translate(601.000000, 10.000000)">
+                    <rect id="矩形" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="54" height="54"></rect>
+                    <circle id="椭圆形" fill="url(#linearGradient-1)" cx="27" cy="19" r="14"></circle>
+                    <path d="M27,47 C38.045695,47 47,45.38372 47,42.3461538 C47,39.3085877 38.045695,36 27,36 C15.954305,36 7,39.3085877 7,42.3461538 C7,45.38372 15.954305,47 27,47 Z" id="椭圆形备份-4" fill="#1DA5FF"></path>
+                    <rect id="矩形备份-18" fill="#FFFFFF" x="23" y="22" width="8" height="3" rx="1.5"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
