@@ -1,8 +1,8 @@
 <template>
   <div class="online">
     <p>请详细填写您的收发件地址信息</p>
-    <InputPanel/>
-    <InputPanel/>
+    <InputPanel :value.sync="sendAdd" class-prefix="send" placeholder="请填写发件地址"/>
+    <InputPanel :value.sync="receiptAdd" class-prefix="receipt" placeholder="请填写收件地址"/>
   </div>
 </template>
 
@@ -10,7 +10,13 @@
 import InputPanel from '@/components/Home/InputPanel'
 
 export default {
-  components: {InputPanel}
+  components: {InputPanel},
+  data() {
+    return {
+      sendAdd: '',
+      receiptAdd: ''
+    }
+  }
 }
 </script>
 
@@ -26,6 +32,22 @@ export default {
     font-size: 26px;
     color: #ff8133;
     text-align: center;
+  }
+
+  ::v-deep .send-wrapper {
+    margin-top: 40px;
+
+    .send-circle {
+      background: #12a0ff;
+    }
+  }
+
+  ::v-deep .receipt-wrapper {
+    margin-top: 24px;
+
+    .receipt-circle {
+      background: #ffbc45;
+    }
   }
 }
 </style>
