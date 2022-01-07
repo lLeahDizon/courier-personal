@@ -5,6 +5,7 @@
       <Online v-if="activeTab === 1"/>
       <Phone v-else/>
     </div>
+    <van-dialog v-model="showDialog">实名认证</van-dialog>
   </Layout>
 </template>
 
@@ -17,12 +18,14 @@ export default {
   components: {Phone, Online, Tabs},
   data() {
     return {
-      activeTab: 1
+      activeTab: 1,
+      showDialog: false
     }
   },
   methods: {
     checkTab(value) {
       this.activeTab = value
+      this.showDialog = true
     }
   }
 }
