@@ -4,9 +4,9 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import '@/assets/icons'
+import '@/components/vant'
 import Nav from '@/components/Nav'
 import Layout from '@/components/Layout'
-import '@/components/vant'
 
 Vue.config.productionTip = false
 

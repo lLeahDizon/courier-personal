@@ -5,7 +5,6 @@
       <Online v-if="activeTab === 1"/>
       <Phone v-else/>
     </div>
-    <van-dialog v-model="showDialog">实名认证</van-dialog>
   </Layout>
 </template>
 
