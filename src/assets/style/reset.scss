@@ -18,10 +18,32 @@ button, input {
   font: inherit;
 }
 
+button {
+  border: 0;
+  background-color: transparent;
+  outline: none;
+}
+
 :focus {
   outline: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+img {
+  vertical-align: top;
+  border: none;
+  user-drag: none;
+}
+
+// 统一安卓和ios系统禁用样式
+input[disabled], input:disabled, input.disabled {
+  color: #3e3e3e;
+  -webkit-text-fill-color: #3e3e3e;
+  -webkit-opacity: 1;
+  opacity: 1;
 }

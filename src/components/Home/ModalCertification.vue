@@ -1,5 +1,6 @@
 <template>
-  <van-popup v-model="visible" round :close-on-click-overlay="false" get-container="#app">
+  <van-popup v-model="visible" class="modal-wrapper" round :close-on-click-overlay="false" get-container="#app">
+    123123
   </van-popup>
 </template>
 
@@ -26,5 +27,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.modal-wrapper {
+  width: 650px;
+  height: 932px;
+}
 </style>

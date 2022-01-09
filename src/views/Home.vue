@@ -5,6 +5,7 @@
       <Online v-if="activeTab === 1"/>
       <Phone v-else/>
     </div>
+    <ModalCertification :show="showDialog"/>
   </Layout>
 </template>
 
@@ -12,9 +13,10 @@
 import Tabs from '@/components/Home/Tabs'
 import Online from '@/components/Home/Online'
 import Phone from '@/components/Home/Phone'
+import ModalCertification from '@/components/Home/ModalCertification'
 
 export default {
-  components: {Phone, Online, Tabs},
+  components: {ModalCertification, Phone, Online, Tabs},
   data() {
     return {
       activeTab: 1,
