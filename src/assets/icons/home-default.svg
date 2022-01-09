@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>切片</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-95.000000, -27.000000)">
+            <g id="首页未选" transform="translate(95.000000, 27.000000)">
+                <g>
+                    <rect id="矩形" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="54" height="54"></rect>
+                    <path d="M12,46 L43,46 C45.209139,46 47,44.209139 47,42 L47,24.8657622 C47,23.6408762 46.4387828,22.4835114 45.4770128,21.7249968 L29.9770128,9.50068398 C28.5243737,8.35503787 26.4756263,8.35503787 25.0229872,9.50068398 L9.52298716,21.7249968 C8.56121725,22.4835114 8,23.6408762 8,24.8657622 L8,42 C8,44.209139 9.790861,46 12,46 Z" id="路径-44" stroke="#A0A2A3" stroke-width="4"></path>
+                    <path d="M19,34.23 C21.6666667,35.5633333 24.3333333,36.23 27,36.23 C29.6666667,36.23 32.3333333,35.5633333 35,34.23" id="路径-23" stroke="#D8D8D8" stroke-width="3" stroke-linecap="round"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

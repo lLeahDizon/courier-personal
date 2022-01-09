@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="750px" height="700px" viewBox="0 0 750 700" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>附近诊所背景@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="750" height="700"></rect>
+        <linearGradient x1="47.5093037%" y1="36.3462617%" x2="50%" y2="53.1799034%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-4" x="0" y="399" width="750" height="300"></rect>
+        <linearGradient x1="50%" y1="42.5177352%" x2="49.5483477%" y2="50.7243776%" id="linearGradient-6">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#F7F7F7" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-7" x="0" y="0" width="750" height="300"></rect>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="登录">
+            <g id="登录bg">
+                <g id="分组-5">
+                    <g id="附近诊所背景">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="Mask" fill="#F7F7F7" fill-rule="nonzero" xlink:href="#path-1"></use>
+                        <path d="M600,182 L599,151 L674,176 L676.879584,218 C627.91411,225.333333 603.431373,225.333333 603.431373,218 C603.431373,210.666667 602.287582,198.666667 600,182 Z" id="路径-13" fill="#F7F7F7" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                        <path d="M-15,237 L-15,409.896844 L79.3419442,407.970124 L84.8367242,237 L-15,237 Z" id="矩形" stroke="#FFFFFF" stroke-width="10" fill="#F7F7F7" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                        <line x1="706.885759" y1="290.876128" x2="692.181377" y2="-2.67203651" id="路径" stroke="#FFFFFF" stroke-width="10" fill="#F7F7F7" fill-rule="nonzero" mask="url(#mask-2)" transform="translate(699.533568, 144.102046) rotate(-6.000000) translate(-699.533568, -144.102046) "></line>
+                        <path d="M113.596083,23.6784515 L142.725826,157.116721 C150.354372,189.436784 138.168057,213.130999 106.166882,228.199365 C74.1657068,243.267732 36.5684476,255.125339 -6.62489582,263.772188 L-18.6248958,52.0308733 L113.596083,23.6784515 Z" id="路径-6" stroke="#FFFFFF" stroke-width="10" fill="#F7F7F7" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                        <path d="M543.701369,133.568405 L479.072701,139.269728 C476.599533,139.487902 474.155568,139.961336 471.779831,140.68247 L425.221628,154.8148 C411.787697,158.892551 397.645682,160.095927 383.715913,158.346616 L337.623105,152.558246 L379.164781,366.585983 L407,542.066667" id="路径" stroke="#FFFFFF" stroke-width="10" fill="#F7F7F7" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                        <line x1="314" y1="43" x2="337.623105" y2="154.503254" id="路径-9" stroke="#FFFFFF" stroke-width="10" fill-rule="nonzero" mask="url(#mask-2)"></line>
+                        <polyline id="路径-10" stroke="#FFFFFF" stroke-width="10" fill-rule="nonzero" mask="url(#mask-2)" points="172 31.9207787 228 184 268 377.413913"></polyline>
+                        <line x1="78.0878369" y1="408.265773" x2="78.0878369" y2="639.170309" id="路径-10备份" stroke="#FFFFFF" stroke-width="10" fill-rule="nonzero" mask="url(#mask-2)"></line>
+                        <polyline id="路径-11" stroke="#FFFFFF" stroke-width="10" fill-rule="nonzero" mask="url(#mask-2)" points="750 283.607143 556.329932 345.158604 83.1153474 408.265773"></polyline>
+                        <polyline id="路径-7" stroke="#FFFFFF" stroke-width="10" fill-rule="nonzero" mask="url(#mask-2)" points="457 43 506.75602 133.568405 534.286451 262 626.430847 253"></polyline>
+                        <polyline id="路径-12" stroke="#FFFFFF" stroke-width="10" fill-rule="nonzero" mask="url(#mask-2)" points="540 133.568405 605 139 637.939792 315.190309 654.811501 511.229136"></polyline>
+                        <line x1="144.928518" y1="187.25" x2="336" y2="151" id="路径-2" stroke="#FFFFFF" stroke-width="10" fill-rule="nonzero" mask="url(#mask-2)"></line>
+                        <mask id="mask-5" fill="white">
+                            <use xlink:href="#path-4"></use>
+                        </mask>
+                        <use id="Mask" fill="url(#linearGradient-3)" fill-rule="nonzero" xlink:href="#path-4"></use>
+                        <mask id="mask-8" fill="white">
+                            <use xlink:href="#path-7"></use>
+                        </mask>
+                        <use id="Mask备份" fill="url(#linearGradient-6)" fill-rule="nonzero" transform="translate(375.000000, 150.000000) scale(1, -1) translate(-375.000000, -150.000000) " xlink:href="#path-7"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

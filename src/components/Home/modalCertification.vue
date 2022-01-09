@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'modal-certification',
+  name: 'modalCertification',
   props: ['show'],
   data() {
     return {

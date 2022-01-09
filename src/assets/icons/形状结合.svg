@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>形状结合@3x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="发件信息备份-3" transform="translate(-294.000000, -1068.000000)" fill="#666666">
+            <g id="编组-5备份" transform="translate(40.000000, 1048.000000)">
+                <path d="M266,20 C266.552285,20 267,20.4477153 267,21 L267,31 L277,31 C277.552285,31 278,31.4477153 278,32 C278,32.5522847 277.552285,33 277,33 L267,33 L267,43 C267,43.5522847 266.552285,44 266,44 C265.447715,44 265,43.5522847 265,43 L265,33 L255,33 C254.447715,33 254,32.5522847 254,32 C254,31.4477153 254.447715,31 255,31 L265,31 L265,21 C265,20.4477153 265.447715,20 266,20 Z" id="形状结合"></path>
+            </g>
+        </g>
+    </g>
+</svg>

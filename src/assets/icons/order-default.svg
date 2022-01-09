@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>切片</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-348.000000, -27.000000)">
+            <g id="订单" transform="translate(348.000000, 27.000000)">
+                <g id="矩形">
+                    <rect fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="54" height="54"></rect>
+                    <path d="M10,7 C8.8954305,7 8,7.8954305 8,9 L8,43 C8,44.1045695 8.8954305,45 10,45 L44,45 C45.1045695,45 46,44.1045695 46,43 L46,13 C46,9.6862915 43.3137085,7 40,7 L10,7 Z" stroke="#A0A2A3" stroke-width="4"></path>
+                    <rect fill="#D8D8D8" x="21" y="33" width="17" height="3" rx="1.5"></rect>
+                    <rect fill="#D8D8D8" x="16" y="33" width="3" height="3" rx="1.5"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
