@@ -21,6 +21,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
 .online {
   padding-top: 56px;
 
@@ -38,7 +40,7 @@ export default {
     margin-top: 40px;
 
     .send-circle {
-      background: #12a0ff;
+      background: $color-send;
     }
   }
 
@@ -46,7 +48,7 @@ export default {
     margin-top: 24px;
 
     .receipt-circle {
-      background: #ffbc45;
+      background: $color-receipt;
     }
   }
 }

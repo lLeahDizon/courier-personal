@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import BaseInfo from '@/components/My/baseInfo'
-import OptionPanel from '@/components/My/optionPanel'
-import OtherPanel from '@/components/My/otherPanel'
+import BaseInfo from '@/components/My/BaseInfo'
+import OptionPanel from '@/components/My/OptionPanel'
+import OtherPanel from '@/components/My/OtherPanel'
 
 export default {
   components: {OtherPanel, OptionPanel, BaseInfo}
