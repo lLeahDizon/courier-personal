@@ -9,7 +9,7 @@
 
 <script>
 import navList from '@/constants/navList'
-// todo 首页 svg 缺少
+
 export default {
   name: 'Nav',
   data () {

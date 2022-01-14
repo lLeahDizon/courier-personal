@@ -1,17 +1,17 @@
 <template>
   <Layout class-prefix="layout">
     <Tabs @click="checkTab"/>
-    <Card/>
-    <Card/>
+    <OrderCard/>
+    <OrderCard/>
   </Layout>
 </template>
 
 <script>
 import Tabs from '@/components/Order/Tabs'
-import Card from '@/components/Order/Card'
+import OrderCard from '@/components/Order/OrderCard'
 
 export default {
-  components: {Card, Tabs},
+  components: {OrderCard, Tabs},
   data() {
     return {
       activeTab: 1,
