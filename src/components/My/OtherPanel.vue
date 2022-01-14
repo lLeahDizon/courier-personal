@@ -1,11 +1,11 @@
 <template>
   <div class="otherPanel">
-    <div v-for="(item, index) in menuList" :key="index" @click="item.event">
-      <div>
+    <div v-for="(item, index) in menuList" :key="index" @click="item.event" class="other-item">
+      <div class="left">
         <Icon :name="item.icon"/>
-        <span>{{ item.title }}</span>
+        <span class="title">{{ item.title }}</span>
       </div>
-      <Icon/>
+      <Icon name="my-right"/>
     </div>
   </div>
 </template>
@@ -53,5 +53,38 @@ export default {
   background: white;
   box-shadow: 0 4px 20px 0 rgba(51, 51, 51, 0.05);
   border-radius: 20px;
+  padding: 0 30px 0 20px;
+
+  > .other-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #e6e6e6;
+    }
+
+    > .icon {
+      width: 14px;
+      height: 24px;
+    }
+
+    > .left {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        font-size: 40px;
+      }
+
+      > .title {
+        font-size: 30px;
+        line-height: 42px;
+        padding-left: 18px;
+        color: #333333;
+      }
+    }
+  }
 }
 </style>

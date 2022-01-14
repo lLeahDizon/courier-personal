@@ -13,7 +13,7 @@ export default {
   props: ['show'],
   data() {
     return {
-      visible: true
+      visible: false
     }
   },
   watch: {
