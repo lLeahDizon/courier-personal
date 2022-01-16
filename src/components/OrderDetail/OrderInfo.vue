@@ -1,12 +1,12 @@
 <template>
-  <Card class-prefix="OrderInfo">
+  <Card>
     <div class="top">
       <UserInfo/>
       <Icon name="order-detail-to"/>
       <UserInfo/>
     </div>
     <div class="price-wrapper">
-      实际支付：<span class="price"></span>元
+      实际支付：<span class="price">269</span>元
     </div>
   </Card>
 </template>
@@ -22,10 +22,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .OrderInfo-wrapper {
-  padding: 30px 24px;
-}
-
 .top {
   display: flex;
   align-items: center;
@@ -39,7 +35,12 @@ export default {
 
 .price-wrapper {
   font-size: 26px;
+  color: #666666;
+  line-height: 36px;
+
   > .price {
+    font-size: 36px;
+    color: #f12323;
   }
 }
 </style>

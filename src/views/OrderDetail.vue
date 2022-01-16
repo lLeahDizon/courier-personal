@@ -5,6 +5,7 @@
     <LogisticsInfo/>
     <BaseInfo/>
     <Evaluate/>
+    <ModalEvaluate :evaluate="evaluate"/>
   </article>
 </template>
 
@@ -13,16 +14,26 @@ import OrderInfo from '@/components/OrderDetail/OrderInfo'
 import LogisticsInfo from '@/components/OrderDetail/LogisticsInfo'
 import BaseInfo from '@/components/OrderDetail/BaseInfo'
 import Evaluate from '@/components/OrderDetail/Evaluate'
+import ModalEvaluate from '@/components/OrderDetail/ModalEvaluate'
 
 export default {
   name: 'OrderDetail',
-  components: {Evaluate, BaseInfo, LogisticsInfo, OrderInfo}
+  components: {ModalEvaluate, Evaluate, BaseInfo, LogisticsInfo, OrderInfo},
+  data() {
+    return {
+      evaluate: {
+        type: 1,
+        icon: 'evaluate-bad',
+        title: '很糟糕'
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .orderDetail {
-  padding: 40px 30px;
+  padding: 40px 30px 50px;
   background: #f7f7f7;
   min-height: 100vh;
 
