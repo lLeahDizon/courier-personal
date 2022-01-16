@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "css-spring": "^4.1.0",
