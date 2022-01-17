@@ -83,6 +83,14 @@ const routes = [
       title: '订单详情'
     },
     component: () => import(/* webpackChunkName: "order-detail" */ 'src/views/OrderDetail')
+  },
+  {
+    path: '/goods/info',
+    name: 'goodsInfo',
+    meta: {
+      title: '物品信息'
+    },
+    component: () => import(/* webpackChunkName: "goods-info" */ 'src/views/GoodsInfo')
   }
 ]
 
