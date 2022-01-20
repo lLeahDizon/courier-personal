@@ -3,7 +3,7 @@
     <img src="@/assets/icons/login-bg.png" alt="">
     <div class="btn-wrapper">
       <button class="btn" @click="onClickLogin">
-        <Icon/>
+        <Icon name="login-wx"/>
         微信账号登录
       </button>
     </div>
@@ -54,6 +54,11 @@ export default {
     font-size: 36px;
     line-height: 42px;
     color: white;
+
+    > .icon {
+      font-size: 50px;
+      margin-right: 16px;
+    }
 
     &-wrapper {
       padding: 60px 60px 40px;

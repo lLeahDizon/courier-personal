@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import {$error} from '@/utils'
 
 Vue.use(VueRouter)
 
@@ -99,6 +100,17 @@ const router = new VueRouter({
   routes,
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || {x: 0, y: 0}
+  }
+})
+
+router.beforeEach(async (to, from, next) => {
+  try {
+    if (to.meta && to.meta.title) {
+      document.title = to.meta.title
+    }
+    next()
+  } catch (e) {
+    $error(e)
   }
 })
 
