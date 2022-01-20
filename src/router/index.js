@@ -78,6 +78,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "login" */ 'src/views/Login.vue')
   },
   {
+    path: '/order/confirm',
+    name: 'orderConfirm',
+    meta: {
+      title: '确认订单'
+    },
+    component: () => import(/* webpackChunkName: "order-confirm" */ 'src/views/OrderConfirm')
+  },
+  {
     path: '/order/detail',
     name: 'orderDetail',
     meta: {
