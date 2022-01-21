@@ -33,6 +33,7 @@ export default {
 .modal-wrapper {
   text-align: center;
   min-width: 580px;
+  min-height: 394px;
   padding: 48px 0;
 
   .icon {
