@@ -8,6 +8,7 @@
       <button class="btn">马上结算</button>
       <p class="total">合计：<span class="price">￥369.00</span></p>
     </footer>
+    <ModalResult :show="showDialog"/>
   </div>
 </template>
 
@@ -16,9 +17,15 @@ import BaseInfoPanel from '@/components/OrderConfirm/BaseInfoPanel'
 import GoodsInfoPanel from '@/components/OrderConfirm/GoodsInfoPanel'
 import PayPanel from '@/components/OrderConfirm/PayPanel'
 import PriceInfoPanel from '@/components/OrderConfirm/PriceInfoPanel'
+import ModalResult from '@/components/OrderConfirm/ModalResult'
 
 export default {
-  components: {PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel}
+  components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
+  data() {
+    return {
+      showDialog: false
+    }
+  }
 }
 </script>
 
