@@ -12,14 +12,21 @@
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
     </div>
+    <ModalType/>
+    <ModalTips/>
+    <!--  todo 缺少客服微信  -->
+    <ModalPrice/>
   </div>
 </template>
 
 <script>
 import InfoItem from '@/components/InfoItem'
+import ModalType from '@/components/GoodsInfo/ModalType'
+import ModalTips from '@/components/GoodsInfo/ModalTips'
+import ModalPrice from '@/components/GoodsInfo/ModalPrice'
 
 export default {
-  components: {InfoItem},
+  components: {ModalPrice, ModalTips, ModalType, InfoItem},
   methods: {
     onSubmit() {}
   }
