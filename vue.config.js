@@ -14,8 +14,13 @@ function addStyleResource (rule) {
     })
 }
 
+const {
+  VUE_APP_API_ROOT
+} = process.env
+
 module.exports = {
   assetsDir: 'static',
+  productionSourceMap: false,
   lintOnSave: false,
   crossorigin: 'anonymous',
   configureWebpack: () => {
@@ -54,11 +59,11 @@ module.exports = {
     config.output.crossOriginLoading('anonymous')
   },
   devServer: {
-    port: 8080,
+    port: 8100,
     proxy: {
       '/api': {
-        target: 'https://t-customer.travelsender.com',
-        pathRewrite: { '^': '' },
+        target: VUE_APP_API_ROOT,
+        pathRewrite: { '^/api': '' },
         secure: false,
         changeOrigin: true
       }
