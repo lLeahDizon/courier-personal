@@ -1,5 +1,9 @@
 <template>
   <div class="address-wrapper">
+    <div class="top-fixed">
+      <input id="tipinput" placeholder="请输入地址">
+      <Icon name="certification-close"/>
+    </div>
     <div id="container"></div>
     <div class="bottom-fixed">
       <div class="top">请确认发件地址是否准确，如不准确可拖动地图进行调整</div>
@@ -25,20 +29,34 @@ export default {
     }
   },
   mounted() {
-    this.initMap()
+    this.initAMap()
   },
   methods: {
-    initMap() {
+    initAMap() {
+      console.log('---initAMap')
       AMapLoader.load({
-        key: '47b0234461b5db55416a5722594e35f3',             // 申请好的Web端开发者Key，首次调用 load 时必填
-        version: '2.0',      // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: [''],       // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        key: '47b0234461b5db55416a5722594e35f3',  //设置您的key
+        version: '2.0',
+        plugins: ['AMap.Autocomplete', 'AMap.PlaceSearch'],
+        AMapUI: {
+          version: '1.1',
+          plugins: [],
+        }
       }).then((AMap) => {
-        this.map = new AMap.Map('container', {  //设置地图容器id
-          viewMode: '3D',    //是否为3D地图模式
-          zoom: 5,           //初始化地图级别
-          center: [105.602725, 37.076636], //初始化地图中心点位置
+        this.map = new AMap.Map('container', {
+          viewMode: '3D',
+          resizeEnable: true,
+          zoom: 5,
+          zooms: [2, 22],
+          center: [105.602725, 37.076636],
         })
+        AMap.plugin('AMap.Autocomplete', () => {
+          console.log(AMap)
+          const auto = new AMap.Autocomplete({input: 'tipinput'})
+          console.log(auto)
+        })
+        // const auto = new AMap.Autocomplete({input: 'tipinput'})
+        // console.log(auto)
       }).catch(e => {
         console.log(e)
       })
@@ -49,12 +67,55 @@ export default {
 
 <style lang="scss" scoped>
 .address-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+
+  > .top-fixed {
+    position: fixed;
+    z-index: 3;
+    top: 24px;
+    left: 30px;
+    right: 30px;
+    padding: 20px;
+    box-shadow: 0 2px 20px 0 rgba(51, 51, 51, 0.05);
+    border-radius: 40px;
+    background: white;
+    display: flex;
+    align-items: center;
+
+    #tipinput {
+      flex-grow: 1;
+      font-size: 28px;
+      line-height: 40px;
+    }
+
+    #tipinput::-webkit-input-placeholder {
+      color: #aaaaaa;
+    }
+
+    #tipinput::-moz-placeholder {
+      color: #aaaaaa;
+    }
+
+    #tipinput:-moz-placeholder {
+      color: #aaaaaa;
+    }
+
+    #tipinput:-ms-input-placeholder {
+      color: #aaaaaa;
+    }
+
+    .icon {
+      font-size: 28px;
+    }
+  }
 
   > .bottom-fixed {
     position: fixed;
+    z-index: 2;
     bottom: 0;
     left: 0;
     right: 0;
@@ -121,13 +182,13 @@ export default {
     }
   }
 
-}
-
-#container {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  min-height: 1012px;
-  flex-grow: 1;
+  #container {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
 }
 </style>
