@@ -15,22 +15,22 @@ export default {
       tabList: [
         {
           label: '全部',
-          value: 1
+          value: 0
         },
         {
           label: '待付款',
-          value: 2
+          value: 1
         },
         {
           label: '已付款',
-          value: 3
+          value: 2
         },
         {
           label: '已取消',
-          value: 4
+          value: 3
         }
       ],
-      activeValue: 1
+      activeValue: 0
     }
   },
   methods: {

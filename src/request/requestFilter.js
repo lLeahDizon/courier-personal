@@ -37,7 +37,7 @@ export function handleRequest (config) {
 
 export function handleResponse (response) {
   const { code, data, message: messages } = response.data
-  if (code === 0) {
+  if (!code) {
     return data
   } else {
     switch (code) {

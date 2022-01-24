@@ -2,14 +2,14 @@
   <van-popup v-model="visible" class="modal-wrapper" round :close-on-click-overlay="false" get-container="#app">
     <Icon name="certification-close" @click="onClose"/>
     <h1 class="title">实名认证</h1>
-    <p class="desc">人脸识别验证您的身份信息，请确保为&nbsp;<span class="name">王小</span>&nbsp;本人操作</p>
+    <p class="desc">人脸识别验证您的身份信息，请确保为&nbsp;<span class="name">{{ name }}</span>&nbsp;本人操作</p>
     <button class="btn" @click="onCertificate">确认</button>
   </van-popup>
 </template>
 
 <script>
 export default {
-  props: ['show'],
+  props: ['show','name'],
   data() {
     return {
       visible: false
@@ -25,6 +25,7 @@ export default {
       this.$emit('update:show', false)
     },
     onCertificate() {
+      this.$emit('onSubmit')
       this.onClose()
     }
   }

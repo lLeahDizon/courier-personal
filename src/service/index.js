@@ -1,9 +1,3 @@
-import Request from '@/request'
-
-export default function fileUpload(data) {
-  return Request({
-    url: '/file/upload',
-    method: 'post',
-    data
-  })
-}
+export * from './order'
+export * from './file'
+export * from './user'

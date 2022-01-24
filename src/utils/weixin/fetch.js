@@ -1,4 +1,4 @@
-import Request from 'src/utils/request'
+import Request from '@/request'
 
 export function getWXConfigApi ({ accountCode, url = location.href }) {
   return Request({

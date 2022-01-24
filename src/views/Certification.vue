@@ -2,8 +2,8 @@
   <div class="certification-wrapper">
     <h1 class="title">为保证您的账户安全</h1>
     <p class="desc">请先完成实名认证哦~</p>
-    <input placeholder="请输入真是姓名">
-    <input placeholder="请输入15位或18位身份证号">
+    <input v-model="name" placeholder="请输入真实姓名">
+    <div class="input" :class="{'placeholder':!id}" @click="show=true">{{ id || '请输入15位或18位身份证号' }}</div>
     <van-uploader v-model="fileList" class="upload" :max-count="1" deletable :after-read="afterRead"/>
     <div class="tips-wrapper">
       <div v-for="(item, index) in tips" :key="index" class="tips">
@@ -12,15 +12,25 @@
       </div>
     </div>
     <div class="btn-wrapper">
-      <button class="btn">开始认证</button>
+      <button class="btn" @click="showModal">开始认证</button>
       <van-checkbox v-model="agreementSelected">勾选即代表您同意<a>《环球旅递隐私政策》</a></van-checkbox>
     </div>
-    <ModalTips :show="showDialog"/>
+    <van-number-keyboard
+      :show="show"
+      extra-key="X"
+      close-button-text="完成"
+      @blur="show = false"
+      @input="onInput"
+      @delete="onDelete"
+    />
+    <ModalTips :show.sync="showDialog" :name="name" @onSubmit="onSubmit"/>
   </div>
 </template>
 
 <script>
 import ModalTips from '@/components/Certification/ModalTips'
+import {$error} from '@/utils'
+import {fileUpload, userVerify} from '@/service'
 
 export default {
   name: 'Certification',
@@ -29,14 +39,57 @@ export default {
     return {
       tips: ['不要佩戴眼镜', '不要遮挡脸部', '不仰头俯视', '周围环境光线明亮'],
       fileList: [],
-      agreementSelected: false,
-      showDialog: true
+      name: '',
+      id: '',
+      agreementSelected: true,
+      show: false,
+      showDialog: false
     }
   },
-  methods:{
-    afterRead(file){
+  methods: {
+    showModal() {
+      if (!this.name) {
+        return $error('请输入姓名')
+      }
+      if (![15, 18].includes(this.id.length)) {
+        return $error('请输入正确的身份证号')
+      }
+      if (!this.agreementSelected) {
+        return $error('请勾选《环球旅递隐私政策》')
+      }
+      this.showDialog = true
+    },
+    async onSubmit() {
+      try {
+        const data = await userVerify({
+          idCard: this.id,
+          realName: this.name,
+          faceImgUrl: ''
+        })
+        console.log(data)
+      } catch (e) {
+        $error(e)
+      }
+    },
+    async afterRead(file) {
       console.log(file)
-    }
+      try {
+        const result = await fileUpload(file.file)
+        console.log(result)
+      } catch (e) {
+        $error(e)
+      }
+    },
+    onInput(value) {
+      if (this.id.length < 18) {
+        this.id += value
+      }
+    },
+    onDelete() {
+      if (this.id) {
+        this.id = this.id.substr(0, this.id.length - 1)
+      }
+    },
   }
 }
 </script>
@@ -95,6 +148,18 @@ export default {
     font-size: 28px;
     color: #333333;
     line-height: 40px;
+  }
+
+  .input {
+    font-size: 36px;
+    line-height: 50px;
+    padding: 60px 0 24px;
+    width: 100%;
+    border-bottom: 1px solid #e6e6e6;
+
+    &.placeholder {
+      color: #aaaaaa;
+    }
   }
 
   > .upload {

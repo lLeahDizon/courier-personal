@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 import {$error} from '@/utils'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
 const routes = [
   {
@@ -57,7 +57,7 @@ const routes = [
     path: '/order',
     name: 'order',
     meta: {
-      title: '环球旅递'
+      title: '订单'
     },
     component: () => import(/* webpackChunkName: "order" */ 'src/views/Order')
   },
@@ -103,7 +103,7 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+const router = new Router({
   mode: 'history',
   routes,
   scrollBehavior(to, from, savedPosition) {

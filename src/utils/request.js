@@ -117,7 +117,7 @@ service.interceptors.response.use(response => {
   }
 
   let { code, data, message } = response.data
-  if (code === 0) {
+  if (!code) {
     return data
   } else if (code === 10001) {
     message = '系统错误'

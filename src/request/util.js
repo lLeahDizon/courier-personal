@@ -1,4 +1,4 @@
-import { TOKEN_KEY } from 'src/constant'
+import { TOKEN_KEY } from '@/constants'
 
 // 获取请求内容字符串
 export function generateDataStr (config) {

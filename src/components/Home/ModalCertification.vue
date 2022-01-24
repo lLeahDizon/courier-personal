@@ -25,8 +25,9 @@ export default {
     onClose() {
       this.$emit('update:show', false)
     },
-    onCertificate () {
+    onCertificate() {
       this.onClose()
+      this.$router.push({name: 'certification'})
     }
   }
 }
