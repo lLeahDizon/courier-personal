@@ -4,7 +4,7 @@
     <p class="desc">请先完成实名认证哦~</p>
     <input placeholder="请输入真是姓名">
     <input placeholder="请输入15位或18位身份证号">
-    <van-uploader v-model="fileList" class="upload" :max-count="1" deletable/>
+    <van-uploader v-model="fileList" class="upload" :max-count="1" deletable :after-read="afterRead"/>
     <div class="tips-wrapper">
       <div v-for="(item, index) in tips" :key="index" class="tips">
         <Icon name="login-default"/>
@@ -31,6 +31,11 @@ export default {
       fileList: [],
       agreementSelected: false,
       showDialog: true
+    }
+  },
+  methods:{
+    afterRead(file){
+      console.log(file)
     }
   }
 }
