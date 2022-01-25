@@ -8,6 +8,7 @@ import '@/components/vant'
 import Nav from '@/components/Nav'
 import Layout from '@/components/Layout'
 import VConsole from 'vconsole'
+import {initWeChatEnv} from '@/utils/weixin'
 
 Vue.config.productionTip = false
 
@@ -17,6 +18,8 @@ Vue.component('Layout', Layout)
 if (!['production'].includes(process.env.VUE_APP_ENV) && window.location.hostname !== 'localhost') {
   new VConsole()
 }
+
+initWeChatEnv()
 
 new Vue({
   router,

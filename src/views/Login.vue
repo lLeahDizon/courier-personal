@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import {handleLogin} from '@/utils/weixin'
+
 export default {
   data() {
     return {
@@ -29,7 +31,7 @@ export default {
       console.log('---onClickAgreement')
     },
     onClickLogin() {
-      console.log('---onClickLogin')
+      handleLogin()
     }
   }
 }

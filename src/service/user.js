@@ -8,3 +8,11 @@ export function userVerify(data) {
     data
   })
 }
+
+// 微信用户授权
+export function userDoAuthorize(code) {
+  return Request({
+    url: `/user/do/authorize?code=${code}`,
+    method: 'get'
+  })
+}

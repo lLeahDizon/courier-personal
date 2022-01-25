@@ -105,6 +105,8 @@ const routes = [
 
 const router = new Router({
   mode: 'history',
+  // 移动端使用以项目名命名的子目录
+  base: '/' + process.env.VUE_APP_BASE_NAME,
   routes,
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || {x: 0, y: 0}

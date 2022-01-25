@@ -1,8 +1,7 @@
 import RequestError from './RequestError'
 import router from 'src/router'
-import { requestTypes } from './config'
-import { handleLogin } from 'src/utils/weixin'
-import { generateRequestHeader } from './util'
+import {requestTypes} from './config'
+import {generateRequestHeader} from './util'
 
 const ERROR_INFO = {
   10001: '系统错误',
@@ -10,10 +9,9 @@ const ERROR_INFO = {
   10006: '需要登录'
 }
 
-export function handleRequest (config) {
+export function handleRequest(config) {
   // 格式化定制请求头
-  const headers = generateRequestHeader(config.headers)
-  config.headers = headers
+  config.headers = generateRequestHeader(config.headers)
   // 如果指定了传输类型
   const type = config.type || 'json'
   const format = requestTypes[type]
@@ -35,8 +33,8 @@ export function handleRequest (config) {
   return config
 }
 
-export function handleResponse (response) {
-  const { code, data, message: messages } = response.data
+export function handleResponse(response) {
+  const {code, data, message: messages} = response.data
   if (!code) {
     return data
   } else {
@@ -47,7 +45,7 @@ export function handleResponse (response) {
         })
         break
       case 10006:
-        handleLogin(router)
+        router.push({name: 'login'})
         break
     }
     return Promise.reject(new RequestError(ERROR_INFO[code] || messages))

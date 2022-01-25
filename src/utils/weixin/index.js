@@ -1,19 +1,31 @@
-import { ACCOUNT_CODE } from 'src/constants'
-import { getBrowserType } from 'src/utils'
-import { getWXConfigApi } from './fetch'
+import {ACCOUNT_CODE, TOKEN_KEY, WHITE_LIST} from 'src/constants'
+import {getBrowserType} from 'src/utils'
+import {getWXConfigApi} from './fetch'
 
-export function weChatAuthorizationUserInfo (redirectUri, state = 'state') {
-  const appId = ACCOUNT_CODE
-  location.replace(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&state=${state}&scope=snsapi_userinfo#wechat_redirect`)
+const {VUE_APP_BASE_NAME, VUE_APP_DOMAIN} = process.env
+
+export function handleLogin() {
+  const {pathname} = location
+  const path = pathname.replace('/' + process.env.VUE_APP_BASE_NAME, '')
+  localStorage.removeItem(TOKEN_KEY)
+  // 若非白名单页面
+  if (!WHITE_LIST.includes(path)) {
+    const redirectUri = encodeURIComponent(`${VUE_APP_DOMAIN}${VUE_APP_BASE_NAME}/home?t=${Date.now()}`)
+    weChatAuthorizationUserInfo(redirectUri)
+  }
 }
 
-export async function initWeChatEnv (url = location.href) {
+export function weChatAuthorizationUserInfo(redirectUri, state = 'state') {
+  location.replace(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${ACCOUNT_CODE}&redirect_uri=${redirectUri}&response_type=code&state=${state}&scope=snsapi_userinfo#wechat_redirect`)
+}
+
+export async function initWeChatEnv(url = location.href) {
   if (!getBrowserType().weChat) {
     return
   }
   // 微信环境初始化
   try {
-    const json = await getWXConfigApi({ accountCode: ACCOUNT_CODE, url })
+    const json = await getWXConfigApi({url})
     wx.config({
       ...json,
       debug: process.env.NODE_ENV === 'development',

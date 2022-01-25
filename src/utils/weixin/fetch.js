@@ -1,12 +1,8 @@
 import Request from '@/request'
 
-export function getWXConfigApi ({ accountCode, url = location.href }) {
+export function getWXConfigApi ({ url = location.href }) {
   return Request({
-    method: 'post',
-    url: '/wx/js/api/config',
-    data: {
-      accountCode,
-      url
-    }
+    method: 'get',
+    url: `/common/js/api/config?url=${url}`,
   })
 }
