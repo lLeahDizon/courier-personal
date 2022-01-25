@@ -5,7 +5,7 @@
     <PriceInfoPanel/>
     <PayPanel/>
     <footer>
-      <button class="btn">马上结算</button>
+      <button class="btn" @click="onClickPay">马上结算</button>
       <p class="total">合计：<span class="price">￥369.00</span></p>
     </footer>
     <ModalResult :show="showDialog"/>
@@ -18,12 +18,46 @@ import GoodsInfoPanel from '@/components/OrderConfirm/GoodsInfoPanel'
 import PayPanel from '@/components/OrderConfirm/PayPanel'
 import PriceInfoPanel from '@/components/OrderConfirm/PriceInfoPanel'
 import ModalResult from '@/components/OrderConfirm/ModalResult'
+import {$error, $loading, getBrowserType} from '@/utils'
+import {initWeChatEnv} from '@/utils/weixin'
+import {orderCreate, orderPay} from '@/service'
 
 export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
+  created() {
+    const browserType = getBrowserType()
+    if (browserType.weChat) {
+      initWeChatEnv()
+    }
+  },
   data() {
     return {
       showDialog: false
+    }
+  },
+  methods: {
+    async onClickPay() {
+      const loading = $loading()
+      try {
+        // 新订单需要创建订单
+        await orderCreate()
+        // 支付
+        const obj = await orderPay()
+        if (obj) {
+          wx.chooseWXPay({
+            ...obj,
+            success: function (res) {
+              // 支付成功后的回调函数
+              console.log('---success')
+              console.log(res)
+            }
+          })
+        }
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
     }
   }
 }

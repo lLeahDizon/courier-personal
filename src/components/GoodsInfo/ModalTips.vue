@@ -1,5 +1,5 @@
 <template>
-  <van-popup v-model="visible" class="modal-wrapper" round position="bottom" get-container="#app">
+  <van-popup v-model="visible" class="modal-wrapper" round position="bottom" get-container="#app" @close="onClose">
     <header>
       <span class="title">禁寄物品目录</span>
       <Icon name="certification-close" @click="onClose"/>
@@ -19,10 +19,16 @@
 import disableList from '@/constants/disableList'
 
 export default {
+  props: ['show'],
   data() {
     return {
       disableList,
       visible: false
+    }
+  },
+  watch: {
+    show(val) {
+      this.visible = val
     }
   },
   methods: {

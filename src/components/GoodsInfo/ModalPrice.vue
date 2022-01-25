@@ -1,45 +1,70 @@
 <template>
-  <van-popup v-model="visible" class="modal-wrapper" round position="bottom" get-container="#app">
+  <van-popup v-model="visible" class="modal-wrapper" round position="bottom" get-container="#app" @close="onClose">
     <header>
       <span class="title">物品价值</span>
       <Icon name="certification-close" @click="onClose"/>
     </header>
-    <div class="price">{{ price || '请输入物品金额，最高10000' }}</div>
+    <div class="price" @click="showKeyBoard=true">{{ price || '请输入物品金额，最高10000' }}</div>
     <div class="agreement-wrapper">
       <Icon :name="agreementSelected ? 'login-select' : 'login-default'" @click="selectAgreement"/>
       我已阅读并同意<a @click="onClickAgreement">《保价协议》</a>
     </div>
     <p class="title">保价说明</p>
     <p class="desc">desc</p>
-    <button class="btn">确定</button>
+    <button class="btn" @click="onOk">确定</button>
     <van-number-keyboard
-      :show="show"
+      :show="showKeyBoard"
       theme="custom"
       :extra-key="['00', '.']"
       close-button-text="完成"
+      @blur="showKeyBoard = false"
+      @input="onInput"
+      @delete="onDelete"
     />
   </van-popup>
 </template>
 
 <script>
 export default {
+  props: ['show'],
   data() {
     return {
-      visible: true,
-      show: false,
+      visible: false,
+      showKeyBoard: false,
       agreementSelected: false,
       price: '',
     }
   },
+  watch: {
+    show(val) {
+      this.visible = val
+    }
+  },
   methods: {
     onClose() {
+      this.price = ''
       this.$emit('update:show', false)
+    },
+    onOk() {
+      this.$emit('onChange', this.price)
+      this.onClose()
     },
     selectAgreement() {
       this.agreementSelected = !this.agreementSelected
     },
     onClickAgreement() {
       console.log('---onClickAgreement')
+    },
+    onInput(val) {
+      this.price = this.price + val
+      if (Number(this.price) > 10000) {
+        this.price = '10000'
+      }
+    },
+    onDelete() {
+      if (this.price.length > 0) {
+        this.price = this.price.substr(0, this.price.length - 1)
+      }
     },
   }
 }
@@ -67,9 +92,8 @@ export default {
   }
 
   .price {
-    background: #12A0FF;
+    background: rgba(18, 160, 255, 0.07);
     border-radius: 20px;
-    opacity: 0.07;
     padding: 50px 24px;
     font-size: 44px;
     font-weight: bold;

@@ -5,17 +5,18 @@
       <p class="desc">根据您当前的收发件信息，距离约为 <span class="number">150km</span></p>
       <p class="desc time">预计 <span class="number">1-6小时内</span> 送达</p>
     </header>
-    <InfoItem title="物品信息" placeholder="请选择物品信息" :content="123"/>
-    <InfoItem title="期望取件时间" placeholder="请选择取件时间" :content="123"/>
-    <InfoItem title="期望送达时间" placeholder="请选择送达时间" :content="123"/>
-    <InfoItem :is-required="false" title="物品报价" placeholder="可选择报价赔付"/>
+    <InfoItem title="物品信息" placeholder="请选择物品信息" :content="goodsInfo" @click="modalTypeVisible=true"/>
+    <InfoItem title="期望取件时间" placeholder="请选择取件时间" :content="receiptDateTime"/>
+    <InfoItem title="期望送达时间" placeholder="请选择送达时间" :content="deliverDateTime"/>
+    <InfoItem :is-required="false" title="物品报价" placeholder="可选择报价赔付" :content="itemAmount"
+              @click="modalPriceVisible=true"/>
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
     </div>
-    <ModalType/>
-    <ModalTips/>
+    <ModalType :show.sync="modalTypeVisible" @onNext="changeGoodsType"/>
+    <ModalTips :show.sync="modalTipsVisible"/>
     <!--  todo 缺少客服微信  -->
-    <ModalPrice/>
+    <ModalPrice :show.sync="modalPriceVisible" @onChange="changeGoodsPrice"/>
   </div>
 </template>
 
@@ -24,11 +25,48 @@ import InfoItem from '@/components/InfoItem'
 import ModalType from '@/components/GoodsInfo/ModalType'
 import ModalTips from '@/components/GoodsInfo/ModalTips'
 import ModalPrice from '@/components/GoodsInfo/ModalPrice'
+import {orderConfirmInfo} from '@/service'
+import {$error, $loading} from '@/utils'
 
 export default {
   components: {ModalPrice, ModalTips, ModalType, InfoItem},
+  data() {
+    return {
+      goodsInfo: '',
+      receiptDateTime: '',
+      deliverDateTime: '',
+      itemAmount: '',
+      itemDescription: '',
+      weight: '',
+      modalTypeVisible: false,
+      modalTipsVisible: false,
+      modalPriceVisible: false
+    }
+  },
   methods: {
-    onSubmit() {}
+    changeGoodsType({itemDescription, weight}) {
+      this.goodsInfo = `${itemDescription}，${weight}公斤`
+    },
+    changeGoodsPrice(val) {
+      this.itemAmount = val
+    },
+    async onSubmit() {
+      const loading = $loading()
+      try {
+        const data = {
+          itemDescription: this.itemDescription,
+          weight: this.weight,
+          itemAmount: this.itemAmount,
+          receiptDateTime: this.receiptDateTime,
+          deliverDateTime: this.deliverDateTime,
+        }
+        await orderConfirmInfo(data)
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
+    }
   }
 }
 </script>

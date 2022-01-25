@@ -1,5 +1,5 @@
 <template>
-  <van-popup v-model="visible" class="modal-wrapper" round position="bottom" get-container="#app">
+  <van-popup v-model="visible" class="modal-wrapper" round position="bottom" get-container="#app" @close="onClose">
     <header>
       <span class="title">物品类型</span>
       <div class="tips">禁寄物品
@@ -24,7 +24,7 @@
       公斤
     </div>
     <p class="desc">注：可能会存在实际重量增加、物品超件等情况，实际以达人收取确定为准，可能会影响收费。<a @click="onClickDesc">了解计费规则＞</a></p>
-    <button class="btn">下一步</button>
+    <button class="btn" @click="onNext">下一步</button>
   </van-popup>
 </template>
 
@@ -103,7 +103,8 @@ export default {
     onClose() {
       this.$emit('update:show', false)
     },
-    onCertificate() {
+    onNext() {
+      this.$emit('onNext', {itemDescription: this.selectList.map(item => item.name).join('、'), weight: this.weight})
       this.onClose()
     },
     onClickDesc() {

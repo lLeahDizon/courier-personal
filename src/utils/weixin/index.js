@@ -34,6 +34,8 @@ export async function initWeChatEnv(url = location.href) {
         'chooseImage',
         // 预览图片接口
         'previewImage',
+        // 微信支付
+        'chooseWXPay',
         // 上传图片接口
         'uploadImage',
         // 下载图片接口

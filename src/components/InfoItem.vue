@@ -1,5 +1,5 @@
 <template>
-  <div class="InfoItem">
+  <div class="InfoItem" @click="$emit('click',$event)">
     <div class="item">
       <span :class="{isRequired}">{{ title }}</span>
       <div class="right">
@@ -51,6 +51,10 @@ export default {
     font-size: 32px;
     line-height: 44px;
     color: #333333;
+
+    span {
+      min-width: 230px;
+    }
 
     > .isRequired:before {
       content: '*';

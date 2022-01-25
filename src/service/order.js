@@ -27,9 +27,9 @@ export function orderList(data) {
 }
 
 // 订单确认页信息
-export function orderPay() {
+export function orderPay(id) {
   return Request({
-    url: '/order/pay',
+    url: `/order/pay?id=${id}`,
     method: 'get'
   })
 }

@@ -74,7 +74,9 @@ export default {
     async afterRead(file) {
       console.log(file)
       try {
-        const result = await fileUpload(file.file)
+        let params = new FormData()
+        params.append('file', file.file)
+        const result = await fileUpload(params)
         console.log(result)
       } catch (e) {
         $error(e)

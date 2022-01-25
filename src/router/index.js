@@ -1,8 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {$error} from '@/utils'
+import {$error, getBrowserType} from '@/utils'
+import {HREF_TO_OTHER_PAGE, PAY_ROUTER_LIST} from '@/constants'
 
 Vue.use(Router)
+
+const filter2PayRouter = (toName, fromName) => {
+  if (!PAY_ROUTER_LIST.includes(toName)) {
+    return false
+  }
+  if (!(getBrowserType().iPhone || getBrowserType().iPad)) {
+    return false
+  }
+  return !!fromName
+}
 
 const routes = [
   {
@@ -117,6 +128,29 @@ router.beforeEach(async (to, from, next) => {
   try {
     if (to.meta && to.meta.title) {
       document.title = to.meta.title
+    }
+    if (filter2PayRouter(to.name, from.name)) {
+      const query = to.query
+      let action = 'assign'
+      let queryStr = ''
+      let queryItemList = []
+      if (query && typeof query === 'object') {
+        if (query.replace) {
+          action = 'replace'
+          delete query.replace
+        }
+        Object.keys(query).forEach(key => {
+          queryItemList.push(`${key}=${query[key]}`)
+        })
+        queryStr = queryItemList.join('&')
+      }
+      // 兼容ios多文档之间跳转时浏览器后退会访问缓存的问题
+      if (action === 'assign') {
+        sessionStorage.setItem(HREF_TO_OTHER_PAGE, HREF_TO_OTHER_PAGE)
+      }
+      window.location[action](`/${process.env.VUE_APP_BASE_NAME}${queryStr ? `${to.path}?${queryStr}` : `${to.path}`}`)
+      next(false)
+      return
     }
     next()
   } catch (e) {

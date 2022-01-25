@@ -9,6 +9,8 @@ import Nav from '@/components/Nav'
 import Layout from '@/components/Layout'
 import VConsole from 'vconsole'
 import {initWeChatEnv} from '@/utils/weixin'
+import {getBrowserType} from '@/utils'
+import {HREF_TO_OTHER_PAGE} from '@/constants'
 
 Vue.config.productionTip = false
 
@@ -17,6 +19,17 @@ Vue.component('Layout', Layout)
 
 if (!['production'].includes(process.env.VUE_APP_ENV) && window.location.hostname !== 'localhost') {
   new VConsole()
+}
+
+const browserType = getBrowserType()
+
+if (browserType.ios) {
+  window.addEventListener('pageshow', function (e) {
+    if ((sessionStorage.getItem(HREF_TO_OTHER_PAGE) === HREF_TO_OTHER_PAGE) && e.persisted) {
+      sessionStorage.removeItem(HREF_TO_OTHER_PAGE)
+      setTimeout(() => store.commit('RESET_VIEW'), 10)
+    }
+  }, false)
 }
 
 initWeChatEnv()

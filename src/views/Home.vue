@@ -16,6 +16,7 @@ import Phone from '@/components/Home/Phone'
 import ModalCertification from '@/components/Home/ModalCertification'
 import {userDoAuthorize} from '@/service'
 import {mapActions} from 'vuex'
+import {$error} from '@/utils'
 
 export default {
   components: {ModalCertification, Phone, Online, Tabs},
@@ -28,11 +29,17 @@ export default {
   async created() {
     let {code} = this.$route.query
     if (code) {
-      // 更新 userInfo
-      const data = await userDoAuthorize({
-        userCode: code instanceof Array ? code[0] : code
-      })
-      this.setUserInfo(data)
+      try {
+        // 更新 userInfo
+        const data = await userDoAuthorize({
+          userCode: code instanceof Array ? code[0] : code
+        })
+        console.log('---获取用户信息')
+        console.log(data)
+        this.setUserInfo(data)
+      } catch (e) {
+        $error(e)
+      }
     }
   },
   methods: {

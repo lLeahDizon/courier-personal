@@ -5,6 +5,7 @@ export function fileUpload(data) {
   return Request({
     url: '/file/upload',
     method: 'post',
+    type: 'form',
     data
   })
 }
