@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import {eventBus} from '@/utils'
+
 export default {
   data() {
     return {
@@ -36,7 +38,7 @@ export default {
   methods: {
     onClick({value}) {
       this.activeValue = value
-      this.$emit('click', value)
+      eventBus.$emit('refreshOrder', value)
     }
   }
 }
