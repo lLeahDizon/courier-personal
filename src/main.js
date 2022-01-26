@@ -32,6 +32,10 @@ if (browserType.ios) {
   }, false)
 }
 
+window._AMapSecurityConfig = {
+  securityJsCode:'70368fbc0dd164853706027aa847f80b',
+}
+
 initWeChatEnv()
 
 new Vue({
