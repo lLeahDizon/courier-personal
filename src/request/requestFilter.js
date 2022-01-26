@@ -6,7 +6,9 @@ import {generateRequestHeader} from './util'
 const ERROR_INFO = {
   10001: '系统错误',
   10002: '无权限访问',
-  10006: '需要登录'
+  10006: '需要登录',
+  400: '需要登录',
+  401: '登录过期'
 }
 
 export function handleRequest(config) {
@@ -44,6 +46,8 @@ export function handleResponse(response) {
           name: 'noPermission'
         })
         break
+      case 400:
+      case 401:
       case 10006:
         router.push({name: 'login'})
         break
