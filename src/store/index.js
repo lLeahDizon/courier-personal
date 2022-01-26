@@ -19,5 +19,8 @@ export default new Vuex.Store({
       localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo))
     }
   },
-  modules: {}
+  modules: {},
+  getters: {
+    userInfo: state => state.userInfo
+  }
 })

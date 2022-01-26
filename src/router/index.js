@@ -133,6 +133,10 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta && to.meta.title) {
       document.title = to.meta.title
     }
+    // if (!WHITE_LIST.includes(to.name) && !store.getters.userInfo && !JSON.parse(localStorage.getItem(USER_INFO_KEY))) {
+    //   next({name: 'login'})
+    //   return
+    // }
     if (filter2PayRouter(to.name, from.name)) {
       const query = to.query
       let action = 'assign'
