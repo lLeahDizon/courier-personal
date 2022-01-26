@@ -80,6 +80,7 @@ export default {
         let params = new FormData()
         params.append('file', file.file)
         const result = await fileUpload(params)
+        // https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}
         console.log(result)
       } catch (e) {
         $error(e)

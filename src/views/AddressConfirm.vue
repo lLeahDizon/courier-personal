@@ -1,7 +1,7 @@
 <template>
   <div class="address-wrapper">
     <div class="top-fixed">
-      <input id="tipinput" placeholder="请输入地址">
+      <input v-model="searchValue" id="tipinput" placeholder="请输入地址" type="text">
       <Icon name="certification-close"/>
     </div>
     <div id="container"></div>
@@ -25,40 +25,58 @@ export default {
   name: 'AddressConfirm',
   data() {
     return {
+      searchValue: '',
+      placeSearchComponent: undefined,
+      autoCompleteComponent: undefined,
       map: null
     }
   },
-  mounted() {
-    this.initAMap()
+  beforeCreate() {
+    AMapLoader.load({
+      key: '47b0234461b5db55416a5722594e35f3',  //设置您的key
+      version: '1.4.15',
+      plugins: ['AMap.Autocomplete', 'AMap.PlaceSearch'],
+      AMapUI: {
+        version: '1.1',
+        plugins: [],
+      },
+      'Loca': {               // 是否加载 Loca， 缺省不加载
+        'version': '1.3.2'  // Loca 版本，缺省 1.3.2
+      }
+    }).then(AMap => {
+      this.$nextTick(() => this.initAMap(AMap))
+    }).catch(e => {
+      console.error(e)
+    })
+  },
+  watch: {
+    searchValue(val) {
+      console.log('searchValue')
+      console.log(val)
+      this.placeSearchComponent.search(val, (status, result) => {
+        console.log('---placeSearchComponent')
+        console.log(status)
+        console.log(result)
+      })
+    }
   },
   methods: {
-    initAMap() {
+    initAMap(AMap) {
       console.log('---initAMap')
-      AMapLoader.load({
-        key: '47b0234461b5db55416a5722594e35f3',  //设置您的key
-        version: '2.0',
-        plugins: ['AMap.Autocomplete', 'AMap.PlaceSearch'],
-        AMapUI: {
-          version: '1.1',
-          plugins: [],
-        }
-      }).then((AMap) => {
-        this.map = new AMap.Map('container', {
-          viewMode: '3D',
-          resizeEnable: true,
-          zoom: 5,
-          zooms: [2, 22],
-          center: [105.602725, 37.076636],
+      this.map = new AMap.Map('container', {
+        viewMode: '3D',
+        resizeEnable: true,
+        zooms: [2, 22]
+      })
+      AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], () => {
+        console.log(AMap)
+        this.autoCompleteComponent = new AMap.Autocomplete({input: 'tipinput', city: '杭州'})
+        this.placeSearchComponent = new AMap.PlaceSearch({city: '杭州'})
+        AMap.event.addListener(this.autoCompleteComponent, 'select', (data) => {
+          console.log('---select')
+          console.log(data)
         })
-        AMap.plugin('AMap.Autocomplete', () => {
-          console.log(AMap)
-          const auto = new AMap.Autocomplete({input: 'tipinput'})
-          console.log(auto)
-        })
-        // const auto = new AMap.Autocomplete({input: 'tipinput'})
-        // console.log(auto)
-      }).catch(e => {
-        console.log(e)
+        console.log(this.autoCompleteComponent)
       })
     }
   }
