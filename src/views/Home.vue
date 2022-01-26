@@ -31,9 +31,7 @@ export default {
     if (code) {
       try {
         // 更新 userInfo
-        const data = await userDoAuthorize({
-          userCode: code instanceof Array ? code[0] : code
-        })
+        const data = await userDoAuthorize(code instanceof Array ? code[0] : code)
         console.log('---获取用户信息')
         console.log(data)
         this.setUserInfo(data)

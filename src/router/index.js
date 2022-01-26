@@ -17,6 +17,10 @@ const filter2PayRouter = (toName, fromName) => {
 
 const routes = [
   {
+    path: '/',
+    redirect: '/home'
+  },
+  {
     path: '/home',
     name: 'home',
     meta: {
