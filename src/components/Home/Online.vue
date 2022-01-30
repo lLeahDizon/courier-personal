@@ -1,20 +1,33 @@
 <template>
   <div class="online">
     <p>请详细填写您的收发件地址信息</p>
-    <InputPanel :value.sync="sendAdd" class-prefix="send" placeholder="请填写发件地址"/>
-    <InputPanel :value.sync="receiptAdd" class-prefix="receipt" placeholder="请填写收件地址"/>
+    <InputPanel class-prefix="send" placeholder="请填写发件地址" @goToInfo="goToInfo('send')"/>
+    <InputPanel class-prefix="receipt" placeholder="请填写收件地址" @goToInfo="goToInfo('receipt')"/>
   </div>
 </template>
 
 <script>
 import InputPanel from '@/components/Home/InputPanel'
-// todo 如何在线下单
+import {mapGetters} from 'vuex'
+
 export default {
   components: {InputPanel},
-  data() {
-    return {
-      sendAdd: '',
-      receiptAdd: ''
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
+  methods: {
+    goToInfo(type) {
+      this.$router.push({
+        name: type === 'send' ? 'senderInfo' : 'receiptInfo',
+        query: {type}
+      })
+      // if (this.userInfo && this.userInfo.verifyStatus)
+      //   this.$router.push({
+      //     name: type === 'send' ? 'senderInfo' : 'receiptInfo',
+      //     query: {type}
+      //   })
+      // else
+      //   this.$emit('showDialog')
     }
   }
 }

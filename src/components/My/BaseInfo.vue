@@ -1,16 +1,21 @@
 <template>
-  <div class="baseInfo">
-    <img src="" alt="">
+  <div v-if="userInfo" class="baseInfo">
+    <img :src="userInfo.userAvatar" alt="">
     <div class="name-wrapper">
-      <p>昵称</p>
-      <Icon name="certification-undo" class="certification-undo"/>
+      <p>{{ userInfo.userNick }}</p>
+      <Icon :name="'certification-'+userInfo.verifyStatus ? 'undo': 'done'" class="certification-undo"/>
     </div>
   </div>
 </template>
 
 <script>
-// todo 根据实名状态动态更新 icon
-export default {}
+import {mapGetters} from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters(['userInfo'])
+  }
+}
 </script>
 
 <style lang="scss" scoped>

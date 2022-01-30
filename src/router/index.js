@@ -42,7 +42,7 @@ const routes = [
     meta: {
       title: '收件信息'
     },
-    component: () => import(/* webpackChunkName: "receipt-info" */ 'src/views/SenderInfo')
+    component: () => import(/* webpackChunkName: "receipt-info" */ 'src/views/ReceiptInfo')
   },
   {
     path: '/address/confirm',
@@ -133,6 +133,7 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta && to.meta.title) {
       document.title = to.meta.title
     }
+    // todo 权限开启
     // if (!WHITE_LIST.includes(to.name) && !store.getters.userInfo && !JSON.parse(localStorage.getItem(USER_INFO_KEY))) {
     //   next({name: 'login'})
     //   return

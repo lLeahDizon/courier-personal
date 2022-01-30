@@ -1,13 +1,13 @@
 <template>
   <div class="GoodsInfo-wrapper">
-    <header>
+    <header v-if="distance">
       <h1 class="title">发件距离</h1>
-      <p class="desc">根据您当前的收发件信息，距离约为 <span class="number">150km</span></p>
-      <p class="desc time">预计 <span class="number">1-6小时内</span> 送达</p>
+      <p class="desc">根据您当前的收发件信息，距离约为 <span class="number">{{ distance }}km</span></p>
+      <p class="desc time">预计 <span class="number">{{ desc }}小时内</span> 送达</p>
     </header>
     <InfoItem title="物品信息" placeholder="请选择物品信息" :content="goodsInfo" @click="modalTypeVisible=true"/>
-    <InfoItem title="期望取件时间" placeholder="请选择取件时间" :content="receiptDateTime"/>
-    <InfoItem title="期望送达时间" placeholder="请选择送达时间" :content="deliverDateTime"/>
+    <InfoItem title="期望取件时间" desc="注意：成功提交订单后，在90分钟以内上门" placeholder="请选择取件时间" :content="receiptDateTime"/>
+    <InfoItem title="期望送达时间" :desc="'注意：取件后，将于'+desc+'小时送达。'" placeholder="请选择送达时间" :content="deliverDateTime"/>
     <InfoItem :is-required="false" title="物品报价" placeholder="可选择报价赔付" :content="itemAmount"
               @click="modalPriceVisible=true"/>
     <div class="btn-wrapper">
@@ -26,13 +26,16 @@ import ModalType from '@/components/GoodsInfo/ModalType'
 import ModalTips from '@/components/GoodsInfo/ModalTips'
 import ModalPrice from '@/components/GoodsInfo/ModalPrice'
 import {orderConfirmInfo} from '@/service'
-import {$error, $loading} from '@/utils'
+import {$error, $loading, CoolWPDistance} from '@/utils'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {ModalPrice, ModalTips, ModalType, InfoItem},
   data() {
     return {
       goodsInfo: '',
+      distance: '',
+      desc: '',
       receiptDateTime: '',
       deliverDateTime: '',
       itemAmount: '',
@@ -43,8 +46,21 @@ export default {
       modalPriceVisible: false
     }
   },
+  created() {
+    const {
+      distance,
+      desc
+    } = CoolWPDistance(this.orderInfo.deliverLongitude, this.orderInfo.deliverLatitude, this.orderInfo.receiptLongitude, this.orderInfo.receiptLatitude)
+    this.distance = distance
+    this.desc = desc
+  },
+  computed: {
+    ...mapGetters(['orderInfo'])
+  },
   methods: {
-    changeGoodsType({itemDescription, weight}) {
+    changeGoodsType({itemDescription, itemList, weight}) {
+      console.log('---changeGoodsType')
+      console.log(itemList)
       this.goodsInfo = `${itemDescription}，${weight}公斤`
     },
     changeGoodsPrice(val) {

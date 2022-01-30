@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     handle2Order() {
-      console.log('---handle2Order')
+      this.$router.push({name: 'order'})
     },
     handle2Address() {
       console.log('---handle2Address')

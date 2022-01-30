@@ -2,10 +2,10 @@
   <Layout class-prefix="layout">
     <div class="card">
       <Tabs @click="checkTab"/>
-      <Online v-if="activeTab === 1"/>
-      <Phone v-else/>
+      <Online v-if="activeTab === 1" @showDialog="showDialog"/>
+      <Phone v-else @showDialog="showDialog"/>
     </div>
-    <ModalCertification :show="showDialog"/>
+    <ModalCertification :show.sync="DialogVisible"/>
   </Layout>
 </template>
 
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       activeTab: 1,
-      showDialog: false
+      DialogVisible: false
     }
   },
   async created() {
@@ -32,8 +32,6 @@ export default {
       try {
         // 更新 userInfo
         const data = await userDoAuthorize(code instanceof Array ? code[0] : code)
-        console.log('---获取用户信息')
-        console.log(data)
         this.setUserInfo(data)
       } catch (e) {
         $error(e)
@@ -44,7 +42,9 @@ export default {
     ...mapActions(['setUserInfo']),
     checkTab(value) {
       this.activeTab = value
-      this.showDialog = true
+    },
+    showDialog() {
+      this.DialogVisible = true
     }
   }
 }

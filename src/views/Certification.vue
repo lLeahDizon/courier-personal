@@ -42,6 +42,7 @@ export default {
       fileList: [],
       name: '',
       id: '',
+      faceImgUrl: '',
       agreementSelected: true,
       show: false,
       showDialog: false
@@ -65,9 +66,10 @@ export default {
         const data = await userVerify({
           idCard: this.id,
           realName: this.name,
-          faceImgUrl: ''
+          faceImgUrl: this.faceImgUrl
         })
         console.log(data)
+        // todo 根据结果进行跳转结果页
       } catch (e) {
         $error(e)
       }
@@ -80,8 +82,7 @@ export default {
         let params = new FormData()
         params.append('file', file.file)
         const result = await fileUpload(params)
-        // https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}
-        console.log(result)
+        this.faceImgUrl = `https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`
       } catch (e) {
         $error(e)
       } finally {

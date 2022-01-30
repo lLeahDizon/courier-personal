@@ -9,7 +9,7 @@
         <div class="top">
           <div class="user-info"><span class="name">name</span>/13778677898</div>
           <div class="edit">修改
-            <Icon/>
+            <Icon name="info-edit"/>
           </div>
         </div>
         <div class="bottom">高新区XX街道XX路999号A幢201</div>
@@ -24,7 +24,7 @@
         <div class="top">
           <div class="user-info"><span class="name">name</span>/13778677898</div>
           <div class="edit">修改
-            <Icon/>
+            <Icon name="info-edit"/>
           </div>
         </div>
         <div class="bottom">高新区XX街道XX路999号A幢201</div>

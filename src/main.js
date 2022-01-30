@@ -8,7 +8,6 @@ import '@/components/vant'
 import Nav from '@/components/Nav'
 import Layout from '@/components/Layout'
 import VConsole from 'vconsole'
-import {initWeChatEnv} from '@/utils/weixin'
 import {getBrowserType} from '@/utils'
 import {HREF_TO_OTHER_PAGE} from '@/constants'
 
@@ -33,10 +32,8 @@ if (browserType.ios) {
 }
 
 window._AMapSecurityConfig = {
-  securityJsCode:'70368fbc0dd164853706027aa847f80b',
+  securityJsCode: '70368fbc0dd164853706027aa847f80b',
 }
-
-initWeChatEnv()
 
 new Vue({
   router,

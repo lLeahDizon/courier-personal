@@ -5,11 +5,18 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
     clickPhone() {
-      // todo 替换电话号码
-      window.location.href = 'tel:15779500011'
+      if (this.userInfo && this.userInfo.verifyStatus)
+        window.location.href = 'tel:4000129068'
+      else
+        this.$emit('showDialog')
     }
   }
 }

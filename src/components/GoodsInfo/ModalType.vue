@@ -104,7 +104,11 @@ export default {
       this.$emit('update:show', false)
     },
     onNext() {
-      this.$emit('onNext', {itemDescription: this.selectList.map(item => item.name).join('、'), weight: this.weight})
+      this.$emit('onNext', {
+        itemDescription: this.selectList.map(item => item.name).join('、'),
+        weight: this.weight,
+        itemList: this.selectList.map(item => item.id)
+      })
       this.onClose()
     },
     onClickDesc() {

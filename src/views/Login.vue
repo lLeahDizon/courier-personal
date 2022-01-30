@@ -16,6 +16,7 @@
 
 <script>
 import {handleLogin} from '@/utils/weixin'
+import {$error} from '@/utils'
 
 export default {
   data() {
@@ -31,6 +32,9 @@ export default {
       console.log('---onClickAgreement')
     },
     onClickLogin() {
+      if (!this.agreementSelected) {
+        return $error('请勾选《环球旅递隐私政策》')
+      }
       handleLogin()
     }
   }

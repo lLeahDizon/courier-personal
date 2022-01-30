@@ -2,6 +2,7 @@ import RequestError from './RequestError'
 import router from 'src/router'
 import {requestTypes} from './config'
 import {generateRequestHeader} from './util'
+import {TOKEN_KEY} from '@/constants'
 
 const ERROR_INFO = {
   10001: '系统错误',
@@ -36,7 +37,13 @@ export function handleRequest(config) {
 }
 
 export function handleResponse(response) {
-  const {code, data, message: messages} = response.data
+  const {code, data, msg: messages} = response.data
+  const {token} = response.headers
+  const {responseURL} = response.request
+  if ('/user/do/authorize'.includes(responseURL) && token) {
+    localStorage.removeItem(TOKEN_KEY)
+    localStorage.setItem(TOKEN_KEY, token)
+  }
   if (!code) {
     return data
   } else {

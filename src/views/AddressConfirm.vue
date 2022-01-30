@@ -12,7 +12,7 @@
           <div class="circle blue"></div>
           从&nbsp;<span class="blue">{{ searchValue }}</span>&nbsp;发件
         </div>
-        <button class="btn">确定</button>
+        <button class="btn" @click="onSubmit">确定</button>
       </div>
     </div>
   </div>
@@ -20,19 +20,24 @@
 
 <script>
 import AMapLoader from '@amap/amap-jsapi-loader'
+import {mapActions} from 'vuex'
+import {$error} from '@/utils'
 
 export default {
   name: 'AddressConfirm',
   data() {
     return {
       searchValue: '',
+      district: '',
+      lng: '',
+      lat: '',
       map: null
     }
   },
   beforeCreate() {
     AMapLoader.load({
       key: '47b0234461b5db55416a5722594e35f3',
-      plugins: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Marker']
+      plugins: ['AMap.Autocomplete', 'AMap.PlaceSearch']
     }).then(AMap => {
       this.$nextTick(() => this.initAMap(AMap))
     }).catch(e => {
@@ -40,6 +45,7 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['setAddressInfo']),
     initAMap(AMap) {
       this.map = new AMap.Map('container', {
         viewMode: '3D',
@@ -52,10 +58,31 @@ export default {
       AMap.event.addListener(autoComplete, 'select', (e) => {
         //TODO 针对选中的poi实现自己的功能
         console.log('---select')
-        console.log(e.poi.name)
-        this.searchValue = e.poi.name
-        placeSearch.search(e.poi.name)
+        console.log(e.poi)
+        this.searchValue = e.poi.address + e.poi.name
+        if (!e.poi.location) {
+          this.lng = ''
+          this.lat = ''
+          this.district = ''
+        } else {
+          this.lng = e.poi.location.lng
+          this.lat = e.poi.location.lat
+          this.district = e.poi.district
+          placeSearch.search(e.poi.address + e.poi.name)
+        }
       })
+    },
+    onSubmit() {
+      if (!this.lng || !this.lat) {
+        return $error('请输入正确的地址')
+      }
+      this.setAddressInfo({
+        searchValue: this.searchValue,
+        lng: this.lng,
+        lat: this.lat,
+        district: this.district
+      })
+      this.$router.go(-1)
     }
   }
 }

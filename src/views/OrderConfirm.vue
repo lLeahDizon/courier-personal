@@ -21,6 +21,7 @@ import ModalResult from '@/components/OrderConfirm/ModalResult'
 import {$error, $loading, getBrowserType} from '@/utils'
 import {initWeChatEnv} from '@/utils/weixin'
 import {orderCreate, orderPay} from '@/service'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
@@ -34,6 +35,9 @@ export default {
     return {
       showDialog: false
     }
+  },
+  computed: {
+    ...mapGetters(['orderInfo'])
   },
   methods: {
     async onClickPay() {

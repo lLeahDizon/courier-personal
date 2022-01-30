@@ -81,7 +81,11 @@ export default {
   > .desc {
     font-size: 26px;
     line-height: 36px;
-    color: #333333;
+    color: #666666;
+    background: url("~@/assets/icons/info-item-desc.png") no-repeat;
+    background-size: 100% auto;
+    padding: 29px 24px 18px;
+    margin-top: 16px;
   }
 }
 </style>

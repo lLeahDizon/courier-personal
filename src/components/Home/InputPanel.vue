@@ -1,16 +1,18 @@
 <template>
-  <label class="inputPanel" :class="classPrefix && `${classPrefix}-wrapper`">
-    <span class="circle" :class="classPrefix && `${classPrefix}-circle`"/>
-    <input :value="value" class="content" :class="classPrefix && `${classPrefix}-input`" :placeholder="placeholder" @input="onValueChanged($event.target.value)">
-  </label>
+  <div class="inputPanel" :class="classPrefix && `${classPrefix}-wrapper`" @click="onClick">
+    <div class="circle" :class="classPrefix && `${classPrefix}-circle`"/>
+    <div class="content" :class="classPrefix && `${classPrefix}-input`">
+      {{ placeholder }}
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  props: ['classPrefix', 'placeholder','value'],
+  props: ['classPrefix', 'placeholder'],
   methods: {
-    onValueChanged(value) {
-      this.$emit('update:value', value)
+    onClick() {
+      this.$emit('goToInfo')
     }
   }
 }
