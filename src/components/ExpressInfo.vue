@@ -53,6 +53,7 @@ export default {
     ...mapGetters(['addressInfo', 'orderInfo'])
   },
   created() {
+    // isEdit 通过缓存读取
     if (this.addressInfo.searchValue) {
       this.address = this.addressInfo.searchValue
       this.lng = this.addressInfo.lng
@@ -116,6 +117,7 @@ export default {
           })
           break
       }
+      // isEdit 存入 localStorage
       if (JSON.parse(isEdit)) {
         this.$router.go(-1)
       } else {

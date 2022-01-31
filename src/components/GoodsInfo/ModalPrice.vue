@@ -5,6 +5,7 @@
       <Icon name="certification-close" @click="onClose"/>
     </header>
     <div class="price" @click="showKeyBoard=true">{{ price || '请输入物品金额，最高10000' }}</div>
+    <div v-if="insurancePrice" class="desc-price">保费：<span class="money">{{ insurancePrice }}元</span></div>
     <div class="agreement-wrapper">
       <Icon :name="agreementSelected ? 'login-select' : 'login-default'" @click="selectAgreement"/>
       我已阅读并同意<a @click="onClickAgreement">《保价协议》</a>
@@ -25,19 +26,35 @@
 </template>
 
 <script>
+import {insuranceAmount} from '@/service'
+import {$error, $loading} from '@/utils'
+
 export default {
   props: ['show'],
   data() {
     return {
       visible: false,
       showKeyBoard: false,
-      agreementSelected: false,
+      agreementSelected: true,
       price: '',
+      insurancePrice: ''
     }
   },
   watch: {
     show(val) {
       this.visible = val
+    },
+    async showKeyBoard(val) {
+      if (!val) {
+        const loading = $loading()
+        try {
+          this.insurancePrice = await insuranceAmount(this.price)
+        } catch (e) {
+          $error(e)
+        } finally {
+          loading.clear()
+        }
+      }
     }
   },
   methods: {
@@ -46,6 +63,9 @@ export default {
       this.$emit('update:show', false)
     },
     onOk() {
+      if (!this.agreementSelected) {
+        return $error('请勾选《保价协议》')
+      }
       this.$emit('onChange', this.price)
       this.onClose()
     },
@@ -100,6 +120,20 @@ export default {
     color: #12A0FF;
     line-height: 62px;
     margin-top: 30px;
+  }
+
+  .desc-price {
+    margin-top: 10px;
+    background: url("~@/assets/icons/info-modal-desc.png") no-repeat;
+    background-size: 100% auto;
+    padding: 34px 0 20px 24px;
+    font-size: 36px;
+    color: #333333;
+    line-height: 50px;
+
+    .money {
+      color: #F12323;
+    }
   }
 
   .agreement-wrapper {

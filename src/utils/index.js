@@ -67,22 +67,23 @@ export function CoolWPDistance(lng1, lat1, lng2, lat2) {
     s = Math.round(kilometer)
   }
   let desc = ''
-  switch (s) {
-    case s < 300:
-      desc = '1-6'
-      break
-    case s >= 300 && s < 500:
-      desc = '4-8'
-      break
-    case s >= 500 && s < 700:
-      desc = '5-10'
-      break
-    case s >= 700 && s < 1200:
-      desc = '6-15'
-      break
-    case s >= 1200:
-      desc = '7-12'
-      break
-  }
-  return {distance: s, desc}
+  const distance = Number(s)
+  if (distance < 300) desc = '1-6'
+  if (distance >= 300 && distance < 500) desc = '4-8'
+  if (distance >= 500 && distance < 700) desc = '5-10'
+  if (distance >= 700 && distance < 1200) desc = '6-15'
+  if (distance >= 1200) desc = '7-12'
+  return {distance, desc}
+}
+
+export function getTimeArea() {
+  return Array.from(
+    {length: 24},
+    (x, i) => ([(i + '').padStart(2, '0') + ':00', (i + 1 + '').padStart(2, '0') + ':00'])
+  )
+    .map(item => item.join('-'))
+}
+
+export function getSpaceTime(space = 30) {
+  return getTimeArea().slice(new Date().getHours() + (new Date().getMinutes() >= space ? 2 : 1))
 }

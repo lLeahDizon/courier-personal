@@ -5,6 +5,8 @@ export const TOKEN_KEY = 'Login_Token'
 // 用户信息Key
 export const USER_INFO_KEY = 'User_Info'
 
+export const ORDER_INFO_KEY = 'Order_Info'
+
 // 表示当前页面已导向了其他页面（location.href或location.replace）
 export const HREF_TO_OTHER_PAGE = 'HREF_TO_OTHER_PAGE'
 

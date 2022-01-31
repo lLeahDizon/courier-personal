@@ -21,11 +21,12 @@ import ModalResult from '@/components/OrderConfirm/ModalResult'
 import {$error, $loading, getBrowserType} from '@/utils'
 import {initWeChatEnv} from '@/utils/weixin'
 import {orderCreate, orderPay} from '@/service'
-import {mapGetters} from 'vuex'
+import {ORDER_INFO_KEY} from '@/constants'
 
 export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
   created() {
+    localStorage.getItem(ORDER_INFO_KEY)
     const browserType = getBrowserType()
     if (browserType.weChat) {
       initWeChatEnv()
@@ -35,9 +36,6 @@ export default {
     return {
       showDialog: false
     }
-  },
-  computed: {
-    ...mapGetters(['orderInfo'])
   },
   methods: {
     async onClickPay() {
