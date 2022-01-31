@@ -16,7 +16,13 @@
 import Card from '@/components/Card'
 
 export default {
-  components: {Card}
+  components: {Card},
+  props: {
+    info: {
+      type: Object,
+      default: () => ({})
+    }
+  }
 }
 </script>
 

@@ -7,12 +7,12 @@
       </div>
       <div class="content-wrapper send">
         <div class="top">
-          <div class="user-info"><span class="name">name</span>/13778677898</div>
+          <div class="user-info"><span class="name">{{ info.deliverName }}</span>/{{ info.deliverPhone }}</div>
           <div class="edit">修改
             <Icon name="info-edit"/>
           </div>
         </div>
-        <div class="bottom">高新区XX街道XX路999号A幢201</div>
+        <div class="bottom">{{ info.deliverDistrict + info.deliverDetailAddress + info.deliverNumber }}</div>
       </div>
     </div>
     <div class="item-wrapper">
@@ -22,12 +22,12 @@
       </div>
       <div class="content-wrapper">
         <div class="top">
-          <div class="user-info"><span class="name">name</span>/13778677898</div>
+          <div class="user-info"><span class="name">{{ info.receiptName }}</span>/{{ info.receiptPhone }}</div>
           <div class="edit">修改
             <Icon name="info-edit"/>
           </div>
         </div>
-        <div class="bottom">高新区XX街道XX路999号A幢201</div>
+        <div class="bottom">{{ info.receiptDistrict + info.receiptDetailAddress + info.receiptNumber }}</div>
       </div>
     </div>
   </Card>
@@ -37,7 +37,13 @@
 import Card from '@/components/Card'
 
 export default {
-  components: {Card}
+  components: {Card},
+  props: {
+    info: {
+      type: Object,
+      default: () => ({})
+    }
+  }
 }
 </script>
 

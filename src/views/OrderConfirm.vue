@@ -1,8 +1,8 @@
 <template>
   <div class="OrderConfirm-wrapper">
-    <BaseInfoPanel/>
-    <GoodsInfoPanel/>
-    <PriceInfoPanel/>
+    <BaseInfoPanel :info="info"/>
+    <GoodsInfoPanel :info="info"/>
+    <PriceInfoPanel :info="info"/>
     <PayPanel/>
     <footer>
       <button class="btn" @click="onClickPay">马上结算</button>
@@ -20,13 +20,13 @@ import PriceInfoPanel from '@/components/OrderConfirm/PriceInfoPanel'
 import ModalResult from '@/components/OrderConfirm/ModalResult'
 import {$error, $loading, getBrowserType} from '@/utils'
 import {initWeChatEnv} from '@/utils/weixin'
-import {orderCreate, orderPay} from '@/service'
+import {orderConfirmInfo, orderCreate, orderPay} from '@/service'
 import {ORDER_INFO_KEY} from '@/constants'
 
 export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
   created() {
-    localStorage.getItem(ORDER_INFO_KEY)
+    this.info = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
     const browserType = getBrowserType()
     if (browserType.weChat) {
       initWeChatEnv()
@@ -34,17 +34,28 @@ export default {
   },
   data() {
     return {
-      showDialog: false
+      showDialog: false,
+      info: {}
     }
   },
   methods: {
+    async init() {
+      const loading = $loading()
+      try {
+        await orderConfirmInfo(this.info)
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
+    },
     async onClickPay() {
       const loading = $loading()
       try {
         // 新订单需要创建订单
-        await orderCreate()
+        const id = await orderCreate()
         // 支付
-        const obj = await orderPay()
+        const obj = await orderPay(id)
         if (obj) {
           wx.chooseWXPay({
             ...obj,
