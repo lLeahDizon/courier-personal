@@ -3,17 +3,28 @@
     <img :src="userInfo.userAvatar" alt="">
     <div class="name-wrapper">
       <p>{{ userInfo.userNick }}</p>
-      <Icon :name="'certification-'+userInfo.verifyStatus ? 'undo': 'done'" class="certification-undo"/>
+      <Icon :name="icon" class="certification-undo" @click="showDialog"/>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {USER_INFO_KEY} from '@/constants'
 
 export default {
-  computed: {
-    ...mapGetters(['userInfo'])
+  data() {
+    const userInfo = JSON.parse(localStorage.getItem(USER_INFO_KEY))
+    return {
+      userInfo,
+      icon: userInfo.verifyStatus ? 'certification-done' : 'certification-undo'
+    }
+  },
+  methods: {
+    showDialog() {
+      if (!this.userInfo.verifyStatus) {
+        this.$emit('showDialog')
+      }
+    }
   }
 }
 </script>

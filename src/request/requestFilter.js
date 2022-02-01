@@ -40,7 +40,7 @@ export function handleResponse(response) {
   const {code, data, msg: messages} = response.data
   const {token} = response.headers
   const {responseURL} = response.request
-  if ('/user/do/authorize'.includes(responseURL) && token) {
+  if (responseURL.includes('/user/do/authorize') && token) {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.setItem(TOKEN_KEY, token)
   }

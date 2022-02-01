@@ -1,8 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    <base-info/>
+    <base-info @showDialog="showDialog"/>
     <option-panel/>
     <other-panel/>
+    <ModalCertification :show.sync="DialogVisible"/>
   </Layout>
 </template>
 
@@ -10,9 +11,20 @@
 import BaseInfo from '@/components/My/BaseInfo'
 import OptionPanel from '@/components/My/OptionPanel'
 import OtherPanel from '@/components/My/OtherPanel'
+import ModalCertification from '@/components/Home/ModalCertification'
 
 export default {
-  components: {OtherPanel, OptionPanel, BaseInfo}
+  components: {ModalCertification, OtherPanel, OptionPanel, BaseInfo},
+  data() {
+    return {
+      DialogVisible: false
+    }
+  },
+  methods: {
+    showDialog() {
+      this.DialogVisible = true
+    }
+  }
 }
 </script>
 

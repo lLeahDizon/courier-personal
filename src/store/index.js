@@ -24,6 +24,7 @@ export default new Vuex.Store({
   actions: {
     setUserInfo({commit}, userInfo) {
       commit('SET_USER_INFO', userInfo)
+      localStorage.removeItem(USER_INFO_KEY)
       localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo))
     },
     setAddressInfo({commit}, addressInfo) {
