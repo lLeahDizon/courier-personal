@@ -3,19 +3,19 @@ export default Object.freeze({
     name: '待付款',
     className: 'red'
   },
-  1: {
+  10: {
     name: '待开始',
     className: 'red'
   },
-  2: {
+  20: {
     name: '运输中',
     className: 'blue'
   },
-  3: {
+  30: {
     name: '已完成',
     className: 'black'
   },
-  4: {
+  40: {
     name: '已取消',
     className: 'gray'
   }

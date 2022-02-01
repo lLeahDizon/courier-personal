@@ -101,7 +101,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "order-confirm" */ 'src/views/OrderConfirm')
   },
   {
-    path: '/order/detail',
+    path: '/order/:id',
     name: 'orderDetail',
     meta: {
       title: '订单详情'

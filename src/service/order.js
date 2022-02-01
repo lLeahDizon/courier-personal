@@ -26,10 +26,18 @@ export function orderList(data) {
   })
 }
 
-// 订单确认页信息
+// 订单支付
 export function orderPay(id) {
   return Request({
     url: `/order/pay?id=${id}`,
+    method: 'get'
+  })
+}
+
+// 订单取消
+export function orderCancel(id) {
+  return Request({
+    url: `/order/cancel?id=${id}`,
     method: 'get'
   })
 }

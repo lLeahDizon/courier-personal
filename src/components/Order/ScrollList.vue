@@ -8,7 +8,7 @@
       @load="fetchList"
     >
       <div v-for="(item,index) in records" :key="index">
-        <OrderCard/>
+        <OrderCard :info="item"/>
       </div>
     </van-list>
     <div v-else class="empty-wrapper">
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       records: [],
-      orderStatus: 0,
+      orderStatus: null,
       current: 0,
       size: 15,
       // 上拉加载是否失效
@@ -42,7 +42,7 @@ export default {
     this.init()
   },
   mounted() {
-    eventBus.$on('refreshOrder', this.init)
+    eventBus.$on('refreshOrder', this.refreshOrder)
   },
   methods: {
     async init() {

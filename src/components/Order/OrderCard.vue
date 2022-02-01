@@ -2,53 +2,69 @@
   <div class="box-wrapper">
     <Card class-prefix="OrderCard">
       <div class="head">
-        <span class="number">订单编号：</span>
-        <span :class="orderStatus[0].className">{{ orderStatus[0].name }}</span>
+        <span class="number">订单编号：{{ info.orderNum }}</span>
+        <span :class="orderStatus[info.transportSheetStatus].className">
+          {{ orderStatus[info.transportSheetStatus].name }}
+        </span>
       </div>
       <div class="time">
         <Icon name="order-time"/>
-        2021-12-20 09:26
+        {{ info.createTime }}
       </div>
       <div class="address">
         <span class="circle send"/>
-        <span class="content">余杭区仓前街道XX路69号</span>
+        <span class="content">{{ info.deliverAddress }}</span>
       </div>
       <div class="address">
         <span class="circle receipt"/>
-        <span class="content">余杭区仓前街道XX路69号</span>
+        <span class="content">{{ info.recipientAddress }}</span>
       </div>
       <div class="footer">
-        <template>
-          <button class="button cancel" @click="onClickCancel">取消订单</button>
+        <template v-if="info.transportSheetStatus">
+          <button class="button cancel" @click="modalCancelVisible=true">取消订单</button>
           <button class="button pay" @click="onClickPay">去支付</button>
         </template>
-        <button class="button detail" @click="onClickDetail">查看详情</button>
+        <button v-else class="button detail" @click="onClickDetail">查看详情</button>
       </div>
     </Card>
+    <ModalCancel :show.sync="modalCancelVisible" @onClickCancel="onClickCancel"/>
   </div>
 </template>
 
 <script>
 import orderStatus from '@/constants/orderStatus'
 import Card from '@/components/Card'
+import {$error, $loading} from '@/utils'
+import {orderCancel} from '@/service'
+import ModalCancel from '@/components/Order/ModalCancel'
 
 export default {
   props: ['info'],
-  components: {Card},
+  components: {ModalCancel, Card},
   data() {
     return {
-      orderStatus
+      orderStatus,
+      modalCancelVisible: false
     }
   },
   methods: {
-    onClickCancel() {
-      console.log('---onClickCancel')
+    async onClickCancel() {
+      const loading = $loading()
+      try {
+        await orderCancel(this.info.orderId)
+        // todo 成功则刷新页面
+        location.reload()
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
     },
     onClickPay() {
       console.log('---onClickPay')
     },
     onClickDetail() {
-      console.log('---onClickDetail')
+      this.$router.push({name: 'orderDetail', params: {id: this.info.orderId}})
     }
   }
 }
@@ -58,12 +74,10 @@ export default {
 @import "~@/assets/style/helper.scss";
 
 .box-wrapper {
+  margin-bottom: 30px;
+
   ::v-deep .OrderCard-wrapper {
     padding: 20px 24px 30px 18px;
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 30px;
   }
 
   .head {
