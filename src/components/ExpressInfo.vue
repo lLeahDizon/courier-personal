@@ -34,11 +34,37 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import {$error} from '@/utils'
+import {ORDER_INFO_KEY} from '@/constants'
 
 export default {
   name: 'ExpressInfo',
   data() {
-    const {address, district, lng, lat, number, name, tel} = this.$route.query
+    const {type, isEdit = 'false'} = this.$route.query
+    let address, district, lng, lat, number, name, tel
+    if (JSON.parse(isEdit)) {
+      const data = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
+      console.log(data)
+      switch (type) {
+        case 'send':
+          address = data.deliverDetailAddress
+          district = data.deliverDistrict
+          lng = data.deliverLongitude
+          lat = data.deliverLatitude
+          number = data.deliverNumber
+          name = data.deliverName
+          tel = data.deliverPhone
+          break
+        case 'receipt':
+          address = data.receiptDetailAddress
+          district = data.receiptDistrict
+          lng = data.receiptLongitude
+          lat = data.receiptLatitude
+          number = data.receiptNumber
+          name = data.receiptName
+          tel = data.receiptPhone
+          break
+      }
+    }
     return {
       address: address || '',
       district: district || '',
@@ -53,7 +79,6 @@ export default {
     ...mapGetters(['addressInfo', 'orderInfo'])
   },
   created() {
-    // isEdit 通过缓存读取
     if (this.addressInfo.searchValue) {
       this.address = this.addressInfo.searchValue
       this.lng = this.addressInfo.lng
@@ -84,40 +109,69 @@ export default {
       const {type, isEdit = 'false'} = this.$route.query
       let toSend = false
       let toReceipt = false
+      const data = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
       switch (type) {
         case 'send':
           if (!this.orderInfo.receiptDetailAddress) {
             toReceipt = true
           }
-          this.setOrderInfo({
-            ...this.orderInfo,
-            deliverDistrict: this.district,
-            // todo 详细地址最后需要和 number 进行拼接传递
-            deliverDetailAddress: this.address,
-            deliverLatitude: this.lat,
-            deliverLongitude: this.lng,
-            deliverName: this.name.trim(),
-            deliverPhone: this.tel.trim(),
-            deliverNumber: this.number.trim()
-          })
+          if (JSON.parse(isEdit) && !data.receiptDetailAddress) {
+            toReceipt = true
+          }
+          if (JSON.parse(isEdit))
+            localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
+              ...data,
+              deliverDistrict: this.district,
+              deliverDetailAddress: this.address,
+              deliverLatitude: this.lat,
+              deliverLongitude: this.lng,
+              deliverName: this.name.trim(),
+              deliverPhone: this.tel.trim(),
+              deliverNumber: this.number.trim()
+            }))
+          else
+            this.setOrderInfo({
+              ...this.orderInfo,
+              deliverDistrict: this.district,
+              deliverDetailAddress: this.address,
+              deliverLatitude: this.lat,
+              deliverLongitude: this.lng,
+              deliverName: this.name.trim(),
+              deliverPhone: this.tel.trim(),
+              deliverNumber: this.number.trim()
+            })
           break
         case 'receipt':
           if (!this.orderInfo.deliverDetailAddress) {
             toSend = true
           }
-          this.setOrderInfo({
-            ...this.orderInfo,
-            receiptDistrict: this.district,
-            receiptDetailAddress: this.address,
-            receiptLatitude: this.lat,
-            receiptLongitude: this.lng,
-            receiptName: this.name.trim(),
-            receiptPhone: this.tel.trim(),
-            receiptNumber: this.number.trim()
-          })
+          if (JSON.parse(isEdit) && !data.deliverDetailAddress) {
+            toReceipt = true
+          }
+          if (JSON.parse(isEdit))
+            localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
+              ...data,
+              deliverDistrict: this.district,
+              deliverDetailAddress: this.address,
+              deliverLatitude: this.lat,
+              deliverLongitude: this.lng,
+              deliverName: this.name.trim(),
+              deliverPhone: this.tel.trim(),
+              deliverNumber: this.number.trim()
+            }))
+          else
+            this.setOrderInfo({
+              ...this.orderInfo,
+              receiptDistrict: this.district,
+              receiptDetailAddress: this.address,
+              receiptLatitude: this.lat,
+              receiptLongitude: this.lng,
+              receiptName: this.name.trim(),
+              receiptPhone: this.tel.trim(),
+              receiptNumber: this.number.trim()
+            })
           break
       }
-      // isEdit 存入 localStorage
       if (JSON.parse(isEdit)) {
         this.$router.go(-1)
       } else {

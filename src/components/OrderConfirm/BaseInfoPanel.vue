@@ -9,7 +9,7 @@
         <div class="top">
           <div class="user-info"><span class="name">{{ info.deliverName }}</span>/{{ info.deliverPhone }}</div>
           <div class="edit">修改
-            <Icon name="info-edit"/>
+            <Icon name="info-edit" @click="onEdit('send')"/>
           </div>
         </div>
         <div class="bottom">{{ info.deliverDistrict + info.deliverDetailAddress + info.deliverNumber }}</div>
@@ -24,7 +24,7 @@
         <div class="top">
           <div class="user-info"><span class="name">{{ info.receiptName }}</span>/{{ info.receiptPhone }}</div>
           <div class="edit">修改
-            <Icon name="info-edit"/>
+            <Icon name="info-edit" @click="onEdit('receipt')"/>
           </div>
         </div>
         <div class="bottom">{{ info.receiptDistrict + info.receiptDetailAddress + info.receiptNumber }}</div>
@@ -42,6 +42,17 @@ export default {
     info: {
       type: Object,
       default: () => ({})
+    }
+  },
+  methods: {
+    onEdit(type) {
+      this.$router.push({
+        name: type === 'send' ? 'senderInfo' : 'receiptInfo',
+        query: {
+          type,
+          isEdit: true
+        }
+      })
     }
   }
 }

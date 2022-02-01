@@ -46,10 +46,13 @@ export default {
   },
   methods: {
     async init() {
-      console.log('---init')
       const loading = $loading()
       try {
-        const {itemDetail} = await orderConfirmInfo(this.info)
+        const {itemDetail} = await orderConfirmInfo({
+          ...this.info,
+          deliverDetailAddress: this.info.deliverDetailAddress + this.info.deliverNumber,
+          receiptDetailAddress: this.info.receiptDetailAddress + this.info.receiptNumber
+        })
         this.itemDetail = itemDetail
       } catch (e) {
         $error(e)
