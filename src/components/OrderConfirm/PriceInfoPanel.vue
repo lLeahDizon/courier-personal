@@ -2,13 +2,13 @@
   <Card>
     <div class="item-wrapper">
       <span>配送价</span>
-      <span>￥120</span>
+      <span>￥{{ transportAmount }}</span>
     </div>
     <div class="item-wrapper">
       <span>保价费</span>
-      <span>￥120</span>
+      <span>￥{{ insuredAmount }}</span>
     </div>
-    <div class="item-wrapper">小计&nbsp;<span class="total">￥369.00</span></div>
+    <div class="item-wrapper">小计&nbsp;<span class="total">￥{{ allAmount }}</span></div>
   </Card>
 </template>
 
@@ -17,12 +17,7 @@ import Card from '@/components/Card'
 
 export default {
   components: {Card},
-  props: {
-    info: {
-      type: Object,
-      default: () => ({})
-    }
-  }
+  props: ['transportAmount', 'insuredAmount', 'allAmount'],
 }
 </script>
 

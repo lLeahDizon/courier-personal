@@ -2,29 +2,30 @@
   <Card>
     <div class="item-wrapper">
       <span>配送距离</span>
-      <span>120km</span>
+      <span>{{ info.distance }}km</span>
     </div>
     <div class="item-wrapper">
       <span>物品信息</span>
-      <span>￥120</span>
+      <span>{{ info.itemDescription }}，{{ info.weight }}公斤</span>
     </div>
     <div class="item-wrapper">
       <span>期望取件时间</span>
-      <span>￥120</span>
+      <span>{{ info.deliverDateTimeStr }}</span>
     </div>
     <div class="item-wrapper">
       <span>期望送达时间</span>
-      <span>￥120</span>
+      <span>{{ info.receiptDateTimeStr }}</span>
     </div>
     <div class="item-wrapper">
       <span>保价</span>
-      <span>￥120</span>
+      <span>￥{{ info.insurancePrice }}</span>
     </div>
   </Card>
 </template>
 
 <script>
 import Card from '@/components/Card'
+
 export default {
   components: {Card},
   props: {

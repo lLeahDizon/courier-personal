@@ -126,7 +126,7 @@ export default {
         else if (toReceipt)
           this.$router.push({name: 'receiptInfo', query: {type: 'receipt'}})
         else
-          this.$router.push({name: 'goodsInfo'})
+          this.$router.replace({name: 'goodsInfo'})
       }
     }
   }

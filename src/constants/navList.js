@@ -1,20 +1,23 @@
 export default Object.freeze([
   {
-    value: 'Home',
+    value: 'home',
     title: '首页',
-    icon: 'home-',
+    default: 'home-default',
+    selected: 'home-selected',
     to: '/home'
   },
   {
-    value: 'Order',
+    value: 'order',
     title: '订单',
-    icon: 'order-',
+    default: 'order-default',
+    selected: 'order-selected',
     to: '/order'
   },
   {
-    value: 'My',
+    value: 'my',
     title: '我的',
-    icon: 'my-',
+    default: 'my-default',
+    selected: 'my-selected',
     to: '/my'
   }
 ])

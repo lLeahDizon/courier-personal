@@ -23,6 +23,13 @@
       <van-stepper v-model="weight" class="weight" step="1" min="0.1" max="9999"/>
       公斤
     </div>
+    <div class="title">
+      物品件数
+    </div>
+    <div class="weight-wrapper">
+      <van-stepper v-model="number" integer class="weight" step="1" min="1" max="9999"/>
+      件
+    </div>
     <p class="desc">注：可能会存在实际重量增加、物品超件等情况，实际以达人收取确定为准，可能会影响收费。<a @click="onClickDesc">了解计费规则＞</a></p>
     <button class="btn" @click="onNext">下一步</button>
   </van-popup>
@@ -91,6 +98,7 @@ export default {
       TYPE_LIST,
       selectList: [],
       weight: 0.1,
+      number: 1,
       visible: false
     }
   },
@@ -107,6 +115,7 @@ export default {
       this.$emit('onNext', {
         itemDescription: this.selectList.map(item => item.name).join('、'),
         weight: this.weight,
+        number: this.number,
         itemList: this.selectList.map(item => item.id)
       })
       this.onClose()

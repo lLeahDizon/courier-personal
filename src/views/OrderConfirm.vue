@@ -2,11 +2,15 @@
   <div class="OrderConfirm-wrapper">
     <BaseInfoPanel :info="info"/>
     <GoodsInfoPanel :info="info"/>
-    <PriceInfoPanel :info="info"/>
+    <PriceInfoPanel
+      :transport-amount="itemDetail.transportAmount"
+      :insured-amount="itemDetail.insuredAmount"
+      :all-amount="itemDetail.allAmount"
+    />
     <PayPanel/>
     <footer>
       <button class="btn" @click="onClickPay">马上结算</button>
-      <p class="total">合计：<span class="price">￥369.00</span></p>
+      <p class="total">合计：<span class="price">￥{{ itemDetail.realAmount }}</span></p>
     </footer>
     <ModalResult :show="showDialog"/>
   </div>
@@ -31,18 +35,22 @@ export default {
     if (browserType.weChat) {
       initWeChatEnv()
     }
+    this.init()
   },
   data() {
     return {
       showDialog: false,
-      info: {}
+      info: {},
+      itemDetail: {}
     }
   },
   methods: {
     async init() {
+      console.log('---init')
       const loading = $loading()
       try {
-        await orderConfirmInfo(this.info)
+        const {itemDetail} = await orderConfirmInfo(this.info)
+        this.itemDetail = itemDetail
       } catch (e) {
         $error(e)
       } finally {
@@ -63,6 +71,7 @@ export default {
               // 支付成功后的回调函数
               console.log('---success')
               console.log(res)
+              localStorage.removeItem(ORDER_INFO_KEY)
             }
           })
         }

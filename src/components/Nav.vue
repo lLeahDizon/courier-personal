@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link v-for="(item,index) in navList" :key="index" :to="item.to" class="item" active-class="selected">
-      <Icon :name="item.icon+($route.name === item.value ? 'selected' : 'default')"/>
+      <Icon :name="getIcon(item)"/>
       <span>{{ item.title }}</span>
     </router-link>
   </nav>
@@ -12,10 +12,14 @@ import navList from '@/constants/navList'
 
 export default {
   name: 'Nav',
-  data () {
+  data() {
     return {
-      navList,
-      activeIcon: 'home-default'
+      navList
+    }
+  },
+  methods: {
+    getIcon(item) {
+      return this.$route.name === item.value ? item.selected : item.default
     }
   }
 }
@@ -38,7 +42,7 @@ nav {
     align-items: center;
     width: 33.33333%;
 
-    span{
+    span {
       line-height: 28px;
     }
 
@@ -49,7 +53,7 @@ nav {
     }
   }
 
-  > .item.selected{
+  > .item.selected {
     color: #12a0ff;
   }
 }

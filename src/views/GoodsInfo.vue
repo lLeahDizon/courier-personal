@@ -5,7 +5,11 @@
       <p class="desc">根据您当前的收发件信息，距离约为 <span class="number">{{ distance }}km</span></p>
       <p v-if="desc" class="desc time">预计 <span class="number">{{ desc }}小时内</span> 送达</p>
     </header>
-    <InfoItem title="物品信息" placeholder="请选择物品信息" :content="goodsInfo" @click="modalTypeVisible=true"/>
+    <InfoItem
+      title="物品信息"
+      placeholder="请选择物品信息"
+      :content="itemList.length?`${itemDescription}，${weight}公斤，${number}件`:''"
+      @click="modalTypeVisible=true"/>
     <InfoItem
       title="期望取件时间"
       desc="注意：成功提交订单后，在90分钟以内上门"
@@ -18,8 +22,12 @@
       placeholder="请选择送达时间"
       :content="receiptDateTimeStr"
       @click="showTimeModal('receipt')"/>
-    <InfoItem :is-required="false" title="物品报价" placeholder="可选择报价赔付" :content="itemAmount"
-              @click="modalPriceVisible=true"/>
+    <InfoItem
+      :is-required="false"
+      title="物品保价"
+      placeholder="可选择报价赔付"
+      :content="insurancePrice?`已保价¥${insurancePrice}`:''"
+      @click="modalPriceVisible=true"/>
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
     </div>
@@ -66,7 +74,6 @@ export default {
   components: {ModalPrice, ModalTips, ModalType, InfoItem},
   data() {
     return {
-      goodsInfo: '',
       distance: '',
       desc: '',
       receiptDateTimeStr: '',
@@ -74,9 +81,11 @@ export default {
       deliverDateTimeStr: '',
       deliverDateTime: '',
       itemAmount: '',
+      insurancePrice: '',
       itemDescription: '',
       itemList: [],
       weight: '',
+      number: '',
       modalTypeVisible: false,
       modalTipsVisible: false,
       modalPriceVisible: false,
@@ -90,7 +99,6 @@ export default {
       distance,
       desc
     } = CoolWPDistance(this.orderInfo.deliverLongitude, this.orderInfo.deliverLatitude, this.orderInfo.receiptLongitude, this.orderInfo.receiptLatitude)
-    console.log(desc)
     this.distance = distance
     this.desc = desc
   },
@@ -129,13 +137,15 @@ export default {
     onChangeTime(picker, values) {
       picker.setColumnValues(1, timeList[values[0]])
     },
-    changeGoodsType({itemDescription, itemList, weight}) {
+    changeGoodsType({itemDescription, itemList, weight, number}) {
       this.itemList = itemList
       this.itemDescription = itemDescription
-      this.goodsInfo = `${itemDescription}，${weight}公斤`
+      this.weight = weight
+      this.number = number
     },
-    changeGoodsPrice(val) {
-      this.itemAmount = val
+    changeGoodsPrice({price, insurancePrice}) {
+      this.itemAmount = price
+      this.insurancePrice = insurancePrice
     },
     onSubmit() {
       if (!this.itemList.length) {
@@ -152,13 +162,17 @@ export default {
         distance: this.distance,
         itemDescription: this.itemDescription,
         weight: this.weight,
+        number: this.number,
         itemAmount: this.itemAmount,
+        insurancePrice: this.insurancePrice,
         itemList: this.itemList,
+        receiptDateTimeStr: this.receiptDateTimeStr,
         receiptDateTime: this.receiptDateTime,
+        deliverDateTimeStr: this.deliverDateTimeStr,
         deliverDateTime: this.deliverDateTime
       })
       localStorage.setItem(ORDER_INFO_KEY, JSON.stringify(this.orderInfo))
-      this.$router.push({name: 'orderConfirm'})
+      this.$router.replace({name: 'orderConfirm'})
     }
   }
 }

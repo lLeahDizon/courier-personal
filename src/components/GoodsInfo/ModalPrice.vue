@@ -66,7 +66,7 @@ export default {
       if (!this.agreementSelected) {
         return $error('请勾选《保价协议》')
       }
-      this.$emit('onChange', this.price)
+      this.$emit('onChange', {price: this.price, insurancePrice: this.insurancePrice})
       this.onClose()
     },
     selectAgreement() {
