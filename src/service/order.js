@@ -41,3 +41,11 @@ export function orderCancel(id) {
     method: 'get'
   })
 }
+
+// 订单详情
+export function orderDetail(id) {
+  return Request({
+    url: `/order/detail?id=${id}`,
+    method: 'get'
+  })
+}

@@ -15,6 +15,8 @@ import LogisticsInfo from '@/components/OrderDetail/LogisticsInfo'
 import BaseInfo from '@/components/OrderDetail/BaseInfo'
 import Evaluate from '@/components/OrderDetail/Evaluate'
 import ModalEvaluate from '@/components/OrderDetail/ModalEvaluate'
+import {$error, $loading} from '@/utils'
+import {orderDetail} from '@/service'
 
 export default {
   name: 'OrderDetail',
@@ -25,6 +27,24 @@ export default {
         type: 1,
         icon: 'evaluate-bad',
         title: '很糟糕'
+      }
+    }
+  },
+  created() {
+    this.init()
+  },
+  methods: {
+    async init() {
+      console.log('---init')
+      const loading = $loading()
+      const {id} = this.$route.params
+      try {
+        const data = await orderDetail(id)
+        console.log(data)
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
       }
     }
   }
