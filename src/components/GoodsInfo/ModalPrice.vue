@@ -11,7 +11,7 @@
       我已阅读并同意<a @click="onClickAgreement">《保价协议》</a>
     </div>
     <p class="title">保价说明</p>
-    <p class="desc">desc</p>
+    <p class="desc" v-html="desc.replace(/\n/g, '</br>')"/>
     <button class="btn" @click="onOk">确定</button>
     <van-number-keyboard
       :show="showKeyBoard"
@@ -29,10 +29,17 @@
 import {insuranceAmount} from '@/service'
 import {$error, $loading} from '@/utils'
 
+const desc = '1、当发生物品损坏或丢失，根据您的投保情况进行处理；\n' +
+  '2、您提供的物品信息及价值凭证等，赔偿金额不超出您选择的保价最高金额；\n' +
+  '3、保价期间为达人取件成功后到订单配送完成；\n' +
+  '4、对于易损、易坏、贵重物品请妥善包装；\n' +
+  '5、配送物品最高保价1万元。\n'
+
 export default {
   props: ['show'],
   data() {
     return {
+      desc,
       visible: false,
       showKeyBoard: false,
       agreementSelected: true,

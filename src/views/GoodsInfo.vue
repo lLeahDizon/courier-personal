@@ -31,9 +31,15 @@
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
     </div>
-    <ModalType :show.sync="modalTypeVisible" @onNext="changeGoodsType"/>
+    <ModalType
+      :show.sync="modalTypeVisible"
+      @showModalTips="modalTipsVisible=true"
+      @showModalRules="modalRulesVisible=true"
+      @showModalCustom="modalCustomVisible=true"
+      @onNext="changeGoodsType"/>
     <ModalTips :show.sync="modalTipsVisible"/>
-    <!--  todo 缺少客服微信  -->
+    <ModalRules :show.sync="modalRulesVisible"/>
+    <ModalCustom :show.sync="modalCustomVisible"/>
     <ModalPrice :show.sync="modalPriceVisible" @onChange="changeGoodsPrice"/>
     <van-popup v-model="showTime" round position="bottom">
       <van-picker
@@ -56,6 +62,8 @@ import {$error, CoolWPDistance, getSpaceTime, getTimeArea} from '@/utils'
 import {mapActions, mapGetters} from 'vuex'
 import dayjs from 'dayjs'
 import {ORDER_INFO_KEY} from '@/constants'
+import ModalRules from '@/components/GoodsInfo/ModalRules'
+import ModalCustom from '@/components/GoodsInfo/ModalCustom'
 
 const timeArr = getTimeArea()
 const timeList = {'今天': getSpaceTime(), '明天': timeArr, '后天': timeArr}
@@ -71,7 +79,7 @@ const initColumns = [
 ]
 
 export default {
-  components: {ModalPrice, ModalTips, ModalType, InfoItem},
+  components: {ModalCustom, ModalRules, ModalPrice, ModalTips, ModalType, InfoItem},
   data() {
     return {
       distance: '',
@@ -88,7 +96,9 @@ export default {
       number: '',
       modalTypeVisible: false,
       modalTipsVisible: false,
+      modalRulesVisible: false,
       modalPriceVisible: false,
+      modalCustomVisible: false,
       showTime: false,
       currentTime: '',
       columns: initColumns

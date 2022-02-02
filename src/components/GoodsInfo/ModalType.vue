@@ -2,8 +2,8 @@
   <van-popup v-model="visible" class="modal-wrapper" round position="bottom" get-container="#app" @close="onClose">
     <header>
       <span class="title">物品类型</span>
-      <div class="tips">禁寄物品
-        <Icon name="tips" @click="onClickTips"/>
+      <div class="tips" @click="onClickTips">禁寄物品
+        <Icon name="tips"/>
       </div>
     </header>
     <div class="type-wrapper">
@@ -112,6 +112,9 @@ export default {
       this.$emit('update:show', false)
     },
     onNext() {
+      if (Number(this.weight) > 20) {
+        this.$emit('showModalCustom')
+      }
       this.$emit('onNext', {
         itemDescription: this.selectList.map(item => item.name).join('、'),
         weight: this.weight,
@@ -121,10 +124,10 @@ export default {
       this.onClose()
     },
     onClickDesc() {
-      console.log('---onClickDesc')
+      this.$emit('showModalRules')
     },
     onClickTips() {
-      console.log('---onClickTips')
+      this.$emit('showModalTips')
     },
     onSelectType(val) {
       const hasSelectList = this.selectList.filter(item => item.id !== val.id)

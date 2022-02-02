@@ -1,5 +1,6 @@
-import {Toast} from 'vant'
+import {ImagePreview, Toast} from 'vant'
 import Vue from 'vue'
+import {getBrowserType} from '@/utils/browser'
 
 export * from './error'
 export * from './browser'
@@ -86,4 +87,23 @@ export function getTimeArea() {
 
 export function getSpaceTime(space = 30) {
   return getTimeArea().slice(new Date().getHours() + (new Date().getMinutes() >= space ? 2 : 1))
+}
+
+/**
+ * 预览图片
+ * @param {string} current
+ * @param {string[]} urls
+ */
+export function previewImage({current = '', urls = []}) {
+  if (getBrowserType().weChat && window.wx && typeof window.wx.previewImage === 'function') {
+    window.wx.previewImage({
+      current,
+      urls
+    })
+  } else {
+    ImagePreview({
+      images: urls,
+      startPosition: urls.findIndex(i => i === current) || 0
+    })
+  }
 }
