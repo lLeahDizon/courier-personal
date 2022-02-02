@@ -12,7 +12,7 @@
       <button class="btn" @click="onClickPay">马上结算</button>
       <p class="total">合计：<span class="price">￥{{ itemDetail.realAmount }}</span></p>
     </footer>
-    <ModalResult :show="showDialog"/>
+    <ModalResult :show="showDialog" :pay-result="payResult" :order-id="orderId"/>
   </div>
 </template>
 
@@ -40,6 +40,8 @@ export default {
   data() {
     return {
       showDialog: false,
+      payResult: false,
+      orderId: 0,
       info: {},
       itemDetail: {}
     }
@@ -64,9 +66,9 @@ export default {
       const loading = $loading()
       try {
         // 新订单需要创建订单
-        const id = await orderCreate()
+        this.orderId = await orderCreate()
         // 支付
-        const obj = await orderPay(id)
+        const obj = await orderPay(this.orderId)
         if (obj) {
           wx.chooseWXPay({
             ...obj,
@@ -74,7 +76,19 @@ export default {
               // 支付成功后的回调函数
               console.log('---success')
               console.log(res)
-              localStorage.removeItem(ORDER_INFO_KEY)
+              this.payResult = true
+              this.showDialog = true
+            },
+            cancel: function (err) {
+              console.log('---cancel')
+              console.log(err)
+              this.$router.replace({name: 'order'})
+            },
+            fail: function (res) {
+              console.log('---fail')
+              console.log(res)
+              this.payResult = false
+              this.showDialog = true
             }
           })
         }

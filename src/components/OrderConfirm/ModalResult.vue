@@ -1,19 +1,24 @@
 <template>
   <van-popup v-model="visible" class="modal-wrapper" round :close-on-click-overlay="false" get-container="#app">
     <Icon name="certification-close" @click="onClose"/>
-    <Icon class="result-icon" name="result-fail"/>
-    <p class="title">订单发布成功</p>
-    <p class="desc">感谢您使用环球旅递</p>
-    <p class="desc">我们将在90分钟内上门取件！</p>
+    <Icon class="result-icon" :name="'result-'+(payResult ? 'success':'fail')"/>
+    <p class="title">{{ payResult ? '订单发布成功' : '操作失败' }}</p>
+    <template v-if="payResult">
+      <p class="desc">感谢您使用环球旅递</p>
+      <p class="desc">我们将在90分钟内上门取件！</p>
+    </template>
+    <p v-else class="desc">请重新操作</p>
   </van-popup>
 </template>
 
 <script>
+import {ORDER_INFO_KEY} from '@/constants'
+
 export default {
-  props: ['show'],
+  props: ['show', 'payResult', 'orderId'],
   data() {
     return {
-      visible: false
+      visible: true
     }
   },
   watch: {
@@ -23,6 +28,10 @@ export default {
   },
   methods: {
     onClose() {
+      if (this.payResult) {
+        this.$router.replace({name: 'orderDetail', params: {id: this.orderId}})
+        localStorage.removeItem(ORDER_INFO_KEY)
+      }
       this.$emit('update:show', false)
     }
   }
