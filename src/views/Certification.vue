@@ -3,7 +3,6 @@
     <h1 class="title">为保证您的账户安全</h1>
     <p class="desc">请先完成实名认证哦~</p>
     <input v-model="name" placeholder="请输入真实姓名">
-    <!--  todo 替换成 input  -->
     <div class="input" :class="{'placeholder':!id}" @click="show=true">{{ id || '请输入15位或18位身份证号' }}</div>
     <van-uploader v-model="fileList" class="upload" :max-count="1" deletable :after-read="afterRead"/>
     <div class="tips-wrapper">
@@ -58,6 +57,9 @@ export default {
       }
       if (!this.agreementSelected) {
         return $error('请勾选《环球旅递隐私政策》')
+      }
+      if (!this.faceImgUrl) {
+        return $error('请上传认证照片')
       }
       this.showDialog = true
     },

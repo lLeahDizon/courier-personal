@@ -74,7 +74,7 @@ export default {
     },
     onSubmit() {
       if (!this.lng || !this.lat) {
-        return $error('请输入正确的地址')
+        return $error('当前选择地点错误或范围较大，请重新选择')
       }
       this.setAddressInfo({
         searchValue: this.searchValue,
