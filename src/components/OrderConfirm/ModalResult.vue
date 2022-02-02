@@ -18,7 +18,7 @@ export default {
   props: ['show', 'payResult', 'orderId'],
   data() {
     return {
-      visible: true
+      visible: false
     }
   },
   watch: {
