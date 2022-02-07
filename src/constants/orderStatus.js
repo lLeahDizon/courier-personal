@@ -16,7 +16,7 @@ export default Object.freeze({
     className: 'black'
   },
   40: {
-    name: '已取消',
+    name: '交易取消',
     className: 'gray'
   }
 })

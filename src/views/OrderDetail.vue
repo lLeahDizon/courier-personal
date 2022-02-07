@@ -1,10 +1,15 @@
 <template>
   <article class="orderDetail">
-    <p class="status">状态</p>
-    <OrderInfo/>
-    <LogisticsInfo/>
-    <BaseInfo/>
-    <Evaluate/>
+    <p class="status">{{ orderStatus[info.transportSheetStatus].name }}</p>
+    <OrderInfo :info="info"/>
+    <template v-if="![0,40].includes(info.transportSheetStatus)">
+
+    </template>
+    <template v-else>
+      <LogisticsInfo v-if="info.nodeInfoList && info.nodeInfoList.length" :info="info"/>
+      <BaseInfo :time="info.payTime" :number="info.orderNum"/>
+      <Evaluate v-if="info.transportSheetStatus === 30"/>
+    </template>
     <ModalEvaluate :evaluate="evaluate"/>
   </article>
 </template>
@@ -17,12 +22,15 @@ import Evaluate from '@/components/OrderDetail/Evaluate'
 import ModalEvaluate from '@/components/OrderDetail/ModalEvaluate'
 import {$error, $loading} from '@/utils'
 import {orderDetail} from '@/service'
+import orderStatus from '@/constants/orderStatus'
 
 export default {
   name: 'OrderDetail',
   components: {ModalEvaluate, Evaluate, BaseInfo, LogisticsInfo, OrderInfo},
   data() {
     return {
+      orderStatus,
+      info: {},
       evaluate: {
         type: 1,
         icon: 'evaluate-bad',
@@ -35,12 +43,10 @@ export default {
   },
   methods: {
     async init() {
-      console.log('---init')
       const loading = $loading()
       const {id} = this.$route.params
       try {
-        const data = await orderDetail(id)
-        console.log(data)
+        this.info = await orderDetail(id)
       } catch (e) {
         $error(e)
       } finally {

@@ -1,12 +1,12 @@
 <template>
   <Card>
     <div class="top">
-      <UserInfo/>
+      <UserInfo :name="info.deliverName" :address="info.deliverAddress"/>
       <Icon name="order-detail-to"/>
-      <UserInfo/>
+      <UserInfo :name="info.receiptName" :address="info.receiptAddress"/>
     </div>
-    <div class="price-wrapper">
-      实际支付：<span class="price">269</span>元
+    <div v-if="info.transportSheetStatus !== 40" class="price-wrapper">
+      {{ info.transportSheetStatus === 0 ? orderStatus[info.transportSheetStatus].name : '实际支付' }}：<span class="price">{{ info.realAmount }}</span>元
     </div>
   </Card>
 </template>
@@ -14,10 +14,17 @@
 <script>
 import Card from '@/components/Card'
 import UserInfo from '@/components/OrderDetail/UserInfo'
+import orderStatus from '@/constants/orderStatus'
 
 export default {
   name: 'OrderInfo',
-  components: {UserInfo, Card}
+  props: ['info'],
+  components: {UserInfo, Card},
+  data() {
+    return {
+      orderStatus
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <Card>
-    <p class="item">支付时间：{{ time }}</p>
-    <p class="item">订单编号：{{ number }}</p>
+    <p v-if="time" class="item">支付时间：{{ time }}</p>
+    <p v-if="number" class="item">订单编号：{{ number }}</p>
   </Card>
 </template>
 

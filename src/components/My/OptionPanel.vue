@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import {$message} from '@/utils'
+
 export default {
   data() {
     return {
@@ -35,10 +37,10 @@ export default {
       this.$router.push({name: 'order'})
     },
     handle2Address() {
-      console.log('---handle2Address')
+      $message('即将上线，尽请期待')
     },
     handle2Invoice() {
-      console.log('---handle2Invoice')
+      $message('即将上线，尽请期待')
     }
   }
 }

@@ -1,13 +1,14 @@
 <template>
   <div class="UserInfo">
-    <p class="name">name</p>
-    <p class="address">namenamenamenamenamenamenamenamenamenamenamenamenamenamename</p>
+    <p class="name">{{ name }}</p>
+    <p class="address">{{ address }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'UserInfo'
+  name: 'UserInfo',
+  props: ['name', 'address']
 }
 </script>
 

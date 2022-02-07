@@ -1,12 +1,11 @@
 <template>
-  <!-- todo 根据状态展示 -->
   <Card>
     <p class="title">物流记录</p>
-    <template>
-      <LogisticsItem class-prefix="took" title="揽件" address="地址" personnel-info="接单员"/>
-      <LogisticsItem class-prefix="delivery" title="送达" address="地址" personnel-info="收货人"/>
+    <p v-if="info.transportSheetStatus === 10" class="wait">等待收件中，请稍后</p>
+    <template v-else>
+      <LogisticsItem v-if="[20, 30].includes(info.transportSheetStatus)" class-prefix="took" title="揽件" address="地址" personnel-info="接单员"/>
+      <LogisticsItem v-if="info.transportSheetStatus === 30" class-prefix="delivery" title="送达" address="地址" personnel-info="收货人"/>
     </template>
-    <p class="wait">等待收件中，请稍后</p>
   </Card>
 </template>
 
@@ -16,7 +15,8 @@ import LogisticsItem from '@/components/OrderDetail/LogisticsItem'
 
 export default {
   name: 'LogisticsInfo',
-  components: {LogisticsItem, Card}
+  components: {LogisticsItem, Card},
+  props: ['info']
 }
 </script>
 

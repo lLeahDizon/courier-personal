@@ -107,3 +107,11 @@ export function previewImage({current = '', urls = []}) {
     })
   }
 }
+
+/**
+ * 文字提示
+ * @param {Object} options 提示内容
+ */
+export function $message (options) {
+  Toast(options)
+}
