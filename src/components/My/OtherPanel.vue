@@ -38,7 +38,7 @@ export default {
       console.log('---handle2Other')
     },
     handle2Custom() {
-      console.log('---handle2Other')
+      window.location.href = 'tel:4000129068'
     },
     handle2About() {
       console.log('---handle2Other')

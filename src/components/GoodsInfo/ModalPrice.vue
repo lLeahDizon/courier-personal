@@ -5,7 +5,7 @@
       <Icon name="certification-close" @click="onClose"/>
     </header>
     <div class="price" @click="showKeyBoard=true">{{ price || '请输入物品金额，最高10000' }}</div>
-    <div v-if="insurancePrice" class="desc-price">保费：<span class="money">{{ insurancePrice }}元</span></div>
+    <div v-if="insurancePrice >= 0" class="desc-price">保费：<span class="money">{{ insurancePrice }}元</span></div>
     <div class="agreement-wrapper">
       <Icon :name="agreementSelected ? 'login-select' : 'login-default'" @click="selectAgreement"/>
       我已阅读并同意<a @click="onClickAgreement">《保价协议》</a>
