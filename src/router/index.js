@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {$error, getBrowserType} from '@/utils'
-import {HREF_TO_OTHER_PAGE, PAY_ROUTER_LIST} from '@/constants'
+import {HREF_TO_OTHER_PAGE, PAY_ROUTER_LIST, USER_INFO_KEY, WHITE_LIST} from '@/constants'
+import store from '@/store'
 
 Vue.use(Router)
 
@@ -133,11 +134,10 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta && to.meta.title) {
       document.title = to.meta.title
     }
-    // todo 权限开启
-    // if (!WHITE_LIST.includes(to.name) && !store.getters.userInfo && !JSON.parse(localStorage.getItem(USER_INFO_KEY))) {
-    //   next({name: 'login'})
-    //   return
-    // }
+    if (!WHITE_LIST.includes(to.name) && !store.getters.userInfo && !JSON.parse(localStorage.getItem(USER_INFO_KEY))) {
+      next({name: 'login'})
+      return
+    }
     if (filter2PayRouter(to.name, from.name)) {
       const query = to.query
       let action = 'assign'

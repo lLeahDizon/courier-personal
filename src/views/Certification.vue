@@ -31,6 +31,7 @@
 import ModalTips from '@/components/Certification/ModalTips'
 import {$error, $loading} from '@/utils'
 import {fileUpload, userVerify} from '@/service'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'Certification',
@@ -47,7 +48,11 @@ export default {
       showDialog: false
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
+    ...mapActions(['setUserInfo']),
     showModal() {
       if (!this.name) {
         return $error('请输入姓名')
@@ -64,16 +69,26 @@ export default {
       this.showDialog = true
     },
     async onSubmit() {
+      const loading = $loading()
       try {
         const data = await userVerify({
           idCard: this.id,
           realName: this.name,
           faceImgUrl: this.faceImgUrl
         })
-        console.log(data)
-        // todo 根据结果进行跳转结果页
+        if (data) {
+          this.setUserInfo({...this.userInfo, verifyStatus: 1})
+        }
+        this.$router.replace({
+          name: 'certificationResult',
+          query: {
+            result: data
+          }
+        })
       } catch (e) {
         $error(e)
+      } finally {
+        loading.clear()
       }
     },
     async afterRead(file) {
