@@ -12,7 +12,8 @@ export const HREF_TO_OTHER_PAGE = 'HREF_TO_OTHER_PAGE'
 
 // 免登录路由白名单
 export const WHITE_LIST = [
-  'login'
+  'login',
+  'platformLogin'
 ]
 
 // 这些页面含有唤起微信支付的功能，需要做对ios系统的hack处理（重置location.href）

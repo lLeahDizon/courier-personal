@@ -10,7 +10,7 @@ export function handleLogin() {
   localStorage.removeItem(TOKEN_KEY)
   // 若非白名单页面
   if (!WHITE_LIST.includes(path)) {
-    const redirectUri = encodeURIComponent(`${VUE_APP_DOMAIN}${VUE_APP_BASE_NAME}/home?t=${Date.now()}`)
+    const redirectUri = encodeURIComponent(`${VUE_APP_DOMAIN}${VUE_APP_BASE_NAME}/platform-login?t=${Date.now()}`)
     weChatAuthorizationUserInfo(redirectUri)
   }
 }

@@ -14,9 +14,6 @@ import Tabs from '@/components/Home/Tabs'
 import Online from '@/components/Home/Online'
 import Phone from '@/components/Home/Phone'
 import ModalCertification from '@/components/Home/ModalCertification'
-import {userDoAuthorize} from '@/service'
-import {mapActions} from 'vuex'
-import {$error} from '@/utils'
 
 export default {
   components: {ModalCertification, Phone, Online, Tabs},
@@ -26,20 +23,7 @@ export default {
       DialogVisible: false
     }
   },
-  async created() {
-    let {code} = this.$route.query
-    if (code) {
-      try {
-        // 更新 userInfo
-        const data = await userDoAuthorize(code instanceof Array ? code[0] : code)
-        this.setUserInfo(data)
-      } catch (e) {
-        $error(e)
-      }
-    }
-  },
   methods: {
-    ...mapActions(['setUserInfo']),
     checkTab(value) {
       this.activeTab = value
     },

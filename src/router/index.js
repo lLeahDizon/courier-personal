@@ -94,6 +94,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "login" */ 'src/views/Login.vue')
   },
   {
+    path: '/platform-login',
+    name: 'platformLogin',
+    meta: {
+      title: '登录中...'
+    },
+    component: () => import(/* webpackChunkName: "platform-login" */ 'src/views/PlatformLogin')
+  },
+  {
     path: '/order/confirm',
     name: 'orderConfirm',
     meta: {
