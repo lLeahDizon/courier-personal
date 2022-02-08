@@ -20,7 +20,7 @@
         <span class="content">{{ info.recipientAddress }}</span>
       </div>
       <div class="footer">
-        <template v-if="info.transportSheetStatus">
+        <template v-if="!info.transportSheetStatus">
           <button class="button cancel" @click="modalCancelVisible=true">取消订单</button>
           <button class="button pay" @click="onClickPay">去支付</button>
         </template>
@@ -52,7 +52,6 @@ export default {
       const loading = $loading()
       try {
         await orderCancel(this.info.orderId)
-        // todo 成功则刷新页面
         location.reload()
       } catch (e) {
         $error(e)

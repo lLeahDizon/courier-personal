@@ -3,9 +3,6 @@
     <p class="status">{{ orderStatus[info.transportSheetStatus].name }}</p>
     <OrderInfo :info="info"/>
     <template v-if="![0,40].includes(info.transportSheetStatus)">
-
-    </template>
-    <template v-else>
       <LogisticsInfo v-if="info.nodeInfoList && info.nodeInfoList.length" :info="info"/>
       <BaseInfo :time="info.payTime" :number="info.orderNum"/>
       <Evaluate v-if="info.transportSheetStatus === 30"/>
