@@ -3,8 +3,21 @@
     <p class="title">物流记录</p>
     <p v-if="info.transportSheetStatus === 10" class="wait">等待收件中，请稍后</p>
     <template v-else>
-      <LogisticsItem v-if="[20, 30].includes(info.transportSheetStatus)" class-prefix="took" title="揽件" address="地址" personnel-info="接单员"/>
-      <LogisticsItem v-if="info.transportSheetStatus === 30" class-prefix="delivery" title="送达" address="地址" personnel-info="收货人"/>
+      <template v-if="[20, 30].includes(info.transportSheetStatus)">
+        <LogisticsItem
+          v-for="(item, index) in tookList"
+          :key="index"
+          class-prefix="took"
+          :title="'揽件 '+item.nodeCreateTime"
+          :address="item.dockingAddress"
+          :personal-info="'接单员:'+item.driverName+' '+item.userPhone"/>
+      </template>
+      <LogisticsItem
+        v-if="info.transportSheetStatus === 30"
+        class-prefix="delivery"
+        :title="'送达 '+deliveryItem.nodeCreateTime"
+        :address="deliveryItem.dockingAddress"
+        :personal-info="'收货人:'+deliveryItem.driverName+' '+item.userPhone"/>
     </template>
   </Card>
 </template>
@@ -16,7 +29,18 @@ import LogisticsItem from '@/components/OrderDetail/LogisticsItem'
 export default {
   name: 'LogisticsInfo',
   components: {LogisticsItem, Card},
-  props: ['info']
+  props: ['info'],
+  data() {
+    const list = JSON.parse(JSON.stringify(this.info.nodeInfoList))
+    let deliveryItem = undefined
+    if (this.info.transportSheetStatus === 30) {
+      deliveryItem = list.pop()
+    }
+    return {
+      tookList: list,
+      deliveryItem
+    }
+  }
 }
 </script>
 

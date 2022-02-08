@@ -5,14 +5,14 @@
       <span class="title">{{ title }}</span>
     </div>
     <p class="detail">{{ address }}</p>
-    <p class="detail">{{ personnelInfo }}</p>
+    <p class="detail">{{ personalInfo }}</p>
   </div>
 </template>
 
 <script>
 export default {
   name: 'LogisticsItem',
-  props: ['classPrefix', 'title', 'address', 'personnelInfo']
+  props: ['classPrefix', 'title', 'address', 'personalInfo']
 }
 </script>
 

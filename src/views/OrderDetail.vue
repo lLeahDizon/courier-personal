@@ -1,11 +1,11 @@
 <template>
-  <article class="orderDetail">
+  <article v-if="info" class="orderDetail">
     <p class="status">{{ orderStatus[info.transportSheetStatus].name }}</p>
     <OrderInfo :info="info"/>
     <template v-if="![0,40].includes(info.transportSheetStatus)">
       <LogisticsInfo v-if="info.nodeInfoList && info.nodeInfoList.length" :info="info"/>
       <BaseInfo :time="info.payTime" :number="info.orderNum"/>
-      <Evaluate v-if="info.transportSheetStatus === 30"/>
+      <Evaluate v-if="info.transportSheetStatus === 30 && !info.commentLevel"/>
     </template>
     <ModalEvaluate :evaluate="evaluate"/>
   </article>
@@ -22,12 +22,11 @@ import {orderDetail} from '@/service'
 import orderStatus from '@/constants/orderStatus'
 
 export default {
-  name: 'OrderDetail',
   components: {ModalEvaluate, Evaluate, BaseInfo, LogisticsInfo, OrderInfo},
   data() {
     return {
       orderStatus,
-      info: {},
+      info: undefined,
       evaluate: {
         type: 1,
         icon: 'evaluate-bad',
