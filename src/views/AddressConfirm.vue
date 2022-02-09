@@ -37,7 +37,7 @@ export default {
   beforeCreate() {
     AMapLoader.load({
       key: '47b0234461b5db55416a5722594e35f3',
-      plugins: ['AMap.Autocomplete', 'AMap.PlaceSearch']
+      plugins: ['AMap.Autocomplete']
     }).then(AMap => {
       this.$nextTick(() => this.initAMap(AMap))
     }).catch(e => {
@@ -54,11 +54,7 @@ export default {
         zooms: [2, 22]
       })
       const autoComplete = new AMap.Autocomplete({input: 'tipinput', city: '全国'})
-      const placeSearch = new AMap.PlaceSearch({city: '全国'})
       AMap.event.addListener(autoComplete, 'select', (e) => {
-        //TODO 针对选中的poi实现自己的功能
-        console.log('---select')
-        console.log(e.poi)
         this.searchValue = e.poi.address + e.poi.name
         if (!e.poi.location) {
           this.lng = ''
@@ -68,7 +64,12 @@ export default {
           this.lng = e.poi.location.lng
           this.lat = e.poi.location.lat
           this.district = e.poi.district
-          placeSearch.search(e.poi.address + e.poi.name)
+          const maker = new AMap.Marker({
+            position: e.poi.location,
+            title: this.searchValue
+          })
+          this.map.add(maker)
+          this.map.setFitView()
         }
       })
     },
