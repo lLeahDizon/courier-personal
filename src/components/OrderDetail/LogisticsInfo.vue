@@ -17,7 +17,7 @@
         class-prefix="delivery"
         :title="'送达 '+deliveryItem.nodeCreateTime"
         :address="deliveryItem.dockingAddress"
-        :personal-info="'收货人:'+deliveryItem.driverName+' '+item.userPhone"/>
+        :personal-info="'收货人:'+deliveryItem.driverName+' '+deliveryItem.userPhone"/>
     </template>
   </Card>
 </template>

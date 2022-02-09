@@ -13,8 +13,8 @@ export default Object.freeze([
   },
   {
     type: 3,
-    icon: 'evaluate-good',
-    iconActive: 'evaluate-good-active',
+    icon: 'evaluate-goods',
+    iconActive: 'evaluate-goods-active',
     title: '太赞了',
   }
 ])

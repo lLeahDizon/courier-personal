@@ -19,17 +19,30 @@
 <script>
 import Card from '@/components/Card'
 import evaluateList from '@/constants/evaluateList'
+import {commentAdd} from '@/service'
+import {$error, $loading} from '@/utils'
 
 export default {
   name: 'Evaluate',
   components: {Card},
+  props: ['transportSheetId'],
   data() {
     return {evaluateList}
   },
   methods: {
-    onClickItem(item) {
-      console.log('---onClickItem')
-      console.log(item)
+    async onClickItem(item) {
+      const loading = $loading()
+      try {
+        await commentAdd({
+          score: item.type,
+          transportSheetId: this.transportSheetId
+        })
+        this.$emit('showModal', item)
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
     }
   }
 }

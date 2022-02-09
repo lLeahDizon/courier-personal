@@ -5,9 +5,13 @@
     <template v-if="![0,40].includes(info.transportSheetStatus)">
       <LogisticsInfo v-if="info.nodeInfoList && info.nodeInfoList.length" :info="info"/>
       <BaseInfo :time="info.payTime" :number="info.orderNum"/>
-      <Evaluate v-if="info.transportSheetStatus === 30 && !info.commentLevel"/>
+      <Evaluate
+        v-if="info.transportSheetStatus === 30 && !info.commentLevel"
+        :transport-sheet-id="info.transportSheetId"
+        @showModal="showModal"
+      />
     </template>
-    <ModalEvaluate :evaluate="evaluate"/>
+    <ModalEvaluate :show.sync="modalEvaluateVisible" :evaluate="evaluate"/>
   </article>
 </template>
 
@@ -27,11 +31,8 @@ export default {
     return {
       orderStatus,
       info: undefined,
-      evaluate: {
-        type: 1,
-        icon: 'evaluate-bad',
-        title: '很糟糕'
-      }
+      modalEvaluateVisible: false,
+      evaluate: {}
     }
   },
   created() {
@@ -48,6 +49,11 @@ export default {
       } finally {
         loading.clear()
       }
+    },
+    showModal(evaluate) {
+      this.modalEvaluateVisible = true
+      this.evaluate = evaluate
+      this.init()
     }
   }
 }

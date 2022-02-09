@@ -1,8 +1,8 @@
 <template>
-  <van-popup v-model="visible" class="modal-wrapper" round :close-on-click-overlay="false" get-container="#app">
+  <van-popup v-model="visible" class="modal-wrapper" round get-container="#app">
     <p class="title">感谢您的评价</p>
-    <Icon :name="evaluate.icon"/>
-    <p class="desc">太赞了</p>
+    <Icon :name="evaluate.iconActive"/>
+    <p class="desc">{{ evaluate.title }}</p>
   </van-popup>
 </template>
 
