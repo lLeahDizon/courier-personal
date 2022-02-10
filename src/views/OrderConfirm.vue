@@ -74,19 +74,20 @@ export default {
         if (obj) {
           wx.chooseWXPay({
             ...obj,
-            success: function (res) {
+            package: obj.packageStr,
+            success: res => {
               // 支付成功后的回调函数
               console.log('---success')
               console.log(res)
               this.payResult = true
               this.showDialog = true
             },
-            cancel: function (err) {
+            cancel: err => {
               console.log('---cancel')
               console.log(err)
               this.$router.replace({name: 'order'})
             },
-            fail: function (res) {
+            fail: res => {
               console.log('---fail')
               console.log(res)
               this.payResult = false

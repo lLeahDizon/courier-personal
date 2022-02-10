@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import {$error} from '@/utils'
+
 const TYPE_LIST = [
   {
     id: 1,
@@ -112,6 +114,9 @@ export default {
       this.$emit('update:show', false)
     },
     onNext() {
+      if (!this.selectList.length) {
+        return $error('请选择物品类型')
+      }
       if (Number(this.weight) > 20) {
         this.$emit('showModalCustom')
       }

@@ -44,7 +44,7 @@ export default {
       showKeyBoard: false,
       agreementSelected: true,
       price: '',
-      insurancePrice: ''
+      insurancePrice: 0
     }
   },
   watch: {
@@ -67,13 +67,14 @@ export default {
   methods: {
     onClose() {
       this.price = ''
+      this.insurancePrice = 0
       this.$emit('update:show', false)
     },
     onOk() {
       if (!this.agreementSelected) {
         return $error('请勾选《保价协议》')
       }
-      this.$emit('onChange', {price: this.price, insurancePrice: this.insurancePrice})
+      this.$emit('onChange', {price: this.price, insurancePrice: Number(this.insurancePrice)})
       this.onClose()
     },
     selectAgreement() {

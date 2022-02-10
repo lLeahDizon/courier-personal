@@ -12,7 +12,7 @@
     <div class="content-wrapper">
       <p>如需寄送&nbsp;<span class="high-light">超过20公斤</span>&nbsp;的物品，</p>
       <p>请先咨询客服获取保价！</p>
-      <img src="@/assets/icons/qr-code.png" alt="" @click="previewImg">
+      <img src="@/assets/icons/qr-code.png" alt="" @click="previewImg($event)">
       <span>长按二维码联系客服</span>
       <button class="btn" @click="onClose">我知道了</button>
     </div>
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import {previewImage} from '@/utils'
+
 export default {
   props: ['show'],
   data() {
@@ -36,9 +38,9 @@ export default {
     onClose() {
       this.$emit('update:show', false)
     },
-    previewImg() {
-      // todo 缺少预览二维码
-      console.log('---previewImg')
+    previewImg(event) {
+      const url = event.currentTarget.src
+      previewImage({current: url, urls: [url]})
     }
   }
 }

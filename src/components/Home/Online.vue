@@ -17,17 +17,13 @@ export default {
   },
   methods: {
     goToInfo(type) {
-      this.$router.push({
-        name: type === 'send' ? 'senderInfo' : 'receiptInfo',
-        query: {type}
-      })
-      // if (this.userInfo && this.userInfo.verifyStatus)
-      //   this.$router.push({
-      //     name: type === 'send' ? 'senderInfo' : 'receiptInfo',
-      //     query: {type}
-      //   })
-      // else
-      //   this.$emit('showDialog')
+      if (this.userInfo && this.userInfo.verifyStatus)
+        this.$router.push({
+          name: type === 'send' ? 'senderInfo' : 'receiptInfo',
+          query: {type}
+        })
+      else
+        this.$emit('showDialog')
     }
   }
 }

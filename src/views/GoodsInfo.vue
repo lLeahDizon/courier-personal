@@ -26,7 +26,7 @@
       :is-required="false"
       title="物品保价"
       placeholder="可选择报价赔付"
-      :content="insurancePrice?`已保价¥${insurancePrice}`:''"
+      :content="insurancePrice >= 0 ? (insurancePrice === 0 ? '未保价0元' : `已保价¥${insurancePrice}`) :''"
       @click="modalPriceVisible=true"/>
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
@@ -89,7 +89,7 @@ export default {
       deliverDateTimeStr: '',
       deliverDateTime: '',
       itemAmount: '',
-      insurancePrice: '',
+      insurancePrice: undefined,
       itemDescription: '',
       itemList: [],
       weight: '',
