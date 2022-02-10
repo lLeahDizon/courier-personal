@@ -37,7 +37,7 @@ export default {
   beforeCreate() {
     AMapLoader.load({
       key: '47b0234461b5db55416a5722594e35f3',
-      plugins: ['AMap.Autocomplete']
+      plugins: ['AMap.Autocomplete', 'AMap.CitySearch']
     }).then(AMap => {
       this.$nextTick(() => this.initAMap(AMap))
     }).catch(e => {
@@ -52,6 +52,18 @@ export default {
         resizeEnable: true,
         zoom: 12,
         zooms: [2, 22]
+      })
+      const citySearch = new AMap.CitySearch()
+      citySearch.getLocalCity((status, result)=>{
+        if (status === 'complete' && result.info === 'OK') {
+          if (result && result.city && result.bounds) {
+            const citybounds = result.bounds;
+            //地图显示当前城市
+            this.map.setBounds(citybounds);
+          }
+        } else {
+          document.getElementById('info').innerHTML = result.info;
+        }
       })
       const autoComplete = new AMap.Autocomplete({input: 'tipinput', city: '全国'})
       AMap.event.addListener(autoComplete, 'select', (e) => {

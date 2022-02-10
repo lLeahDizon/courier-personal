@@ -30,6 +30,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ 'src/views/Home')
   },
   {
+    path: '/agreement',
+    name: 'agreement',
+    meta: {
+      title: '环球旅递隐私协议'
+    },
+    component: () => import(/* webpackChunkName: "home" */ 'src/views/Agreement')
+  },
+  {
     path: '/sender/info',
     name: 'senderInfo',
     meta: {

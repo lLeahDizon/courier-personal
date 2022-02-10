@@ -69,6 +69,8 @@ export default {
         this.orderId = await orderCreate()
         // 支付
         const obj = await orderPay(this.orderId)
+        console.log('---onClickPay')
+        console.log(obj)
         if (obj) {
           wx.chooseWXPay({
             ...obj,

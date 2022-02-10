@@ -11,7 +11,7 @@ const {
 
 module.exports = {
   outputDir: 'courier-personal',
-  publicPath: NODE_ENV === 'production' ?  '/' + process.env.VUE_APP_BASE_NAME + '/' : '/',
+  publicPath: NODE_ENV === 'production' ? '/' + process.env.VUE_APP_BASE_NAME + '/' : '/',
   lintOnSave: false,
   configureWebpack: () => {
     // merge到默认设置
@@ -36,6 +36,43 @@ module.exports = {
       .tap(() => {
         return {
           symbolId: 'icon-[name]'
+        }
+      })
+    // images的limit调整
+    config.module.rule('images')
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(() => {
+        return {
+          limit: 10240,
+          fallback: {
+            loader: 'file-loader',
+            options: {
+              name: 'img/[name].[hash:8].[ext]'
+            }
+          }
+        }
+      })
+    config.optimization.minimize(true)
+    // 代码分包调整
+    config.optimization
+      .splitChunks({
+        chunks: 'all',
+        cacheGroups: {
+          libs: {
+            name: 'chunk-libs',
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+            chunks: 'initial' // 只打包初始时依赖的第三方
+          },
+          commons: {
+            name: 'chunk-components',
+            test: resolve('src/components'), // 将公用业务组件库单独打包
+            minChunks: 2, // 最小共用次数
+            chunks: 'all',
+            priority: 5,
+            reuseExistingChunk: true
+          }
         }
       })
   },
