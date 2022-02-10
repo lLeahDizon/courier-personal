@@ -48,14 +48,8 @@ export function handleResponse(response) {
     return data
   } else {
     switch (code) {
-      case 10002:
-        router.replace({
-          name: 'noPermission'
-        })
-        break
       case 400:
       case 401:
-      case 10006:
         router.push({name: 'login'})
         break
     }

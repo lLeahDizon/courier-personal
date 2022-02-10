@@ -13,7 +13,7 @@
     </div>
     <div class="btn-wrapper">
       <button class="btn" @click="showModal">开始认证</button>
-      <van-checkbox v-model="agreementSelected">勾选即代表您同意<a>《环球旅递隐私政策》</a></van-checkbox>
+      <van-checkbox v-model="agreementSelected">勾选即代表您同意<a @click="onClickAgreement">《环球旅递隐私政策》</a></van-checkbox>
     </div>
     <van-number-keyboard
       :show="show"
@@ -53,6 +53,9 @@ export default {
   },
   methods: {
     ...mapActions(['setUserInfo']),
+    onClickAgreement() {
+      this.$router.push({name: 'agreement'})
+    },
     showModal() {
       if (!this.name) {
         return $error('请输入姓名')

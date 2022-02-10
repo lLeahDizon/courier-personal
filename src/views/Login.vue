@@ -29,7 +29,7 @@ export default {
       this.agreementSelected = !this.agreementSelected
     },
     onClickAgreement() {
-      console.log('---onClickAgreement')
+      this.$router.push({name: 'agreement'})
     },
     onClickLogin() {
       if (!this.agreementSelected) {
