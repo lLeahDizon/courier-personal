@@ -1,18 +1,16 @@
-import {ACCOUNT_CODE, TOKEN_KEY, WHITE_LIST} from 'src/constants'
+import {ACCOUNT_CODE, TOKEN_KEY} from 'src/constants'
 import {getBrowserType} from 'src/utils'
 import {getWXConfigApi} from './fetch'
 
 const {VUE_APP_BASE_NAME, VUE_APP_DOMAIN} = process.env
 
 export function handleLogin() {
-  const {pathname} = location
-  const path = pathname.replace('/' + process.env.VUE_APP_BASE_NAME, '')
+  const {pathname, search} = location
+  const path = pathname.replace('/' + VUE_APP_BASE_NAME, '')
   localStorage.removeItem(TOKEN_KEY)
-  // 若非白名单页面
-  if (!WHITE_LIST.includes(path)) {
-    const redirectUri = encodeURIComponent(`${VUE_APP_DOMAIN}${VUE_APP_BASE_NAME}/platform-login?t=${Date.now()}`)
-    weChatAuthorizationUserInfo(redirectUri)
-  }
+  const fromPath = encodeURIComponent((path.includes('login') || path.includes('platformLogin')) ? '/home' : path + search)
+  const redirectUri = encodeURIComponent(`${VUE_APP_DOMAIN}${VUE_APP_BASE_NAME}/platform-login?t=${Date.now()}&from=${fromPath}`)
+  weChatAuthorizationUserInfo(redirectUri)
 }
 
 export function weChatAuthorizationUserInfo(redirectUri, state = 'state') {

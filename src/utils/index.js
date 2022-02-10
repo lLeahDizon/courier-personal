@@ -115,3 +115,21 @@ export function previewImage({current = '', urls = []}) {
 export function $message (options) {
   Toast(options)
 }
+
+/**
+ * location.search 转为k-v对象
+ * @return {{}}
+ */
+export function structureQs (queryString) {
+  const search = queryString || location.search.slice(1)
+  const res = {}
+  try {
+    search.split('&').forEach(i => {
+      const kv = i.split('=')
+      res[kv[0]] = kv[1]
+    })
+  } catch (e) {
+    console.log(e)
+  }
+  return res
+}
