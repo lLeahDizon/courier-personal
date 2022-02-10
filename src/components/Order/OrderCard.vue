@@ -60,7 +60,15 @@ export default {
       }
     },
     onClickPay() {
-      console.log('---onClickPay')
+      this.$router.push({
+        name: 'orderDetail',
+        params: {
+          id: this.info.orderId
+        },
+        query: {
+          toPay: true
+        }
+      })
     },
     onClickDetail() {
       this.$router.push({name: 'orderDetail', params: {id: this.info.orderId}})

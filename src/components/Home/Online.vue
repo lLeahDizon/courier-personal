@@ -9,6 +9,7 @@
 <script>
 import InputPanel from '@/components/Home/InputPanel'
 import {mapGetters} from 'vuex'
+import {USER_INFO_KEY} from '@/constants'
 
 export default {
   components: {InputPanel},
@@ -17,7 +18,8 @@ export default {
   },
   methods: {
     goToInfo(type) {
-      if (this.userInfo && this.userInfo.verifyStatus)
+      const userInfo = JSON.parse(localStorage.getItem(USER_INFO_KEY))
+      if (userInfo && userInfo.verifyStatus)
         this.$router.push({
           name: type === 'send' ? 'senderInfo' : 'receiptInfo',
           query: {type}

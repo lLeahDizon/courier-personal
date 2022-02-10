@@ -69,9 +69,12 @@ export default {
         this.orderId = await orderCreate()
         // 支付
         const obj = await orderPay(this.orderId)
-        console.log('---onClickPay')
-        console.log(obj)
         if (obj) {
+          obj.package = obj.packageStr
+          const req = JSON.parse(JSON.stringify(obj))
+          delete req.packageStr
+          console.log('---onClickPay')
+          console.log(req)
           wx.chooseWXPay({
             ...obj,
             package: obj.packageStr,

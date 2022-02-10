@@ -48,7 +48,7 @@ service.interceptors.response.use(response => {
       throw new RequestError('服务端响应超时，请稍后再试')
     }
     // 处理HTTP 错误 如404
-    throw new RequestError(error.message)
+    throw new RequestError(error.response.data.message)
   }
 })
 

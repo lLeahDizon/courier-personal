@@ -31,13 +31,14 @@ export default {
       district: '',
       lng: '',
       lat: '',
-      map: null
+      map: null,
+      makers: []
     }
   },
   beforeCreate() {
     AMapLoader.load({
       key: '47b0234461b5db55416a5722594e35f3',
-      plugins: ['AMap.Autocomplete', 'AMap.CitySearch']
+      plugins: ['AMap.Autocomplete', 'AMap.CitySearch', 'AMap.Geocoder']
     }).then(AMap => {
       this.$nextTick(() => this.initAMap(AMap))
     }).catch(e => {
@@ -54,15 +55,15 @@ export default {
         zooms: [2, 22]
       })
       const citySearch = new AMap.CitySearch()
-      citySearch.getLocalCity((status, result)=>{
+      citySearch.getLocalCity((status, result) => {
         if (status === 'complete' && result.info === 'OK') {
           if (result && result.city && result.bounds) {
-            const citybounds = result.bounds;
+            const citybounds = result.bounds
             //地图显示当前城市
-            this.map.setBounds(citybounds);
+            this.map.setBounds(citybounds)
           }
         } else {
-          document.getElementById('info').innerHTML = result.info;
+          document.getElementById('info').innerHTML = result.info
         }
       })
       const autoComplete = new AMap.Autocomplete({input: 'tipinput', city: '全国'})
@@ -76,14 +77,41 @@ export default {
           this.lng = e.poi.location.lng
           this.lat = e.poi.location.lat
           this.district = e.poi.district
+          console.log(this.searchValue)
+          console.log(this.district)
           const maker = new AMap.Marker({
             position: e.poi.location,
             title: this.searchValue
           })
+          this.map.remove(this.makers)
+          this.makers.push(maker)
           this.map.add(maker)
           this.map.setFitView()
         }
       })
+      const geocoder = new AMap.Geocoder()
+      const showInfoClick = (e) => {
+        this.lng = e.lnglat.getLng()
+        this.lat = e.lnglat.getLat()
+        geocoder.getAddress([e.lnglat.getLng(), e.lnglat.getLat()], (status, result) => {
+          if (status === 'complete' && result.regeocode) {
+            const {regeocode} = result
+            this.district = regeocode.addressComponent.province + regeocode.addressComponent.city + regeocode.addressComponent.district
+            this.searchValue = regeocode.formattedAddress
+          } else {
+            console.error('根据经纬度查询地址失败')
+          }
+        })
+        const maker = new AMap.Marker({
+          position: [e.lnglat.getLng(), e.lnglat.getLat()],
+          title: this.searchValue
+        })
+        this.map.remove(this.makers)
+        this.makers.push(maker)
+        this.map.add(maker)
+      }
+      this.map.on('click', showInfoClick)
+      this.map.on('dbclick', () => {})
     },
     onSubmit() {
       if (!this.lng || !this.lat) {
