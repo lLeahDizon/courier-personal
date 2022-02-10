@@ -12,7 +12,7 @@
     <div class="content-wrapper">
       <p>如需寄送&nbsp;<span class="high-light">超过20公斤</span>&nbsp;的物品，</p>
       <p>请先咨询客服获取保价！</p>
-      <img src="" alt="" @click="previewImg">
+      <img src="@/assets/icons/qr-code.png" alt="" @click="previewImg">
       <span>长按二维码联系客服</span>
       <button class="btn" @click="onClose">我知道了</button>
     </div>
