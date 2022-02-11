@@ -94,19 +94,79 @@ export default {
         loading.clear()
       }
     },
-    async afterRead(file) {
-      console.log(file)
+    afterRead(file) {
       const loading = $loading()
       try {
-        // todo 压缩图片
-        let params = new FormData()
-        params.append('file', file.file)
-        const result = await fileUpload(params)
-        this.faceImgUrl = `https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`
+        this.compressImage(file.file, async file => {
+          let params = new FormData()
+          params.append('file', file)
+          const result = await fileUpload(params)
+          this.faceImgUrl = `https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`
+        })
       } catch (e) {
         $error(e)
       } finally {
         loading.clear()
+      }
+    },
+    compressImage(file, success) {
+      // 图片小于1M不压缩
+      if (file.size < Math.pow(1024, 2)) {
+        return success(file)
+      }
+
+      const name = file.name //文件名
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = e => {
+        const src = e.target.result
+
+        const img = new Image()
+        img.src = src
+        img.onload = () => {
+          const w = img.width
+          const h = img.height
+          const quality = 0.8  // 默认图片质量为0.92
+          // 生成canvas
+          const canvas = document.createElement('canvas')
+          const ctx = canvas.getContext('2d')
+          // 创建属性节点
+          const anw = document.createAttribute('width')
+          anw.nodeValue = w
+          const anh = document.createAttribute('height')
+          anh.nodeValue = h
+          canvas.setAttributeNode(anw)
+          canvas.setAttributeNode(anh)
+
+          // 铺底色 PNG转JPEG时透明区域会变黑色
+          ctx.fillStyle = '#fff'
+          ctx.fillRect(0, 0, w, h)
+
+          ctx.drawImage(img, 0, 0, w, h)
+          // quality值越小，所绘制出的图像越模糊
+          const base64 = canvas.toDataURL('image/jpeg', quality) // 图片格式jpeg或webp可以选0-1质量区间
+
+          // 去掉url的头，并转换为byte
+          const bytes = window.atob(base64.split(',')[1])
+          // 处理异常,将ascii码小于0的转换为大于0
+          // eslint-disable-next-line no-undef
+          const ab = new ArrayBuffer(bytes.length)
+          // eslint-disable-next-line no-undef
+          const ia = new Uint8Array(ab)
+          for (let i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i)
+          }
+          file = new Blob([ab], {type: 'image/jpeg'})
+          file.name = name
+
+          success(file)
+        }
+        img.onerror = e => {
+          $error(e)
+        }
+      }
+      reader.onerror = e => {
+        $error(e)
       }
     },
     onInput(value) {

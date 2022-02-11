@@ -64,19 +64,13 @@ export default {
       }
     },
     async onClickPay(orderId) {
-      await handlePay(orderId, res => {
+      await handlePay(orderId, () => {
         // 支付成功后的回调函数
-        console.log('---success')
-        console.log(res)
         this.payResult = true
         this.showDialog = true
-      }, err => {
-        console.log('---cancel')
-        console.log(err)
+      }, () => {
         this.$router.back()
-      }, res => {
-        console.log('---fail')
-        console.log(res)
+      }, () => {
         this.payResult = false
         this.showDialog = true
       })
