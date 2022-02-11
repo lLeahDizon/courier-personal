@@ -22,8 +22,8 @@ import LogisticsInfo from '@/components/OrderDetail/LogisticsInfo'
 import BaseInfo from '@/components/OrderDetail/BaseInfo'
 import Evaluate from '@/components/OrderDetail/Evaluate'
 import ModalEvaluate from '@/components/OrderDetail/ModalEvaluate'
-import {$error, $loading, getBrowserType} from '@/utils'
-import {orderDetail, orderPay} from '@/service'
+import {$error, $loading, getBrowserType, handlePay} from '@/utils'
+import {orderDetail} from '@/service'
 import orderStatus from '@/constants/orderStatus'
 import ModalResult from '@/components/OrderConfirm/ModalResult'
 import {initWeChatEnv} from '@/utils/weixin'
@@ -64,43 +64,22 @@ export default {
       }
     },
     async onClickPay(orderId) {
-      const loading = $loading()
-      try {
-        // 支付
-        const obj = await orderPay(orderId)
-        if (obj) {
-          obj.package = obj.packageStr
-          const req = JSON.parse(JSON.stringify(obj))
-          delete req.packageStr
-          console.log('---onClickPay')
-          console.log(req)
-          wx.chooseWXPay({
-            ...req,
-            success: res => {
-              // 支付成功后的回调函数
-              console.log('---success')
-              console.log(res)
-              this.payResult = true
-              this.showDialog = true
-            },
-            cancel: err => {
-              console.log('---cancel')
-              console.log(err)
-              this.$router.back()
-            },
-            fail: res => {
-              console.log('---fail')
-              console.log(res)
-              this.payResult = false
-              this.showDialog = true
-            }
-          })
-        }
-      } catch (e) {
-        $error(e)
-      } finally {
-        loading.clear()
-      }
+      await handlePay(orderId, res => {
+        // 支付成功后的回调函数
+        console.log('---success')
+        console.log(res)
+        this.payResult = true
+        this.showDialog = true
+      }, err => {
+        console.log('---cancel')
+        console.log(err)
+        this.$router.back()
+      }, res => {
+        console.log('---fail')
+        console.log(res)
+        this.payResult = false
+        this.showDialog = true
+      })
     },
     showModal(evaluate) {
       this.modalEvaluateVisible = true

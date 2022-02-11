@@ -4,6 +4,7 @@ import { TIME_OUT } from './config'
 import { limitRequest, releaseResponse } from './requestGovern'
 import { handleRequest, handleResponse } from './requestFilter'
 import {handleLogin} from '@/utils/weixin'
+import {$message} from '@/utils'
 
 // 在类上定义默认值
 axios.defaults.headers['Content-Type'] = 'application/json'
@@ -38,6 +39,10 @@ service.interceptors.response.use(response => {
   releaseResponse(response.config)
   return handleResponse(response)
 }, error => {
+  if (error && error.response && [400, 401].includes(error.response.status)) {
+    $message('正在登录...')
+    return handleLogin()
+  }
   // 自定义错误类直接抛出
   if (error instanceof RequestError) {
     throw error
@@ -47,9 +52,6 @@ service.interceptors.response.use(response => {
     // 超时
     if (error.code === 'ECONNABORTED') {
       throw new RequestError('服务端响应超时，请稍后再试')
-    }
-    if ([400, 401].includes(error.response.status)) {
-      return handleLogin()
     }
     // 处理HTTP 错误 如404
     throw new RequestError(error.response.data.message)

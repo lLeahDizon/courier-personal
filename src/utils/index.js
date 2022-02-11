@@ -1,6 +1,8 @@
 import {ImagePreview, Toast} from 'vant'
 import Vue from 'vue'
 import {getBrowserType} from '@/utils/browser'
+import {orderPay} from '@/service'
+import {$error} from '@/utils/error'
 
 export * from './error'
 export * from './browser'
@@ -112,7 +114,7 @@ export function previewImage({current = '', urls = []}) {
  * 文字提示
  * @param {Object} options 提示内容
  */
-export function $message (options) {
+export function $message(options) {
   Toast(options)
 }
 
@@ -120,7 +122,7 @@ export function $message (options) {
  * location.search 转为k-v对象
  * @return {{}}
  */
-export function structureQs (queryString) {
+export function structureQs(queryString) {
   const search = queryString || location.search.slice(1)
   const res = {}
   try {
@@ -132,4 +134,53 @@ export function structureQs (queryString) {
     console.log(e)
   }
   return res
+}
+
+/**
+ * 支付
+ * @param orderId 订单 id
+ * @param success 成功回调
+ * @param cancel 取消回调
+ * @param fail 失败回调
+ * @return {Promise<void>}
+ */
+export async function handlePay(orderId, success, cancel, fail) {
+  const loading = $loading()
+  try {
+    const obj = await orderPay(orderId)
+    if (obj) {
+      obj.package = obj.packageStr
+      const req = JSON.parse(JSON.stringify(obj))
+      delete req.packageStr
+      console.log('---onClickPay')
+      console.log(req)
+      const onBridgeReady = () => {
+        window.WeixinJSBridge.invoke('getBrandWCPayRequest', req, function (res) {
+          if (res.err_msg == 'get_brand_wcpay_request:ok') success()
+          if (res.err_msg == 'get_brand_wcpay_request:cancel') cancel()
+          if (res.err_msg == 'get_brand_wcpay_request:fail') fail()
+        })
+      }
+      if (typeof window.WeixinJSBridge == 'undefined') {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', onBridgeReady)
+          document.attachEvent('onWeixinJSBridgeReady', onBridgeReady)
+        }
+      } else {
+        onBridgeReady()
+      }
+      // wx.chooseWXPay({
+      //   ...req,
+      //   success,
+      //   cancel,
+      //   fail
+      // })
+    }
+  } catch (e) {
+    $error(e)
+  } finally {
+    loading.clear()
+  }
 }

@@ -22,9 +22,9 @@ import GoodsInfoPanel from '@/components/OrderConfirm/GoodsInfoPanel'
 import PayPanel from '@/components/OrderConfirm/PayPanel'
 import PriceInfoPanel from '@/components/OrderConfirm/PriceInfoPanel'
 import ModalResult from '@/components/OrderConfirm/ModalResult'
-import {$error, $loading, getBrowserType} from '@/utils'
+import {$error, $loading, getBrowserType, handlePay} from '@/utils'
 import {initWeChatEnv} from '@/utils/weixin'
-import {orderConfirmInfo, orderCreate, orderPay} from '@/service'
+import {orderConfirmInfo, orderCreate} from '@/service'
 import {ORDER_INFO_KEY} from '@/constants'
 
 export default {
@@ -63,45 +63,27 @@ export default {
       }
     },
     async onClickPay() {
-      const loading = $loading()
       try {
         // 新订单需要创建订单
         this.orderId = await orderCreate()
-        // 支付
-        const obj = await orderPay(this.orderId)
-        if (obj) {
-          obj.package = obj.packageStr
-          const req = JSON.parse(JSON.stringify(obj))
-          delete req.packageStr
-          console.log('---onClickPay')
-          console.log(req)
-          wx.chooseWXPay({
-            ...obj,
-            package: obj.packageStr,
-            success: res => {
-              // 支付成功后的回调函数
-              console.log('---success')
-              console.log(res)
-              this.payResult = true
-              this.showDialog = true
-            },
-            cancel: err => {
-              console.log('---cancel')
-              console.log(err)
-              this.$router.replace({name: 'order'})
-            },
-            fail: res => {
-              console.log('---fail')
-              console.log(res)
-              this.payResult = false
-              this.showDialog = true
-            }
-          })
-        }
+        await handlePay(this.orderId, res => {
+          // 支付成功后的回调函数
+          console.log('---success')
+          console.log(res)
+          this.payResult = true
+          this.showDialog = true
+        }, err => {
+          console.log('---cancel')
+          console.log(err)
+          this.$router.replace({name: 'order'})
+        }, res => {
+          console.log('---fail')
+          console.log(res)
+          this.payResult = false
+          this.showDialog = true
+        })
       } catch (e) {
         $error(e)
-      } finally {
-        loading.clear()
       }
     }
   }
