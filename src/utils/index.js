@@ -152,41 +152,39 @@ export async function handlePay(orderId, success, cancel, fail) {
       obj.package = obj.packageStr
       const req = JSON.parse(JSON.stringify(obj))
       delete req.packageStr
-      // const onBridgeReady = () => {
-      //   window.WeixinJSBridge.invoke('getBrandWCPayRequest', req, (res) => {
-      //     console.log('---getBrandWCPayRequest')
-      //     console.log(res)
-      //     if (res.err_msg === 'get_brand_wcpay_request:ok') {
-      //       // success()
-      //     }
-      //     if (res.err_msg === 'get_brand_wcpay_request:cancel') {
-      //       cancel()
-      //     }
-      //     if (res.err_msg === 'get_brand_wcpay_request:fail') {
-      //       fail()
-      //     }
-      //   })
-      // }
-      // if (typeof window.WeixinJSBridge == 'undefined') {
-      //   if (document.addEventListener) {
-      //     document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
-      //   } else if (document.attachEvent) {
-      //     document.attachEvent('WeixinJSBridgeReady', onBridgeReady)
-      //     document.attachEvent('onWeixinJSBridgeReady', onBridgeReady)
-      //   }
-      // } else {
-      //   onBridgeReady()
-      // }
-      wx.chooseWXPay({
-        timestamp: req.timestamp,
-        nonceStr: req.nonceStr,
-        package: req.package,
-        signType: req.signType,
-        paySign: req.paySign,
-        success,
-        cancel,
-        fail
-      })
+      const onBridgeReady = () => {
+        window.WeixinJSBridge.invoke('getBrandWCPayRequest', req, (res) => {
+          console.log('---getBrandWCPayRequest')
+          console.log(res)
+          if (res.err_msg == 'get_brand_wcpay_request:ok') {
+            success()
+          } else if (res.err_msg == 'get_brand_wcpay_request:cancel') {
+            cancel()
+          } else {
+            fail()
+          }
+        })
+      }
+      if (typeof window.WeixinJSBridge == 'undefined') {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', onBridgeReady)
+          document.attachEvent('onWeixinJSBridgeReady', onBridgeReady)
+        }
+      } else {
+        onBridgeReady()
+      }
+      // wx.chooseWXPay({
+      //   timestamp: req.timestamp,
+      //   nonceStr: req.nonceStr,
+      //   package: req.package,
+      //   signType: req.signType,
+      //   paySign: req.paySign,
+      //   success,
+      //   cancel,
+      //   fail
+      // })
     }
   } catch (e) {
     $error(e)
