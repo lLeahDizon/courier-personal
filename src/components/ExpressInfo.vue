@@ -151,13 +151,13 @@ export default {
           if (JSON.parse(isEdit))
             localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
               ...data,
-              deliverDistrict: this.district,
-              deliverDetailAddress: this.address,
-              deliverLatitude: this.lat,
-              deliverLongitude: this.lng,
-              deliverName: this.name.trim(),
-              deliverPhone: this.tel.trim(),
-              deliverNumber: this.number.trim()
+              receiptDistrict: this.district,
+              receiptDetailAddress: this.address,
+              receiptLatitude: this.lat,
+              receiptLongitude: this.lng,
+              receiptName: this.name.trim(),
+              receiptPhone: this.tel.trim(),
+              receiptNumber: this.number.trim()
             }))
           else
             this.setOrderInfo({
