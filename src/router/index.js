@@ -35,7 +35,15 @@ const routes = [
     meta: {
       title: '环球旅递隐私协议'
     },
-    component: () => import(/* webpackChunkName: "home" */ 'src/views/Agreement')
+    component: () => import(/* webpackChunkName: "agreement" */ 'src/views/Agreement')
+  },
+  {
+    path: '/use-guide',
+    name: 'useGuide',
+    meta: {
+      title: '使用指南'
+    },
+    component: () => import(/* webpackChunkName: "use-guide" */ 'src/views/UseGuide')
   },
   {
     path: '/sender/info',
@@ -132,6 +140,14 @@ const routes = [
       title: '物品信息'
     },
     component: () => import(/* webpackChunkName: "goods-info" */ 'src/views/GoodsInfo')
+  },
+  {
+    path: '/ticket',
+    name: 'ticket',
+    meta: {
+      title: '支付成功'
+    },
+    component: () => import(/* webpackChunkName: "ticket" */ 'src/views/Ticket')
   }
 ]
 

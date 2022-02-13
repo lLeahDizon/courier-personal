@@ -13,6 +13,8 @@ export const HREF_TO_OTHER_PAGE = 'HREF_TO_OTHER_PAGE'
 // 免登录路由白名单
 export const WHITE_LIST = [
   'login',
+  'agreement',
+  'useGuide',
   'platformLogin'
 ]
 

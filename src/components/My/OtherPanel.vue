@@ -17,18 +17,18 @@ export default {
       menuList: [
         {
           icon: 'my-other',
-          title: '其他功能入口',
+          title: '使用指南',
           event: this.handle2Other
         },
         {
           icon: 'my-custom',
           title: '联系客服',
           event: this.handle2Custom
-        },
-        {
-          icon: 'my-about',
-          title: '关于环球旅递',
-          event: this.handle2About
+        // },
+        // {
+        //   icon: 'my-about',
+        //   title: '关于环球旅递',
+        //   event: this.handle2About
         }
       ]
     }
