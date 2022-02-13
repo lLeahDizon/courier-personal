@@ -24,11 +24,11 @@ export default {
           icon: 'my-custom',
           title: '联系客服',
           event: this.handle2Custom
-        // },
-        // {
-        //   icon: 'my-about',
-        //   title: '关于环球旅递',
-        //   event: this.handle2About
+          // },
+          // {
+          //   icon: 'my-about',
+          //   title: '关于环球旅递',
+          //   event: this.handle2About
         }
       ]
     }
@@ -36,6 +36,7 @@ export default {
   methods: {
     handle2Other() {
       console.log('---handle2Other')
+      this.$router.push({name: 'useGuide'})
     },
     handle2Custom() {
       window.location.href = 'tel:4000129068'
