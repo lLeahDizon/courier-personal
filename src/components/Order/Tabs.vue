@@ -61,15 +61,14 @@ export default {
   > .tab-item {
     display: flex;
     flex-direction: column;
-    position: relative;
+    min-width: 96px;
+    align-items: center;
 
     span {
       line-height: 46px;
     }
 
     .icon {
-      position: absolute;
-      bottom: -20px;
       width: 76px;
       height: 16px;
     }

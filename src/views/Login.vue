@@ -21,7 +21,7 @@ import {$error} from '@/utils'
 export default {
   data() {
     return {
-      agreementSelected: false
+      agreementSelected: true
     }
   },
   methods: {

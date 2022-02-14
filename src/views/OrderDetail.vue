@@ -6,8 +6,9 @@
       <LogisticsInfo v-if="info.nodeInfoList && info.nodeInfoList.length" :info="info"/>
       <BaseInfo :time="info.payTime" :number="info.orderNum"/>
       <Evaluate
-        v-if="info.transportSheetStatus === 30 && !info.commentLevel"
+        v-if="info.transportSheetStatus === 30"
         :transport-sheet-id="info.transportSheetId"
+        :comment-level="info.commentLevel"
         @showModal="showModal"
       />
     </template>

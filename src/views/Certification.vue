@@ -184,6 +184,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/mixins.scss";
+
 .certification-wrapper {
   position: relative;
   padding: 80px 60px 0;
@@ -244,7 +246,7 @@ export default {
     line-height: 50px;
     padding: 60px 0 24px;
     width: 100%;
-    border-bottom: 1px solid #e6e6e6;
+    @include border-1px(#e6e6e6, 0, bottom);
 
     &.placeholder {
       color: #aaaaaa;
@@ -280,7 +282,7 @@ export default {
     line-height: 50px;
     padding: 60px 0 24px;
     width: 100%;
-    border-bottom: 1px solid #e6e6e6;
+    @include border-1px(#e6e6e6, 0, bottom);
   }
 
   > input::-webkit-input-placeholder {

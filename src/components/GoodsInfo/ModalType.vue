@@ -206,6 +206,7 @@ export default {
     display: flex;
     align-items: center;
     padding-top: 24px;
+    padding-bottom: 24px;
     font-size: 28px;
     color: #AAAAAA;
     line-height: 40px;

@@ -9,8 +9,9 @@
       <div class="top">请确认发件地址是否准确，如不准确可拖动地图进行调整</div>
       <div class="bottom">
         <div v-if="searchValue" class="desc">
-          <div class="circle blue"></div>
-          从&nbsp;<span class="blue">{{ searchValue }}</span>&nbsp;发件
+          <div class="circle" :class="{'blue': type === 'send', 'yellow': type === 'receipt'}"></div>
+          从&nbsp;<span :class="{'blue': type === 'send', 'yellow': type === 'receipt'}">{{ searchValue }}</span>
+          <div class="text-grow">&nbsp;{{type === 'send' ? '发件' : '收件'}}</div>
         </div>
         <button class="btn" @click="onSubmit">确定</button>
       </div>
@@ -26,7 +27,9 @@ import {$error} from '@/utils'
 export default {
   name: 'AddressConfirm',
   data() {
+    const {type} = this.$route.query
     return {
+      type,
       searchValue: '',
       district: '',
       lng: '',
@@ -207,8 +210,9 @@ export default {
         padding-bottom: 40px;
 
         > .circle {
-          width: 16px;
-          height: 16px;
+          flex-grow: 1;
+          min-width: 16px;
+          min-height: 16px;
           margin-right: 16px;
           border-radius: 50%;
 
@@ -223,6 +227,10 @@ export default {
 
         > .address {
           font-weight: Medium;
+        }
+
+        > .text-grow {
+          min-width: 120px;
         }
 
         > .blue {

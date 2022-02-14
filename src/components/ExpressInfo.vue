@@ -3,7 +3,7 @@
     <div @click="onClickAddress" class="item">
       <div class="left">
         <Icon name="address"/>
-        <span class="title">{{ address || '请填写地址' }}</span>
+        <span class="title">{{ address || type === 'send' ? '请填写发件地址' : '请填写收件地址' }}</span>
       </div>
       <Icon name="my-right"/>
     </div>
@@ -38,6 +38,7 @@ import {ORDER_INFO_KEY} from '@/constants'
 
 export default {
   name: 'ExpressInfo',
+  props: ['type'],
   data() {
     const {type, isEdit = 'false'} = this.$route.query
     let address, district, lng, lat, number, name, tel
@@ -91,7 +92,7 @@ export default {
   methods: {
     ...mapActions(['setAddressInfo', 'setOrderInfo']),
     onClickAddress() {
-      this.$router.push({name: 'addressConfirm'})
+      this.$router.push({name: 'addressConfirm', query: {type: this.type}})
     },
     onSubmit() {
       if (!this.address) {
@@ -188,6 +189,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/mixins.scss";
+
 .info-wrapper {
   position: relative;
   padding: 24px 30px;
@@ -197,7 +200,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding: 36px 0;
-    border-bottom: 1px solid #e6e6e6;
+    @include border-1px(#e6e6e6, 0, bottom);
 
     > .left {
       display: flex;

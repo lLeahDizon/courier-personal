@@ -125,7 +125,7 @@ export default {
     padding: 50px 24px;
     font-size: 44px;
     font-weight: bold;
-    color: #12A0FF;
+    color: rgba(18, 160, 255, 0.5);
     line-height: 62px;
     margin-top: 30px;
   }

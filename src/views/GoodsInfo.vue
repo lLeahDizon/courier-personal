@@ -189,12 +189,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/mixins.scss";
+
 .GoodsInfo-wrapper {
   padding: 0 30px;
 
   header {
     padding: 40px 0;
-    border-bottom: 1px solid #e6e6e6;
+    @include border-1px(#e6e6e6, 0, bottom);
 
     > .title {
       font-size: 32px;
@@ -218,7 +220,6 @@ export default {
         color: #12a0ff;
       }
     }
-
   }
 
   .btn {

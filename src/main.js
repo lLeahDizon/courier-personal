@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 Vue.component('Nav', Nav)
 Vue.component('Layout', Layout)
 
-if (!['production'].includes(process.env.NODE_ENV) && window.location.hostname !== 'localhost') {
+if (!['production'].includes(process.env.VUE_APP_ENV) && window.location.hostname !== 'localhost') {
   new VConsole()
 }
 

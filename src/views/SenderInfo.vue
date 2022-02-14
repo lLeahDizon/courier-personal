@@ -1,5 +1,5 @@
 <template>
-  <ExpressInfo/>
+  <ExpressInfo type="send"/>
 </template>
 
 <script>

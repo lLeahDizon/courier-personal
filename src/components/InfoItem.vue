@@ -40,9 +40,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/mixins.scss";
+
 .InfoItem {
   padding: 30px 0;
-  border-bottom: 1px solid #e6e6e6;
+  @include border-1px(#e6e6e6, 0, bottom);
 
   > .item {
     display: flex;

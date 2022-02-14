@@ -1,0 +1,33 @@
+@mixin border-1px($color: #ccc, $radius: 2px, $direction: all, $type: solid) {
+  position: relative;
+  &::after {
+    content: "";
+    pointer-events: none;
+    display: block;
+    position: absolute;
+    border-radius: $radius;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    @if $direction == all {
+      border: 1px $type $color;
+    } @else {
+      #{"border-" + $direction}: 1px $type $color;
+    }
+    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+      width: 200%;
+      height: 200%;
+      border-radius: $radius * 2;
+      transform: scale(.5);
+    }
+    @media only screen and (-webkit-min-device-pixel-ratio: 3) {
+      width: 300%;
+      height: 300%;
+      border-radius: $radius * 3;
+      transform: scale(.333);
+    }
+  }
+}

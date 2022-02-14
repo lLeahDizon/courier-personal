@@ -22,23 +22,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/mixins.scss";
+
 .item-wrapper {
   display: flex;
-  justify-content: space-between;
-  padding: 30px 0;
-  border-bottom: 1px solid #e6e6e6;
   font-size: 32px;
   line-height: 44px;
   color: #333333;
+  justify-content: flex-end;
+  padding: 30px 0 0;
 
   &:first-child {
     padding-top: 0;
   }
 
-  &:last-child {
-    justify-content: flex-end;
-    padding-bottom: 0;
-    border: none;
+  &:not(:last-child) {
+    justify-content: space-between;
+    padding-bottom: 30px;
+    @include border-1px(#e6e6e6, 0, bottom);
   }
 
   .total {

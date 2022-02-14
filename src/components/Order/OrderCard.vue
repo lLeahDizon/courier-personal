@@ -124,6 +124,8 @@ export default {
     color: #888888;
 
     .icon {
+      min-width: 28px;
+      min-height: 28px;
       margin-right: 18px;
     }
   }

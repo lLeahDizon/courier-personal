@@ -8,7 +8,7 @@
           :key="index"
           class="evaluate-item"
           @click="onClickItem(item)">
-          <Icon :name="item.icon"/>
+          <Icon :name="commentLevel === item.type ? item.iconActive : item.icon"/>
           <span class="title">{{ item.title }}</span>
         </div>
       </div>
@@ -25,12 +25,13 @@ import {$error, $loading} from '@/utils'
 export default {
   name: 'Evaluate',
   components: {Card},
-  props: ['transportSheetId'],
+  props: ['transportSheetId', 'commentLevel'],
   data() {
     return {evaluateList}
   },
   methods: {
     async onClickItem(item) {
+      if (this.commentLevel) return
       const loading = $loading()
       try {
         await commentAdd({
