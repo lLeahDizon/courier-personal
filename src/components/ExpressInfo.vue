@@ -3,7 +3,7 @@
     <div @click="onClickAddress" class="item">
       <div class="left">
         <Icon name="address"/>
-        <span class="title">{{ address || type === 'send' ? '请填写发件地址' : '请填写收件地址' }}</span>
+        <span class="title">{{ address || (type === 'send' ? '请填写发件地址' : '请填写收件地址') }}</span>
       </div>
       <Icon name="my-right"/>
     </div>
