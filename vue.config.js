@@ -13,6 +13,7 @@ module.exports = {
   outputDir: 'courier-personal',
   publicPath: NODE_ENV === 'production' ? '/' + process.env.VUE_APP_BASE_NAME + '/' : '/',
   lintOnSave: false,
+  crossorigin: 'anonymous',
   configureWebpack: () => {
     // merge到默认设置
     return {
@@ -20,6 +21,12 @@ module.exports = {
         alias: {
           src: resolve('src')
         }
+      },
+      externals: {
+        'vue': 'Vue',
+        'vue-router': 'VueRouter',
+        'axios': 'axios',
+        'VConsole': 'vConsole'
       }
     }
   },

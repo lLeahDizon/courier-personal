@@ -7,7 +7,6 @@ import '@/assets/icons'
 import '@/components/vant'
 import Nav from '@/components/Nav'
 import Layout from '@/components/Layout'
-import VConsole from 'vconsole'
 import {getBrowserType} from '@/utils'
 import {HREF_TO_OTHER_PAGE} from '@/constants'
 

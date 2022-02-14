@@ -21,7 +21,8 @@ module.exports = {
     'vue'
   ],
   globals: {
-    wx: true
+    wx: true,
+    VConsole: true
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
