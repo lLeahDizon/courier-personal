@@ -17,9 +17,10 @@ export default {
   },
   methods: {
     onClick() {
+      const {VUE_APP_DOMAIN, VUE_APP_BASE_NAME} = process.env
       const mchData = {
         action: 'jumpOut',
-        jumpOutUrl: 'https://d-customer.travelsender.com/courier-personal/order' //跳转的页面
+        jumpOutUrl: `${VUE_APP_DOMAIN}${VUE_APP_BASE_NAME}/order` //跳转的页面
       }
       const pData = JSON.stringify(mchData)
       parent.postMessage(pData, 'https://payapp.weixin.qq.com')

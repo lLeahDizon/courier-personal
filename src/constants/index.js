@@ -15,6 +15,7 @@ export const WHITE_LIST = [
   'login',
   'agreement',
   'useGuide',
+  'ticket',
   'platformLogin'
 ]
 
