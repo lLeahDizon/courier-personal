@@ -124,7 +124,7 @@ export default {
     },
     compressImage(file, success) {
       // 图片小于1M不压缩
-      if (file.size < Math.pow(1024, 2)) {
+      if (file.size < Math.pow(1024, 2) * 2) {
         return success(file)
       }
       const name = file.name //文件名
