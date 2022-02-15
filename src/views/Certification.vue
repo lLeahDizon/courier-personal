@@ -3,7 +3,10 @@
     <h1 class="title">为保证您的账户安全</h1>
     <p class="desc">请先完成实名认证哦~</p>
     <input v-model="name" placeholder="请输入真实姓名">
-    <div class="input" :class="{'placeholder':!id}" @click="show=true">{{ id || '请输入15位或18位身份证号' }}</div>
+    <div class="input" :class="{'placeholder':!id}" @click="show=true">
+      {{ id || '请输入15位或18位身份证号' }}
+      <van-icon v-if="showClear" name="clear" color="#aaaaaa"  @click.stop="clearText"/>
+    </div>
     <van-uploader v-model="fileList" class="upload" :max-count="1" deletable :after-read="afterRead"/>
     <div class="tips-wrapper">
       <div v-for="(item, index) in tips" :key="index" class="tips">
@@ -45,16 +48,26 @@ export default {
       faceImgUrl: '',
       agreementSelected: true,
       show: false,
+      showClear: false,
       showDialog: false
     }
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
+  watch: {
+    id(val) {
+      this.showClear = !!val
+    }
+  },
   methods: {
     ...mapActions(['setUserInfo']),
     onClickAgreement() {
       this.$router.push({name: 'agreement'})
+    },
+    clearText() {
+      this.id = ''
+      this.showClear = false
     },
     showModal() {
       if (!this.name) {
@@ -95,26 +108,25 @@ export default {
       }
     },
     afterRead(file) {
-      const loading = $loading()
-      try {
-        this.compressImage(file.file, async file => {
+      this.compressImage(file.file, async file => {
+        const loading = $loading()
+        try {
           let params = new FormData()
           params.append('file', file)
           const result = await fileUpload(params)
           this.faceImgUrl = `https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`
-        })
-      } catch (e) {
-        $error(e)
-      } finally {
-        loading.clear()
-      }
+        } catch (e) {
+          $error(e)
+        } finally {
+          loading.clear()
+        }
+      })
     },
     compressImage(file, success) {
       // 图片小于1M不压缩
       if (file.size < Math.pow(1024, 2)) {
         return success(file)
       }
-
       const name = file.name //文件名
       const reader = new FileReader()
       reader.readAsDataURL(file)
@@ -124,6 +136,7 @@ export default {
         const img = new Image()
         img.src = src
         img.onload = () => {
+          const loading = $loading()
           const w = img.width
           const h = img.height
           const quality = 0.8  // 默认图片质量为0.92
@@ -158,6 +171,8 @@ export default {
           }
           file = new Blob([ab], {type: 'image/jpeg'})
           file.name = name
+
+          loading.clear()
 
           success(file)
         }
@@ -246,7 +261,10 @@ export default {
     line-height: 50px;
     padding: 60px 0 24px;
     width: 100%;
-    @include border-1px(#e6e6e6, 0, bottom);
+    border-bottom: 1px solid #E6E6E6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &.placeholder {
       color: #aaaaaa;
@@ -282,7 +300,7 @@ export default {
     line-height: 50px;
     padding: 60px 0 24px;
     width: 100%;
-    @include border-1px(#e6e6e6, 0, bottom);
+    border-bottom: 1px solid #E6E6E6;
   }
 
   > input::-webkit-input-placeholder {
