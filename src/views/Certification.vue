@@ -7,7 +7,7 @@
       {{ id || '请输入15位或18位身份证号' }}
       <van-icon v-if="showClear" name="clear" color="#aaaaaa"  @click.stop="clearText"/>
     </div>
-    <van-uploader v-model="fileList" class="upload" :max-count="1" deletable :after-read="afterRead"/>
+    <van-uploader v-model="fileList" class="upload" capture="camera" :max-count="1" deletable :after-read="afterRead"/>
     <div class="tips-wrapper">
       <div v-for="(item, index) in tips" :key="index" class="tips">
         <Icon name="login-default"/>
@@ -139,7 +139,7 @@ export default {
           const loading = $loading()
           const w = img.width
           const h = img.height
-          const quality = 0.8  // 默认图片质量为0.92
+          const quality = 0.5  // 默认图片质量为0.92
           // 生成canvas
           const canvas = document.createElement('canvas')
           const ctx = canvas.getContext('2d')
@@ -158,6 +158,8 @@ export default {
           ctx.drawImage(img, 0, 0, w, h)
           // quality值越小，所绘制出的图像越模糊
           const base64 = canvas.toDataURL('image/jpeg', quality) // 图片格式jpeg或webp可以选0-1质量区间
+
+          console.log(`原图${(src.length / 1024).toFixed(2)}kb`, `新图${(base64.length / 1024).toFixed(2)}kb`)
 
           // 去掉url的头，并转换为byte
           const bytes = window.atob(base64.split(',')[1])
