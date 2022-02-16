@@ -9,6 +9,14 @@ export function userVerify(data) {
   })
 }
 
+// 手机验证码
+export function userSendCode(phone) {
+  return Request({
+    url: `/user/send/phone/verify/code?phone=${phone}`,
+    method: 'get'
+  })
+}
+
 // 微信用户授权
 export function userDoAuthorize(code) {
   return Request({

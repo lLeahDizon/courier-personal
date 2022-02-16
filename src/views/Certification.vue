@@ -5,7 +5,7 @@
     <input v-model="name" placeholder="请输入真实姓名">
     <div class="input" :class="{'placeholder':!id}" @click="show=true">
       {{ id || '请输入15位或18位身份证号' }}
-      <van-icon v-if="showClear" name="clear" color="#aaaaaa"  @click.stop="clearText"/>
+      <van-icon v-if="showClear" name="clear" color="#aaaaaa" @click.stop="clearText"/>
     </div>
     <van-uploader v-model="fileList" class="upload" capture="camera" :max-count="1" deletable :after-read="afterRead"/>
     <div class="tips-wrapper">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="btn-wrapper">
-      <button class="btn" @click="showModal">开始认证</button>
+      <button class="btn" @click="sendCode">开始认证</button>
       <van-checkbox v-model="agreementSelected">勾选即代表您同意<a @click="onClickAgreement">《环球旅递隐私政策》</a></van-checkbox>
     </div>
     <van-number-keyboard
@@ -26,6 +26,7 @@
       @input="onInput"
       @delete="onDelete"
     />
+    <input v-model="phone" type="tel" placeholder="联系电话(必填)">
     <ModalTips :show.sync="showDialog" :name="name" @onSubmit="onSubmit"/>
   </div>
 </template>
@@ -33,7 +34,7 @@
 <script>
 import ModalTips from '@/components/Certification/ModalTips'
 import {$error, $loading} from '@/utils'
-import {fileUpload, userVerify} from '@/service'
+import {fileUpload, userVerify, userSendCode} from '@/service'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
@@ -46,6 +47,7 @@ export default {
       name: '',
       id: '',
       faceImgUrl: '',
+      phone: '15779500011',
       agreementSelected: true,
       show: false,
       showClear: false,
@@ -62,6 +64,17 @@ export default {
   },
   methods: {
     ...mapActions(['setUserInfo']),
+    async sendCode() {
+      if (!this.phone.trim().match(/^1[0-9]{10}$/)) {
+        return $error('请填写正确的联系电话')
+      }
+      try {
+        const data = await userSendCode(this.phone)
+        console.log(data)
+      } catch (e) {
+        $error(e)
+      }
+    },
     onClickAgreement() {
       this.$router.push({name: 'agreement'})
     },
@@ -78,6 +91,9 @@ export default {
       }
       if (!this.agreementSelected) {
         return $error('请勾选《环球旅递隐私政策》')
+      }
+      if (!this.phone.trim().match(/^1[0-9]{10}$/)) {
+        return $error('请填写联系电话')
       }
       if (!this.faceImgUrl) {
         return $error('请上传认证照片')
