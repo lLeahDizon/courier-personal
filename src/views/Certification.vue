@@ -27,6 +27,7 @@
       @delete="onDelete"
     />
     <input v-model="phone" type="tel" placeholder="联系电话(必填)">
+    <input v-model="code" type="number" placeholder="验证码">
     <ModalTips :show.sync="showDialog" :name="name" @onSubmit="onSubmit"/>
   </div>
 </template>
@@ -48,6 +49,7 @@ export default {
       id: '',
       faceImgUrl: '',
       phone: '15779500011',
+      code: '15779500011',
       agreementSelected: true,
       show: false,
       showClear: false,
@@ -98,6 +100,9 @@ export default {
       if (!this.faceImgUrl) {
         return $error('请上传认证照片')
       }
+      if (!this.code) {
+        return $error('请填写验证码')
+      }
       this.showDialog = true
     },
     async onSubmit() {
@@ -106,6 +111,8 @@ export default {
         const data = await userVerify({
           idCard: this.id,
           realName: this.name,
+          phone: this.phone,
+          code: this.code,
           faceImgUrl: this.faceImgUrl
         })
         if (data) {

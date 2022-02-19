@@ -8,10 +8,10 @@
     <div class="bottom-fixed">
       <div class="top">请确认发件地址是否准确，如不准确可拖动地图进行调整</div>
       <div class="bottom">
-        <div v-if="searchValue" class="desc">
+        <div v-if="['send', 'receipt'].includes(type) && searchValue" class="desc">
           <div class="circle" :class="{'blue': type === 'send', 'yellow': type === 'receipt'}"></div>
           从&nbsp;<span :class="{'blue': type === 'send', 'yellow': type === 'receipt'}">{{ searchValue }}</span>
-          <div class="text-grow">&nbsp;{{type === 'send' ? '发件' : '收件'}}</div>
+          <div class="text-grow">&nbsp;{{ type === 'send' ? '发件' : '收件' }}</div>
         </div>
         <button class="btn" @click="onSubmit">确定</button>
       </div>

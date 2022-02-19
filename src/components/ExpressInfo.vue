@@ -3,7 +3,9 @@
     <div @click="onClickAddress" class="item">
       <div class="left">
         <Icon name="address"/>
-        <span class="title">{{ address || (type === 'send' ? '请填写发件地址' : '请填写收件地址') }}</span>
+        <span class="title">
+          {{ address || (type === 'send' ? '请填写发件地址' : (type === 'add' ? '请填写地址' : '请填写收件地址')) }}
+        </span>
       </div>
       <Icon name="my-right"/>
     </div>
@@ -25,16 +27,22 @@
         <input v-model="tel" type="tel" placeholder="联系电话(必填)">
       </div>
     </div>
+    <button v-if="type !== 'add'" class="address-btn" :class="{'choose': isExist}" @click="onClickToAddress">
+      {{ isExist ? '选择' : '添加' }}地址信息 >
+    </button>
     <div class="btn-wrapper">
-      <button class="btn" @click="onSubmit">下一步</button>
+      <button class="btn" @click="onSubmit">
+        {{ ['send', 'receipt'].includes(type) ? '下一步' : '确定' }}
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import {$error} from '@/utils'
+import {$error, $loading, $message} from '@/utils'
 import {ORDER_INFO_KEY} from '@/constants'
+import {userAddressSave, userExitAddress} from '@/service'
 
 export default {
   name: 'ExpressInfo',
@@ -44,7 +52,6 @@ export default {
     let address, district, lng, lat, number, name, tel
     if (JSON.parse(isEdit)) {
       const data = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
-      console.log(data)
       switch (type) {
         case 'send':
           address = data.deliverDetailAddress
@@ -67,6 +74,8 @@ export default {
       }
     }
     return {
+      isExist: false,
+      id: 0,
       address: address || '',
       district: district || '',
       lng: lng || '',
@@ -80,19 +89,40 @@ export default {
     ...mapGetters(['addressInfo', 'orderInfo'])
   },
   created() {
+    ['send', 'receipt'].includes(this.type) && this.init()
     if (this.addressInfo.searchValue) {
       this.address = this.addressInfo.searchValue
       this.lng = this.addressInfo.lng
       this.lat = this.addressInfo.lat
       this.district = this.addressInfo.district
       this.number = this.addressInfo.number
+      this.name = this.addressInfo.name
+      this.tel = this.addressInfo.tel
+      this.id = this.addressInfo.id || 0
       this.setAddressInfo({})
     }
   },
   methods: {
     ...mapActions(['setAddressInfo', 'setOrderInfo']),
+    async init() {
+      const loading = $loading()
+      try {
+        this.isExist = await userExitAddress()
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
+    },
     onClickAddress() {
       this.$router.push({name: 'addressConfirm', query: {type: this.type}})
+    },
+    onClickToAddress() {
+      if (this.isExist) {
+        this.$router.push({name: 'addressInfo'})
+      } else {
+        this.$router.push({name: 'addAddress', query: {type: this.type}})
+      }
     },
     onSubmit() {
       if (!this.address) {
@@ -173,15 +203,52 @@ export default {
             })
           break
       }
-      if (JSON.parse(isEdit)) {
+      if (this.type === 'add') {
+        this.setAddressInfo({
+          searchValue: this.address,
+          lng: this.lng,
+          lat: this.lat,
+          district: this.district,
+          number: this.number,
+          name: this.name,
+          tel: this.tel
+        })
+        this.saveAddress()
+      } else if (this.type === 'edit')
+        this.saveAddress()
+      else {
+        if (JSON.parse(isEdit)) {
+          this.$router.go(-1)
+        } else {
+          if (toSend)
+            this.$router.push({name: 'senderInfo', query: {type: 'send'}})
+          else if (toReceipt)
+            this.$router.push({name: 'receiptInfo', query: {type: 'receipt'}})
+          else
+            this.$router.replace({name: 'goodsInfo'})
+        }
+      }
+    },
+    async saveAddress() {
+      const loading = $loading()
+      try {
+        const data = {
+          detailAddress: this.address,
+          number: this.number,
+          district: this.district,
+          name: this.name,
+          phone: this.tel,
+          lng: this.lng,
+          lat: this.lat
+        }
+        if (this.type === 'edit') { data.id = this.id }
+        await userAddressSave(data)
+        $message('保存成功')
         this.$router.go(-1)
-      } else {
-        if (toSend)
-          this.$router.push({name: 'senderInfo', query: {type: 'send'}})
-        else if (toReceipt)
-          this.$router.push({name: 'receiptInfo', query: {type: 'receipt'}})
-        else
-          this.$router.replace({name: 'goodsInfo'})
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
       }
     }
   }
@@ -230,6 +297,24 @@ export default {
     > .icon {
       width: 14px;
       height: 24px;
+    }
+  }
+
+  > .address-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    border-radius: 52px;
+    padding: 24px 0;
+    min-width: 270px;
+    font-size: 30px;
+    color: #12A0FF;
+    line-height: 42px;
+    @include border-1px(#12A0FF, 52px);
+
+    &.choose {
+      background: rgba(18, 160, 255, 0.1);
+      @include border-1px(rgba(18, 160, 255, 0.1), 52px);
     }
   }
 

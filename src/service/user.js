@@ -9,6 +9,31 @@ export function userVerify(data) {
   })
 }
 
+// 存在地址
+export function userExitAddress() {
+  return Request({
+    url: '/user/exist/address',
+    method: 'get'
+  })
+}
+
+// 地址列表
+export function userAddressList() {
+  return Request({
+    url: '/user/address/list',
+    method: 'get'
+  })
+}
+
+// 保存地址
+export function userAddressSave(data) {
+  return Request({
+    url: '/user/address/save',
+    method: 'post',
+    data
+  })
+}
+
 // 手机验证码
 export function userSendCode(phone) {
   return Request({

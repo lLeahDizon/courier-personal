@@ -62,6 +62,30 @@ const routes = [
     component: () => import(/* webpackChunkName: "receipt-info" */ 'src/views/ReceiptInfo')
   },
   {
+    path: '/add/address',
+    name: 'addAddress',
+    meta: {
+      title: '添加地址'
+    },
+    component: () => import(/* webpackChunkName: "receipt-info" */ 'src/views/AddAddress')
+  },
+  {
+    path: '/edit/address',
+    name: 'editAddress',
+    meta: {
+      title: '编辑地址'
+    },
+    component: () => import(/* webpackChunkName: "receipt-info" */ 'src/views/EditAddress')
+  },
+  {
+    path: '/address/info',
+    name: 'addressInfo',
+    meta: {
+      title: '地址信息'
+    },
+    component: () => import(/* webpackChunkName: "address-info" */ 'src/views/AddressInfo')
+  },
+  {
     path: '/address/confirm',
     name: 'addressConfirm',
     meta: {

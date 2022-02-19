@@ -37,7 +37,7 @@ export default {
       this.$router.push({name: 'order'})
     },
     handle2Address() {
-      $message('即将上线，尽请期待')
+      this.$router.push({name: 'addressInfo'})
     },
     handle2Invoice() {
       $message('即将上线，尽请期待')
