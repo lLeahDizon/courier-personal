@@ -9,6 +9,14 @@ export function userVerify(data) {
   })
 }
 
+// 获取认证前校验信息
+export function userDetectAuth() {
+  return Request({
+    url: '/user/detect/auth',
+    method: 'get'
+  })
+}
+
 // 存在地址
 export function userExitAddress() {
   return Request({

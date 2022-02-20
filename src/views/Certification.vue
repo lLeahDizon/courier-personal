@@ -2,118 +2,110 @@
   <div class="certification-wrapper">
     <h1 class="title">为保证您的账户安全</h1>
     <p class="desc">请先完成实名认证哦~</p>
-    <input v-model="name" placeholder="请输入真实姓名">
-    <div class="input" :class="{'placeholder':!id}" @click="show=true">
-      {{ id || '请输入15位或18位身份证号' }}
-      <van-icon v-if="showClear" name="clear" color="#aaaaaa" @click.stop="clearText"/>
-    </div>
-    <van-uploader v-model="fileList" class="upload" capture="camera" :max-count="1" deletable :after-read="afterRead"/>
-    <div class="tips-wrapper">
-      <div v-for="(item, index) in tips" :key="index" class="tips">
-        <Icon name="login-default"/>
-        {{ item }}
-      </div>
+    <input v-model="phone" type="tel" placeholder="请输入绑定的手机号">
+    <div class="input-wrapper">
+      <input v-model="code" type="number" placeholder="请输入验证码">
+      <div class="code" @click="sendCode">{{ showTime ? `重新获取${time}S` : '发送验证码' }}</div>
     </div>
     <div class="btn-wrapper">
-      <button class="btn" @click="sendCode">开始认证</button>
+      <button class="btn" @click="showModal">开始认证</button>
       <van-checkbox v-model="agreementSelected">勾选即代表您同意<a @click="onClickAgreement">《环球旅递隐私政策》</a></van-checkbox>
     </div>
-    <van-number-keyboard
-      :show="show"
-      extra-key="X"
-      close-button-text="完成"
-      @blur="show = false"
-      @input="onInput"
-      @delete="onDelete"
-    />
-    <input v-model="phone" type="tel" placeholder="联系电话(必填)">
-    <input v-model="code" type="number" placeholder="验证码">
-    <ModalTips :show.sync="showDialog" :name="name" @onSubmit="onSubmit"/>
   </div>
 </template>
 
 <script>
-import ModalTips from '@/components/Certification/ModalTips'
 import {$error, $loading} from '@/utils'
-import {fileUpload, userVerify, userSendCode} from '@/service'
+import {userVerify, userSendCode, userDetectAuth} from '@/service'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'Certification',
-  components: {ModalTips},
   data() {
     return {
-      tips: ['不要佩戴眼镜', '不要遮挡脸部', '不仰头俯视', '周围环境光线明亮'],
-      fileList: [],
-      name: '',
-      id: '',
-      faceImgUrl: '',
-      phone: '15779500011',
-      code: '15779500011',
-      agreementSelected: true,
-      show: false,
-      showClear: false,
-      showDialog: false
+      phone: '',
+      code: '',
+      time: 60,
+      timeId: undefined,
+      showTime: false,
+      agreementSelected: true
     }
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
-  watch: {
-    id(val) {
-      this.showClear = !!val
+  async created() {
+    try {
+      const data = await userVerify()
+      console.log(data)
+    }catch (e) {
+      $error(e)
     }
+  },
+  beforeDestroy() {
+    clearTimeout(this.timeId)
   },
   methods: {
     ...mapActions(['setUserInfo']),
+    async toAuth() {
+      const loading = $loading()
+      try {
+        const {url} = await userDetectAuth()
+        location.replace(url)
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
+    },
     async sendCode() {
+      if (this.showTime) { return }
       if (!this.phone.trim().match(/^1[0-9]{10}$/)) {
         return $error('请填写正确的联系电话')
       }
+      const loading = $loading()
       try {
-        const data = await userSendCode(this.phone)
-        console.log(data)
+        await userSendCode(this.phone)
+        this.showTime = true
+        this.setTimeId()
       } catch (e) {
         $error(e)
+      } finally {
+        loading.clear()
+      }
+    },
+    setTimeId() {
+      if (this.time > 0) {
+        this.timeId = setTimeout(() => {
+          this.time = this.time - 1
+          this.setTimeId()
+        }, 1000)
+      } else {
+        this.showTime = false
+        clearTimeout(this.timeId)
       }
     },
     onClickAgreement() {
       this.$router.push({name: 'agreement'})
     },
-    clearText() {
-      this.id = ''
-      this.showClear = false
-    },
     showModal() {
-      if (!this.name) {
-        return $error('请输入姓名')
-      }
-      if (![15, 18].includes(this.id.length)) {
-        return $error('请输入正确的身份证号')
-      }
-      if (!this.agreementSelected) {
-        return $error('请勾选《环球旅递隐私政策》')
-      }
       if (!this.phone.trim().match(/^1[0-9]{10}$/)) {
-        return $error('请填写联系电话')
-      }
-      if (!this.faceImgUrl) {
-        return $error('请上传认证照片')
+        return $error('请填写正确的联系电话')
       }
       if (!this.code) {
         return $error('请填写验证码')
       }
-      this.showDialog = true
+      if (!this.agreementSelected) {
+        return $error('请勾选《环球旅递隐私政策》')
+      }
+      this.toAuth()
     },
     async onSubmit() {
       const loading = $loading()
       try {
         const data = await userVerify({
-          idCard: this.id,
-          realName: this.name,
           phone: this.phone,
-          code: this.code,
-          faceImgUrl: this.faceImgUrl
+          code: this.code
         })
         if (data) {
           this.setUserInfo({...this.userInfo, verifyStatus: 1})
@@ -129,96 +121,7 @@ export default {
       } finally {
         loading.clear()
       }
-    },
-    afterRead(file) {
-      this.compressImage(file.file, async file => {
-        const loading = $loading()
-        try {
-          let params = new FormData()
-          params.append('file', file)
-          const result = await fileUpload(params)
-          this.faceImgUrl = `https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`
-        } catch (e) {
-          $error(e)
-        } finally {
-          loading.clear()
-        }
-      })
-    },
-    compressImage(file, success) {
-      // 图片小于1M不压缩
-      if (file.size < Math.pow(1024, 2) * 2) {
-        return success(file)
-      }
-      const name = file.name //文件名
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = e => {
-        const src = e.target.result
-
-        const img = new Image()
-        img.src = src
-        img.onload = () => {
-          const loading = $loading()
-          const w = img.width
-          const h = img.height
-          const quality = 0.5  // 默认图片质量为0.92
-          // 生成canvas
-          const canvas = document.createElement('canvas')
-          const ctx = canvas.getContext('2d')
-          // 创建属性节点
-          const anw = document.createAttribute('width')
-          anw.nodeValue = w
-          const anh = document.createAttribute('height')
-          anh.nodeValue = h
-          canvas.setAttributeNode(anw)
-          canvas.setAttributeNode(anh)
-
-          // 铺底色 PNG转JPEG时透明区域会变黑色
-          ctx.fillStyle = '#fff'
-          ctx.fillRect(0, 0, w, h)
-
-          ctx.drawImage(img, 0, 0, w, h)
-          // quality值越小，所绘制出的图像越模糊
-          const base64 = canvas.toDataURL('image/jpeg', quality) // 图片格式jpeg或webp可以选0-1质量区间
-
-          console.log(`原图${(src.length / 1024).toFixed(2)}kb`, `新图${(base64.length / 1024).toFixed(2)}kb`)
-
-          // 去掉url的头，并转换为byte
-          const bytes = window.atob(base64.split(',')[1])
-          // 处理异常,将ascii码小于0的转换为大于0
-          // eslint-disable-next-line no-undef
-          const ab = new ArrayBuffer(bytes.length)
-          // eslint-disable-next-line no-undef
-          const ia = new Uint8Array(ab)
-          for (let i = 0; i < bytes.length; i++) {
-            ia[i] = bytes.charCodeAt(i)
-          }
-          file = new Blob([ab], {type: 'image/jpeg'})
-          file.name = name
-
-          loading.clear()
-
-          success(file)
-        }
-        img.onerror = e => {
-          $error(e)
-        }
-      }
-      reader.onerror = e => {
-        $error(e)
-      }
-    },
-    onInput(value) {
-      if (this.id.length < 18) {
-        this.id += value
-      }
-    },
-    onDelete() {
-      if (this.id) {
-        this.id = this.id.substr(0, this.id.length - 1)
-      }
-    },
+    }
   }
 }
 </script>
@@ -281,66 +184,40 @@ export default {
     line-height: 40px;
   }
 
-  .input {
-    font-size: 36px;
-    line-height: 50px;
+  > input {
+    font-size: 34px;
+    line-height: 48px;
     padding: 60px 0 24px;
     width: 100%;
     border-bottom: 1px solid #E6E6E6;
+  }
+
+  .input-wrapper {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-
-    &.placeholder {
-      color: #aaaaaa;
-    }
-  }
-
-  > .upload {
-    padding-top: 60px;
-  }
-
-  > .tips-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 16px;
-
-    > .tips {
-      display: flex;
-      align-items: center;
-      padding-right: 20px;
-      line-height: 32px;
-      font-size: 24px;
-      padding-bottom: 10px;
-      color: #888888;
-
-      > .icon {
-        margin-right: 4px;
-      }
-    }
-  }
-
-  > input {
-    font-size: 36px;
-    line-height: 50px;
-    padding: 60px 0 24px;
-    width: 100%;
+    padding: 24px 0;
     border-bottom: 1px solid #E6E6E6;
+    font-size: 34px;
+    line-height: 48px;
+
+    .code {
+      color: #12A0FF;
+    }
   }
 
-  > input::-webkit-input-placeholder {
+  input::-webkit-input-placeholder {
     color: #aaaaaa;
   }
 
-  > input::-moz-placeholder {
+  input::-moz-placeholder {
     color: #aaaaaa;
   }
 
-  > input:-moz-placeholder {
+  input:-moz-placeholder {
     color: #aaaaaa;
   }
 
-  > input:-ms-input-placeholder {
+  input:-ms-input-placeholder {
     color: #aaaaaa;
   }
 }
