@@ -12,6 +12,11 @@ import BaseInfo from '@/components/My/BaseInfo'
 import OptionPanel from '@/components/My/OptionPanel'
 import OtherPanel from '@/components/My/OtherPanel'
 import ModalCertification from '@/components/Home/ModalCertification'
+import {$error} from '@/utils'
+import {userVerify} from '@/service'
+import {mapActions, mapGetters} from 'vuex'
+import {USER_INFO_KEY} from '@/constants'
+import store from '@/store'
 
 export default {
   components: {ModalCertification, OtherPanel, OptionPanel, BaseInfo},
@@ -20,7 +25,21 @@ export default {
       DialogVisible: false
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
+  async created() {
+    try {
+      if (!this.userInfo.verifyStatus && !JSON.parse(localStorage.getItem(USER_INFO_KEY))?.verifyStatus) {
+        const verifyStatus = await userVerify()
+        this.setUserInfo({...store.getters.userInfo, verifyStatus: verifyStatus ? 0 : 1})
+      }
+    } catch (e) {
+      $error(e)
+    }
+  },
   methods: {
+    ...mapActions(['setUserInfo']),
     showDialog() {
       this.DialogVisible = true
     }

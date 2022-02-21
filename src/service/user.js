@@ -9,6 +9,15 @@ export function userVerify(data) {
   })
 }
 
+// 实名认证更新
+export function userIsVerify(data) {
+  return Request({
+    url: '/user/is/verify',
+    method: 'post',
+    data
+  })
+}
+
 // 获取认证前校验信息
 export function userDetectAuth() {
   return Request({

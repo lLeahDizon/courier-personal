@@ -16,7 +16,7 @@
 
 <script>
 import {$error, $loading} from '@/utils'
-import {userVerify, userSendCode, userDetectAuth, userBindPhone} from '@/service'
+import {userSendCode, userDetectAuth, userBindPhone} from '@/service'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
@@ -33,14 +33,6 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo'])
-  },
-  async created() {
-    try {
-      const data = await userVerify()
-      console.log(data)
-    } catch (e) {
-      $error(e)
-    }
   },
   beforeDestroy() {
     clearTimeout(this.timeId)
@@ -100,28 +92,6 @@ export default {
         return $error('请勾选《环球旅递隐私政策》')
       }
       this.toAuth()
-    },
-    async onSubmit() {
-      const loading = $loading()
-      try {
-        const data = await userVerify({
-          phone: this.phone,
-          code: this.code
-        })
-        if (data) {
-          this.setUserInfo({...this.userInfo, verifyStatus: 1})
-        }
-        this.$router.replace({
-          name: 'certificationResult',
-          query: {
-            result: data
-          }
-        })
-      } catch (e) {
-        $error(e)
-      } finally {
-        loading.clear()
-      }
     }
   }
 }

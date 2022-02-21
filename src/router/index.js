@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import {$error, getBrowserType} from '@/utils'
 import {HREF_TO_OTHER_PAGE, PAY_ROUTER_LIST, USER_INFO_KEY, WHITE_LIST} from '@/constants'
 import store from '@/store'
+import {userIsVerify} from '@/service'
 
 Vue.use(Router)
 
@@ -193,6 +194,10 @@ router.beforeEach(async (to, from, next) => {
     if (!WHITE_LIST.includes(to.name) && !store.getters.userInfo && !JSON.parse(localStorage.getItem(USER_INFO_KEY))) {
       next({name: 'login'})
       return
+    }
+    if (!store.getters.userInfo?.verifyStatus && !JSON.parse(localStorage.getItem(USER_INFO_KEY))?.verifyStatus) {
+      const verifyStatus = await userIsVerify()
+      await store.dispatch('setUserInfo', {...store.getters.userInfo, verifyStatus: verifyStatus ? 0 : 1})
     }
     if (filter2PayRouter(to.name, from.name)) {
       const query = to.query
