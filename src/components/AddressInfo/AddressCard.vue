@@ -2,12 +2,12 @@
   <div class="box-wrapper">
     <Card class-prefix="AddressCard">
       <div class="top">
-        <span>詹金傲</span>
-        <span class="tel">18844113113</span>
+        <span>{{ info.name }}</span>
+        <span class="tel">{{ info.phone }}</span>
       </div>
       <div class="bottom">
-        <div class="left">浙江省杭州市余杭区五常街道余杭塘路余杭塘路余杭塘路余杭塘路1005某某小区19幢802</div>
-        <div class="right">编辑</div>
+        <div class="left">{{ info.detailAddress + ' ' + info.number }}</div>
+        <div class="right" @click="onClickEdit">编辑</div>
       </div>
     </Card>
   </div>
@@ -15,6 +15,7 @@
 
 <script>
 import Card from '@/components/Card'
+import {mapActions} from 'vuex'
 
 export default {
   props: ['info'],
@@ -22,7 +23,22 @@ export default {
   data() {
     return {}
   },
-  methods: {}
+  methods: {
+    ...mapActions(['setAddressInfo']),
+    onClickEdit() {
+      this.setAddressInfo({
+        searchValue: this.info.detailAddress,
+        lng: this.info.lng,
+        lat: this.info.lat,
+        district: this.info.district,
+        number: this.info.number,
+        name: this.info.name,
+        tel: this.info.phone,
+        id: this.info.id
+      })
+      this.$router.push({name: 'editAddress', query: {addressId: this.info.id}})
+    }
+  }
 }
 </script>
 
@@ -31,11 +47,13 @@ export default {
 @import "~@/styles/mixins.scss";
 
 .box-wrapper {
+  width: 100%;
   margin-bottom: 24px;
 
   ::v-deep .AddressCard-wrapper {
     padding: 24px;
     box-shadow: none;
+    flex-grow: 1;
   }
 
   .top {
@@ -57,6 +75,7 @@ export default {
 
   .bottom {
     display: flex;
+    justify-content: space-between;
     padding-top: 16px;
     color: #333333;
 

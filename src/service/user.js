@@ -33,6 +33,14 @@ export function userAddressList() {
   })
 }
 
+// 批量删除地址
+export function userDeleteAddress(idList) {
+  return Request({
+    url: `/user/batch/delete/address?idList=${idList}`,
+    method: 'get'
+  })
+}
+
 // 保存地址
 export function userAddressSave(data) {
   return Request({
@@ -46,6 +54,14 @@ export function userAddressSave(data) {
 export function userSendCode(phone) {
   return Request({
     url: `/user/send/phone/verify/code?phone=${phone}`,
+    method: 'get'
+  })
+}
+
+// 绑定手机
+export function userBindPhone({code, phone}) {
+  return Request({
+    url: `user/bind/phone?code=${code}&phone=${phone}`,
     method: 'get'
   })
 }

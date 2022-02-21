@@ -1,38 +1,78 @@
 <template>
   <article class="address-info-wrapper">
-    <AddressCard/>
+    <div v-for="item in list" :key="item.id" class="address-card-wrapper">
+      <Icon v-if="isManagement" :name="chooseIdList.includes(item.id) ? 'address-delete-select' : 'address-delete-default'"
+            @click="chooseAddress(item)"/>
+      <AddressCard :info="item"/>
+    </div>
     <footer class="footer-affix">
-      <button class="btn">管理</button>
-      <button class="btn blue" @click="onClickAdd">
-        <Icon name="address-add"/>
-        添加地址
-      </button>
+      <template v-if="!isManagement">
+        <button class="btn" @click="changeManagementVisible">管理</button>
+        <button class="btn blue" @click="onClickAdd">
+          <Icon name="address-add"/>
+          添加地址
+        </button>
+      </template>
+      <template v-else>
+        <button class="btn red" @click="onClickDelete">删除</button>
+        <button class="btn blue" @click="changeManagementVisible">
+          完成
+        </button>
+      </template>
     </footer>
   </article>
 </template>
 
 <script>
 import AddressCard from '@/components/AddressInfo/AddressCard'
-import {$error, $loading} from '@/utils'
-import {userAddressList} from '@/service'
+import {$error, $loading, $message} from '@/utils'
+import {userAddressList, userDeleteAddress} from '@/service'
+import {mapActions} from 'vuex'
 
 export default {
   name: 'AddressInfo',
   components: {AddressCard},
   data() {
     return {
-      list: []
+      list: [],
+      chooseIdList: [],
+      isManagement: false
     }
   },
   created() {
+    this.setAddressInfo({})
     this.init()
   },
   methods: {
+    ...mapActions(['setAddressInfo']),
     async init() {
+      this.chooseIdList = []
       const loading = $loading()
       try {
         this.list = await userAddressList()
-        console.log(this.list)
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
+    },
+    chooseAddress({id}) {
+      if (this.chooseIdList.includes(id)) {
+        this.chooseIdList = this.chooseIdList.filter(item => item !== id)
+      } else {
+        this.chooseIdList.push(id)
+      }
+    },
+    changeManagementVisible() {
+      this.isManagement = !this.isManagement
+    },
+    async onClickDelete() {
+      const loading = $loading()
+      try {
+        await userDeleteAddress(this.chooseIdList.join(','))
+        $message('操作成功')
+        this.changeManagementVisible()
+        await this.init()
       } catch (e) {
         $error(e)
       } finally {
@@ -54,6 +94,17 @@ export default {
   background: #F5F5F5;
   min-height: 100vh;
   padding: 24px 24px 160px;
+
+  > .address-card-wrapper {
+    display: flex;
+    align-items: center;
+
+    > .icon {
+      min-width: 40px;
+      min-height: 40px;
+      margin-right: 20px;
+    }
+  }
 
   > .footer-affix {
     position: fixed;
@@ -77,6 +128,11 @@ export default {
       line-height: 47px;
       border-radius: 50px;
       @include border-1px(#aaaaaa, 50px);
+
+      &.red {
+        color: #F82B2B;
+        @include border-1px(#F82B2B, 50px);
+      }
 
       &.blue {
         min-width: 500px;

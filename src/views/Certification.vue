@@ -16,7 +16,7 @@
 
 <script>
 import {$error, $loading} from '@/utils'
-import {userVerify, userSendCode, userDetectAuth} from '@/service'
+import {userVerify, userSendCode, userDetectAuth, userBindPhone} from '@/service'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
@@ -38,7 +38,7 @@ export default {
     try {
       const data = await userVerify()
       console.log(data)
-    }catch (e) {
+    } catch (e) {
       $error(e)
     }
   },
@@ -50,6 +50,7 @@ export default {
     async toAuth() {
       const loading = $loading()
       try {
+        await userBindPhone({code: this.code, phone: this.phone})
         const {url} = await userDetectAuth()
         location.replace(url)
       } catch (e) {
