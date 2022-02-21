@@ -1,5 +1,5 @@
 <template>
-  <div class="box-wrapper">
+  <div class="box-wrapper" @click="onClickCheck">
     <Card class-prefix="AddressCard">
       <div class="top">
         <span>{{ info.name }}</span>
@@ -25,6 +25,21 @@ export default {
   },
   methods: {
     ...mapActions(['setAddressInfo']),
+    onClickCheck() {
+      const {type} = this.$route.query
+      if (!['send', 'receipt'].includes(type)) {return}
+      this.setAddressInfo({
+        searchValue: this.info.detailAddress,
+        lng: this.info.lng,
+        lat: this.info.lat,
+        district: this.info.district,
+        number: this.info.number,
+        name: this.info.name,
+        tel: this.info.phone,
+        id: this.info.id
+      })
+      this.$router.go(-1)
+    },
     onClickEdit() {
       this.setAddressInfo({
         searchValue: this.info.detailAddress,
