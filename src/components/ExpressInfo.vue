@@ -42,8 +42,8 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import {$error, $loading, $message} from '@/utils'
-import {ORDER_INFO_KEY} from '@/constants'
-import {userAddressSave, userExitAddress} from '@/service'
+import {EXIST_ADDRESS_KEY, ORDER_INFO_KEY} from '@/constants'
+import {userAddressSave} from '@/service'
 
 export default {
   name: 'ExpressInfo',
@@ -74,8 +74,9 @@ export default {
           break
       }
     }
+    const {isExist = false} = JSON.parse(localStorage.getItem(EXIST_ADDRESS_KEY)) || {}
     return {
-      isExist: false,
+      isExist,
       id: 0,
       address: address || '',
       district: district || '',
@@ -90,7 +91,6 @@ export default {
     ...mapGetters(['addressInfo', 'orderInfo'])
   },
   created() {
-    ['send', 'receipt'].includes(this.type) && this.init()
     if (this.addressInfo.searchValue) {
       this.address = this.addressInfo.searchValue
       this.lng = this.addressInfo.lng
@@ -105,16 +105,6 @@ export default {
   },
   methods: {
     ...mapActions(['setAddressInfo', 'setOrderInfo']),
-    async init() {
-      const loading = $loading()
-      try {
-        this.isExist = await userExitAddress()
-      } catch (e) {
-        $error(e)
-      } finally {
-        loading.clear()
-      }
-    },
     onClickAddress() {
       this.$router.push({name: 'addressConfirm', query: {type: this.type}})
     },
@@ -151,6 +141,9 @@ export default {
             toReceipt = true
           }
           if (JSON.parse(isEdit)) {
+            if (data.receiptDetailAddress === this.address && data.receiptNumber === this.number.trim()) {
+              $error('收发件地址相同，请更改！')
+            }
             localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
               ...data,
               deliverDistrict: this.district,
@@ -162,6 +155,9 @@ export default {
               deliverNumber: this.number.trim()
             }))
           } else {
+            if (this.orderInfo.receiptDetailAddress === this.address && this.orderInfo.receiptNumber === this.number.trim()) {
+              $error('收发件地址相同，请更改！')
+            }
             this.setOrderInfo({
               ...this.orderInfo,
               deliverDistrict: this.district,
@@ -182,6 +178,9 @@ export default {
             toReceipt = true
           }
           if (JSON.parse(isEdit)) {
+            if (data.deliverDetailAddress === this.address && data.deliverNumber === this.number.trim()) {
+              $error('收发件地址相同，请更改！')
+            }
             localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
               ...data,
               receiptDistrict: this.district,
@@ -193,6 +192,9 @@ export default {
               receiptNumber: this.number.trim()
             }))
           } else {
+            if (this.orderInfo.deliverDetailAddress === this.address && this.orderInfo.deliverNumber === this.number.trim()) {
+              $error('收发件地址相同，请更改！')
+            }
             this.setOrderInfo({
               ...this.orderInfo,
               receiptDistrict: this.district,

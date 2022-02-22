@@ -15,6 +15,9 @@ import Online from '@/components/Home/Online'
 import Phone from '@/components/Home/Phone'
 import ModalCertification from '@/components/Home/ModalCertification'
 import {mapActions} from 'vuex'
+import {$error, $loading} from '@/utils'
+import {userExitAddress} from '@/service'
+import {EXIST_ADDRESS_KEY} from '@/constants'
 
 export default {
   components: {ModalCertification, Phone, Online, Tabs},
@@ -25,10 +28,22 @@ export default {
     }
   },
   created() {
+    this.init()
     this.setOrderInfo({})
   },
   methods: {
     ...mapActions(['setOrderInfo']),
+    async init() {
+      const loading = $loading()
+      try {
+        const isExist = await userExitAddress()
+        localStorage.setItem(EXIST_ADDRESS_KEY, JSON.stringify({isExist}))
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
+    },
     checkTab(value) {
       this.activeTab = value
     },

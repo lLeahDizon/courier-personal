@@ -9,6 +9,8 @@ export const ORDER_INFO_KEY = 'Order_Info'
 
 export const VERIFY_KEY = 'Verify_Key'
 
+export const EXIST_ADDRESS_KEY = 'Exist_Address_Key'
+
 // 表示当前页面已导向了其他页面（location.href或location.replace）
 export const HREF_TO_OTHER_PAGE = 'HREF_TO_OTHER_PAGE'
 

@@ -31,11 +31,16 @@ export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
   created() {
     this.info = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
+    const {distance} = CoolWPDistance(Number(this.info.deliverLongitude), Number(this.info.deliverLatitude), Number(this.info.receiptLongitude), Number(this.info.receiptLatitude))
+    this.info.distance = distance
     const browserType = getBrowserType()
     if (browserType.weChat) {
       initWeChatEnv()
     }
     this.init()
+  },
+  beforeDestroy() {
+    localStorage.removeItem(ORDER_INFO_KEY)
   },
   data() {
     return {
@@ -50,11 +55,8 @@ export default {
     async init() {
       const loading = $loading()
       try {
-        const {distance} = CoolWPDistance(Number(this.info.deliverLongitude), Number(this.info.deliverLatitude), Number(this.info.receiptLongitude), Number(this.info.receiptLatitude))
-        console.log(distance)
         const {itemDetail} = await orderConfirmInfo({
           ...this.info,
-          distance,
           deliverDetailAddress: this.info.deliverDetailAddress + this.info.deliverNumber,
           receiptDetailAddress: this.info.receiptDetailAddress + this.info.receiptNumber
         })

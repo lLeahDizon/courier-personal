@@ -1,7 +1,8 @@
 <template>
   <article class="address-info-wrapper">
     <div v-for="item in list" :key="item.id" class="address-card-wrapper">
-      <Icon v-if="isManagement" :name="chooseIdList.includes(item.id) ? 'address-delete-select' : 'address-delete-default'"
+      <Icon v-if="isManagement"
+            :name="chooseIdList.includes(item.id) ? 'address-delete-select' : 'address-delete-default'"
             @click="chooseAddress(item)"/>
       <AddressCard :info="item"/>
     </div>
@@ -28,6 +29,7 @@ import AddressCard from '@/components/AddressInfo/AddressCard'
 import {$error, $loading, $message} from '@/utils'
 import {userAddressList, userDeleteAddress} from '@/service'
 import {mapActions} from 'vuex'
+import {EXIST_ADDRESS_KEY} from '@/constants'
 
 export default {
   name: 'AddressInfo',
@@ -42,6 +44,11 @@ export default {
   created() {
     this.setAddressInfo({})
     this.init()
+  },
+  watch: {
+    list(val) {
+      localStorage.setItem(EXIST_ADDRESS_KEY, JSON.stringify({isExist: !!val.length}))
+    }
   },
   methods: {
     ...mapActions(['setAddressInfo']),
