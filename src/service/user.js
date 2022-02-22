@@ -17,6 +17,14 @@ export function userIsVerify() {
   })
 }
 
+// 校验手机号
+export function userExistPhone() {
+  return Request({
+    url: '/user/exist/phone',
+    method: 'get'
+  })
+}
+
 // 获取认证前校验信息
 export function userDetectAuth() {
   return Request({

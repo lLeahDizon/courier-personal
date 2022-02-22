@@ -8,6 +8,10 @@
 </template>
 
 <script>
+import {userDetectAuth, userExistPhone} from '@/service'
+import {$error, $loading} from '@/utils'
+import {VERIFY_KEY} from '@/constants'
+
 export default {
   name: 'modalCertification',
   props: ['show'],
@@ -25,9 +29,23 @@ export default {
     onClose() {
       this.$emit('update:show', false)
     },
-    onCertificate() {
-      this.onClose()
-      this.$router.push({name: 'certification'})
+    async onCertificate() {
+      const loading = $loading()
+      try {
+        const isExist = await userExistPhone()
+        this.onClose()
+        if (isExist) {
+          const {url} = await userDetectAuth()
+          localStorage.setItem(VERIFY_KEY, VERIFY_KEY)
+          location.replace(url)
+        } else {
+          this.$router.push({name: 'certification'})
+        }
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
     }
   }
 }

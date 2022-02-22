@@ -27,7 +27,7 @@
         <input v-model="tel" type="tel" placeholder="联系电话(必填)">
       </div>
     </div>
-    <button v-if="['send', 'receipt'].includes(type)" class="address-btn" :class="{'choose': isExist}"
+    <button v-if="['send', 'receipt'].includes(type) && isExist" class="address-btn" :class="{'choose': isExist}"
             @click="onClickToAddress">
       {{ isExist ? '选择' : '添加' }}地址信息 >
     </button>
