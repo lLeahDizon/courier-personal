@@ -11,6 +11,10 @@ export default Object.freeze({
     name: '运输中',
     className: 'blue'
   },
+  25: {
+    name: '退款中',
+    className: 'gray'
+  },
   30: {
     name: '已完成',
     className: 'black'

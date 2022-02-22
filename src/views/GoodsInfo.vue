@@ -28,6 +28,8 @@
       placeholder="可选择报价赔付"
       :content="insurancePrice >= 0 ? (insurancePrice === 0 ? '未保价0元' : `已保价¥${insurancePrice}`) :''"
       @click="modalPriceVisible=true"/>
+    <div class="title">物品图片</div>
+    <van-uploader v-model="fileList" class="upload" multiple :max-count="6" deletable :after-read="afterRead"/>
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
     </div>
@@ -58,12 +60,13 @@ import InfoItem from '@/components/InfoItem'
 import ModalType from '@/components/GoodsInfo/ModalType'
 import ModalTips from '@/components/GoodsInfo/ModalTips'
 import ModalPrice from '@/components/GoodsInfo/ModalPrice'
-import {$error, CoolWPDistance, getSpaceTime, getTimeArea} from '@/utils'
+import {$error, $loading, CoolWPDistance, getSpaceTime, getTimeArea} from '@/utils'
 import {mapActions, mapGetters} from 'vuex'
 import dayjs from 'dayjs'
 import {ORDER_INFO_KEY} from '@/constants'
 import ModalRules from '@/components/GoodsInfo/ModalRules'
 import ModalCustom from '@/components/GoodsInfo/ModalCustom'
+import {fileUpload} from '@/service'
 
 const timeArr = getTimeArea()
 const timeList = {'今天': getSpaceTime(), '明天': timeArr, '后天': timeArr}
@@ -82,6 +85,7 @@ export default {
   components: {ModalCustom, ModalRules, ModalPrice, ModalTips, ModalType, InfoItem},
   data() {
     return {
+      fileList: [],
       distance: '',
       desc: '',
       receiptDateTimeStr: '',
@@ -196,6 +200,85 @@ export default {
         deliverDateTime: this.deliverDateTime
       }))
       this.$router.replace({name: 'orderConfirm'})
+    },
+    afterRead(file) {
+      this.compressImage(file.file, async file => {
+        const loading = $loading()
+        try {
+          let params = new FormData()
+          params.append('file', file)
+          const result = await fileUpload(params)
+          this.faceImgUrl = `https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`
+        } catch (e) {
+          $error(e)
+        } finally {
+          loading.clear()
+        }
+      })
+    },
+    compressImage(file, success) {
+      // 图片小于1M不压缩
+      if (file.size < Math.pow(1024, 2) * 2) {
+        return success(file)
+      }
+      const name = file.name //文件名
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = e => {
+        const src = e.target.result
+
+        const img = new Image()
+        img.src = src
+        img.onload = () => {
+          const loading = $loading()
+          const w = img.width
+          const h = img.height
+          const quality = 0.5  // 默认图片质量为0.92
+          // 生成canvas
+          const canvas = document.createElement('canvas')
+          const ctx = canvas.getContext('2d')
+          // 创建属性节点
+          const anw = document.createAttribute('width')
+          anw.nodeValue = w
+          const anh = document.createAttribute('height')
+          anh.nodeValue = h
+          canvas.setAttributeNode(anw)
+          canvas.setAttributeNode(anh)
+
+          // 铺底色 PNG转JPEG时透明区域会变黑色
+          ctx.fillStyle = '#fff'
+          ctx.fillRect(0, 0, w, h)
+
+          ctx.drawImage(img, 0, 0, w, h)
+          // quality值越小，所绘制出的图像越模糊
+          const base64 = canvas.toDataURL('image/jpeg', quality) // 图片格式jpeg或webp可以选0-1质量区间
+
+          console.log(`原图${(src.length / 1024).toFixed(2)}kb`, `新图${(base64.length / 1024).toFixed(2)}kb`)
+
+          // 去掉url的头，并转换为byte
+          const bytes = window.atob(base64.split(',')[1])
+          // 处理异常,将ascii码小于0的转换为大于0
+          // eslint-disable-next-line no-undef
+          const ab = new ArrayBuffer(bytes.length)
+          // eslint-disable-next-line no-undef
+          const ia = new Uint8Array(ab)
+          for (let i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i)
+          }
+          file = new Blob([ab], {type: 'image/jpeg'})
+          file.name = name
+
+          loading.clear()
+
+          success(file)
+        }
+        img.onerror = e => {
+          $error(e)
+        }
+      }
+      reader.onerror = e => {
+        $error(e)
+      }
     }
   }
 }
@@ -233,6 +316,17 @@ export default {
         color: #12a0ff;
       }
     }
+  }
+
+  > .title {
+    padding-top: 30px;
+    font-size: 32px;
+    line-height: 44px;
+    color: #333333;
+  }
+
+  > .upload {
+    margin-top: 30px;
   }
 
   .btn {
