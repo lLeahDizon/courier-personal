@@ -57,7 +57,7 @@ export default {
       try {
         const {itemDetail} = await orderConfirmInfo({
           ...this.info,
-          deliverDetailAddress: this.info.deliverDetailAddress + this.info.deliverNumber,
+          deliverDetailAddress: this.info.deliverDetailAddress + this.info.deliverHouseNumber,
           receiptDetailAddress: this.info.receiptDetailAddress + this.info.receiptNumber
         })
         this.itemDetail = itemDetail
