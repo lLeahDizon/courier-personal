@@ -18,6 +18,7 @@
 import {$error, $loading} from '@/utils'
 import {userSendCode, userDetectAuth, userBindPhone} from '@/service'
 import {mapActions, mapGetters} from 'vuex'
+import {VERIFY_KEY} from '@/constants'
 
 export default {
   name: 'Certification',
@@ -44,6 +45,7 @@ export default {
       try {
         await userBindPhone({code: this.code, phone: this.phone})
         const {url} = await userDetectAuth()
+        localStorage.setItem(VERIFY_KEY, VERIFY_KEY)
         location.replace(url)
       } catch (e) {
         $error(e)

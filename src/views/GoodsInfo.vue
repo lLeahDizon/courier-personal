@@ -181,7 +181,20 @@ export default {
         deliverDateTimeStr: this.deliverDateTimeStr,
         deliverDateTime: this.deliverDateTime
       })
-      localStorage.setItem(ORDER_INFO_KEY, JSON.stringify(this.orderInfo))
+      localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
+        ...this.orderInfo,
+        distance: this.distance,
+        itemDescription: this.itemDescription,
+        weight: this.weight,
+        number: this.number,
+        itemAmount: this.itemAmount,
+        insurancePrice: this.insurancePrice,
+        itemList: this.itemList,
+        receiptDateTimeStr: this.receiptDateTimeStr,
+        receiptDateTime: this.receiptDateTime,
+        deliverDateTimeStr: this.deliverDateTimeStr,
+        deliverDateTime: this.deliverDateTime
+      }))
       this.$router.replace({name: 'orderConfirm'})
     }
   }

@@ -7,6 +7,8 @@ export const USER_INFO_KEY = 'User_Info'
 
 export const ORDER_INFO_KEY = 'Order_Info'
 
+export const VERIFY_KEY = 'Verify_Key'
+
 // 表示当前页面已导向了其他页面（location.href或location.replace）
 export const HREF_TO_OTHER_PAGE = 'HREF_TO_OTHER_PAGE'
 

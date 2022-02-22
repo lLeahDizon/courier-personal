@@ -15,8 +15,7 @@ import ModalCertification from '@/components/Home/ModalCertification'
 import {$error} from '@/utils'
 import {userVerify} from '@/service'
 import {mapActions, mapGetters} from 'vuex'
-import {USER_INFO_KEY} from '@/constants'
-import store from '@/store'
+import {USER_INFO_KEY, VERIFY_KEY} from '@/constants'
 
 export default {
   components: {ModalCertification, OtherPanel, OptionPanel, BaseInfo},
@@ -30,9 +29,10 @@ export default {
   },
   async created() {
     try {
-      if (!this.userInfo.verifyStatus && !JSON.parse(localStorage.getItem(USER_INFO_KEY))?.verifyStatus) {
+      if (localStorage.getItem(VERIFY_KEY)) {
+        localStorage.removeItem(VERIFY_KEY)
         const verifyStatus = await userVerify()
-        this.setUserInfo({...store.getters.userInfo, verifyStatus: verifyStatus ? 0 : 1})
+        this.setUserInfo({...JSON.parse(localStorage.getItem(USER_INFO_KEY)), verifyStatus: verifyStatus ? 1 : 0})
       }
     } catch (e) {
       $error(e)

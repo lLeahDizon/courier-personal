@@ -22,7 +22,7 @@ import GoodsInfoPanel from '@/components/OrderConfirm/GoodsInfoPanel'
 import PayPanel from '@/components/OrderConfirm/PayPanel'
 import PriceInfoPanel from '@/components/OrderConfirm/PriceInfoPanel'
 import ModalResult from '@/components/OrderConfirm/ModalResult'
-import {$error, $loading, getBrowserType, handlePay} from '@/utils'
+import {$error, $loading, CoolWPDistance, getBrowserType, handlePay} from '@/utils'
 import {initWeChatEnv} from '@/utils/weixin'
 import {orderConfirmInfo, orderCreate} from '@/service'
 import {ORDER_INFO_KEY} from '@/constants'
@@ -50,8 +50,10 @@ export default {
     async init() {
       const loading = $loading()
       try {
+        const {distance} = CoolWPDistance(this.info.deliverLongitude, this.info.deliverLatitude, this.info.receiptLongitude, this.info.receiptLatitude)
         const {itemDetail} = await orderConfirmInfo({
           ...this.info,
+          distance,
           deliverDetailAddress: this.info.deliverDetailAddress + this.info.deliverNumber,
           receiptDetailAddress: this.info.receiptDetailAddress + this.info.receiptNumber
         })
