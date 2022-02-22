@@ -6,6 +6,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {USER_INFO_KEY} from '@/constants'
 
 export default {
   computed: {
@@ -13,7 +14,7 @@ export default {
   },
   methods: {
     clickPhone() {
-      if (this.userInfo && this.userInfo.verifyStatus)
+      if (JSON.parse(localStorage.getItem(USER_INFO_KEY)) && JSON.parse(localStorage.getItem(USER_INFO_KEY)).verifyStatus)
         window.location.href = 'tel:4000129068'
       else
         this.$emit('showDialog')

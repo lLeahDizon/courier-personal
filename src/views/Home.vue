@@ -14,6 +14,7 @@ import Tabs from '@/components/Home/Tabs'
 import Online from '@/components/Home/Online'
 import Phone from '@/components/Home/Phone'
 import ModalCertification from '@/components/Home/ModalCertification'
+import {mapActions} from 'vuex'
 
 export default {
   components: {ModalCertification, Phone, Online, Tabs},
@@ -23,7 +24,11 @@ export default {
       DialogVisible: false
     }
   },
+  created() {
+    this.setOrderInfo({})
+  },
   methods: {
+    ...mapActions(['setOrderInfo']),
     checkTab(value) {
       this.activeTab = value
     },

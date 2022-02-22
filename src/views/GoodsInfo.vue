@@ -108,7 +108,7 @@ export default {
     const {
       distance,
       desc
-    } = CoolWPDistance(this.orderInfo.deliverLongitude, this.orderInfo.deliverLatitude, this.orderInfo.receiptLongitude, this.orderInfo.receiptLatitude)
+    } = CoolWPDistance(Number(this.orderInfo.deliverLongitude), Number(this.orderInfo.deliverLatitude), Number(this.orderInfo.receiptLongitude), Number(this.orderInfo.receiptLatitude))
     this.distance = distance
     this.desc = desc
   },

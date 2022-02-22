@@ -13,7 +13,7 @@ import OptionPanel from '@/components/My/OptionPanel'
 import OtherPanel from '@/components/My/OtherPanel'
 import ModalCertification from '@/components/Home/ModalCertification'
 import {$error} from '@/utils'
-import {userVerify} from '@/service'
+import {userIsVerify, userVerify} from '@/service'
 import {mapActions, mapGetters} from 'vuex'
 import {USER_INFO_KEY, VERIFY_KEY} from '@/constants'
 
@@ -31,8 +31,9 @@ export default {
     try {
       if (localStorage.getItem(VERIFY_KEY)) {
         localStorage.removeItem(VERIFY_KEY)
-        const verifyStatus = await userVerify()
-        this.setUserInfo({...JSON.parse(localStorage.getItem(USER_INFO_KEY)), verifyStatus: verifyStatus ? 1 : 0})
+        await userVerify()
+        const verifyStatus = await userIsVerify()
+        this.setUserInfo({...JSON.parse(localStorage.getItem(USER_INFO_KEY)), verifyStatus})
       }
     } catch (e) {
       $error(e)

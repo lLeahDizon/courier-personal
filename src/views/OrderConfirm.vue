@@ -50,7 +50,8 @@ export default {
     async init() {
       const loading = $loading()
       try {
-        const {distance} = CoolWPDistance(this.info.deliverLongitude, this.info.deliverLatitude, this.info.receiptLongitude, this.info.receiptLatitude)
+        const {distance} = CoolWPDistance(Number(this.info.deliverLongitude), Number(this.info.deliverLatitude), Number(this.info.receiptLongitude), Number(this.info.receiptLatitude))
+        console.log(distance)
         const {itemDetail} = await orderConfirmInfo({
           ...this.info,
           distance,

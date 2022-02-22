@@ -150,7 +150,7 @@ export default {
           if (JSON.parse(isEdit) && !data.receiptDetailAddress) {
             toReceipt = true
           }
-          if (JSON.parse(isEdit))
+          if (JSON.parse(isEdit)) {
             localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
               ...data,
               deliverDistrict: this.district,
@@ -161,7 +161,7 @@ export default {
               deliverPhone: this.tel.trim(),
               deliverNumber: this.number.trim()
             }))
-          else
+          } else {
             this.setOrderInfo({
               ...this.orderInfo,
               deliverDistrict: this.district,
@@ -172,6 +172,7 @@ export default {
               deliverPhone: this.tel.trim(),
               deliverNumber: this.number.trim()
             })
+          }
           break
         case 'receipt':
           if (!this.orderInfo.deliverDetailAddress) {
@@ -180,7 +181,7 @@ export default {
           if (JSON.parse(isEdit) && !data.deliverDetailAddress) {
             toReceipt = true
           }
-          if (JSON.parse(isEdit))
+          if (JSON.parse(isEdit)) {
             localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
               ...data,
               receiptDistrict: this.district,
@@ -191,7 +192,7 @@ export default {
               receiptPhone: this.tel.trim(),
               receiptNumber: this.number.trim()
             }))
-          else
+          } else {
             this.setOrderInfo({
               ...this.orderInfo,
               receiptDistrict: this.district,
@@ -202,6 +203,7 @@ export default {
               receiptPhone: this.tel.trim(),
               receiptNumber: this.number.trim()
             })
+          }
           break
       }
       if (this.type === 'add') {
@@ -215,18 +217,19 @@ export default {
           tel: this.tel
         })
         this.saveAddress()
-      } else if (this.type === 'edit')
+      } else if (this.type === 'edit') {
         this.saveAddress()
-      else {
+      } else {
         if (JSON.parse(isEdit)) {
           this.$router.go(-1)
         } else {
-          if (toSend)
+          if (toSend) {
             this.$router.push({name: 'senderInfo', query: {type: 'send'}})
-          else if (toReceipt)
+          } else if (toReceipt) {
             this.$router.push({name: 'receiptInfo', query: {type: 'receipt'}})
-          else
+          } else {
             this.$router.replace({name: 'goodsInfo'})
+          }
         }
       }
     },

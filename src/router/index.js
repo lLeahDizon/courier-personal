@@ -197,7 +197,7 @@ router.beforeEach(async (to, from, next) => {
     }
     if (!WHITE_LIST.includes(to.name) && !store.getters.userInfo?.verifyStatus && !JSON.parse(localStorage.getItem(USER_INFO_KEY))?.verifyStatus) {
       const verifyStatus = await userIsVerify()
-      await store.dispatch('setUserInfo', {...JSON.parse(localStorage.getItem(USER_INFO_KEY)), verifyStatus: verifyStatus})
+      await store.dispatch('setUserInfo', {...JSON.parse(localStorage.getItem(USER_INFO_KEY)), verifyStatus})
     }
     if (filter2PayRouter(to.name, from.name)) {
       const query = to.query

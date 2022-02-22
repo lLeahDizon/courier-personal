@@ -7,7 +7,7 @@
       </div>
       <div class="bottom">
         <div class="left">{{ info.detailAddress + ' ' + info.number }}</div>
-        <div class="right" @click="onClickEdit">编辑</div>
+        <div class="right" @click.stop="onClickEdit">编辑</div>
       </div>
     </Card>
   </div>
