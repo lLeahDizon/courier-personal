@@ -41,7 +41,7 @@ export default {
   beforeCreate() {
     AMapLoader.load({
       key: '47b0234461b5db55416a5722594e35f3',
-      plugins: ['AMap.Autocomplete', 'AMap.CitySearch', 'AMap.Geocoder']
+      plugins: ['AMap.Autocomplete', 'AMap.CitySearch', 'AMap.Geocoder', 'AMap.Geolocation']
     }).then(AMap => {
       this.$nextTick(() => this.initAMap(AMap))
     }).catch(e => {
@@ -57,18 +57,35 @@ export default {
         zoom: 12,
         zooms: [2, 22]
       })
-      const citySearch = new AMap.CitySearch()
-      citySearch.getLocalCity((status, result) => {
-        if (status === 'complete' && result.info === 'OK') {
-          if (result && result.city && result.bounds) {
-            const citybounds = result.bounds
-            //地图显示当前城市
-            this.map.setBounds(citybounds)
-          }
+      // const citySearch = new AMap.CitySearch()
+      // citySearch.getLocalCity((status, result) => {
+      //   if (status === 'complete' && result.info === 'OK') {
+      //     if (result && result.city && result.bounds) {
+      //       const citybounds = result.bounds
+      //       //地图显示当前城市
+      //       this.map.setBounds(citybounds)
+      //     }
+      //   } else {
+      //     document.getElementById('info').innerHTML = result.info
+      //   }
+      // })
+
+      const geolocation = new AMap.Geolocation({
+        enableHighAccuracy: true,//是否使用高精度定位，默认:true
+        timeout: 10000,          //超过10秒后停止定位，默认：5s
+        buttonPosition: 'RB',    //定位按钮的停靠位置
+        buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+        zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+      })
+      this.map.addControl(geolocation)
+      geolocation.getCurrentPosition((status, result) => {
+        if (status == 'complete') {
+          this.onComplete(result)
         } else {
-          document.getElementById('info').innerHTML = result.info
+          console.log(result)
         }
       })
+
       const autoComplete = new AMap.Autocomplete({input: 'tipinput', city: '全国'})
       AMap.event.addListener(autoComplete, 'select', (e) => {
         this.searchValue = e.poi.address + e.poi.name
@@ -115,6 +132,9 @@ export default {
       }
       this.map.on('click', showInfoClick)
       this.map.on('dbclick', () => {})
+    },
+    onComplete(data) {
+      console.log(data)
     },
     onSubmit() {
       if (!this.lng || !this.lat) {
