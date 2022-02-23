@@ -34,6 +34,7 @@ export default {
         await userVerify()
         const verifyStatus = await userIsVerify()
         this.setUserInfo({...JSON.parse(localStorage.getItem(USER_INFO_KEY)), verifyStatus})
+        location.reload()
       }
     } catch (e) {
       $error(e)
