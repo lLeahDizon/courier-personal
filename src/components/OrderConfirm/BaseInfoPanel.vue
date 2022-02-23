@@ -12,7 +12,7 @@
             <Icon name="info-edit" @click="onEdit('send')"/>
           </div>
         </div>
-        <div class="bottom">{{ info.deliverDistrict + info.deliverDetailAddress + info.deliverHouseNumber }}</div>
+        <div class="bottom">{{ info.deliverDistrict + info.deliverDetailAddress + (info.deliverHouseNumber || '') }}</div>
       </div>
     </div>
     <div class="item-wrapper">
@@ -27,7 +27,7 @@
             <Icon name="info-edit" @click="onEdit('receipt')"/>
           </div>
         </div>
-        <div class="bottom">{{ info.receiptDistrict + info.receiptDetailAddress + info.receiptHouseNumber }}</div>
+        <div class="bottom">{{ info.receiptDistrict + info.receiptDetailAddress + (info.receiptHouseNumber || '') }}</div>
       </div>
     </div>
   </Card>
