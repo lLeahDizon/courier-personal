@@ -20,7 +20,7 @@
 
 <script>
 import OrderCard from '@/components/Order/OrderCard'
-import {$error, $loading, eventBus} from '@/utils'
+import {$error, eventBus} from '@/utils'
 import {orderList} from '@/service'
 
 export default {
@@ -58,7 +58,6 @@ export default {
         this.current = 0
         this.refreshing = false
       }
-      const loading = $loading()
       try {
         const data = {
           orderStatus: this.orderStatus,
@@ -80,8 +79,6 @@ export default {
         }
       } catch (error) {
         await Promise.reject(error)
-      } finally {
-        loading.clear()
       }
     },
     refreshOrder(value) {

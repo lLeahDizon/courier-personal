@@ -1,6 +1,6 @@
 <template>
   <article v-if="info" class="orderDetail">
-    <p class="status">{{ orderStatus[info.transportSheetStatus].name }}</p>
+    <p class="status">{{ info.transportSheetStatus === 40 && info.orderStatus === 25 ? '退款中' : orderStatus[info.transportSheetStatus].name }}</p>
     <OrderInfo :info="info"/>
     <template v-if="![0,40].includes(info.transportSheetStatus)">
       <LogisticsInfo v-if="info.nodeInfoList && info.nodeInfoList.length" :info="info"/>

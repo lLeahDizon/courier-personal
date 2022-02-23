@@ -4,7 +4,7 @@
       <div class="head">
         <span class="number">订单编号：{{ info.orderNum }}</span>
         <span :class="orderStatus[info.transportSheetStatus].className">
-          {{ orderStatus[info.transportSheetStatus].name }}
+          {{ info.transportSheetStatus === 40 && info.orderStatus === 25 ? '退款中' : orderStatus[info.transportSheetStatus].name }}
         </span>
       </div>
       <div class="time">
