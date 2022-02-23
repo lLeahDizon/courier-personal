@@ -35,7 +35,6 @@
       multiple
       :max-count="6"
       deletable
-      capture="camera"
       accept="image/*"
       :after-read="afterRead"/>
     <div class="btn-wrapper">
