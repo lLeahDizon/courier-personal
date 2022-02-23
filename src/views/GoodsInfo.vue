@@ -215,9 +215,15 @@ export default {
       const loading = $loading()
       try {
         const newFileList = []
-        file.forEach(item => this.compressImage(item.file, newFile => {
-          newFileList.push(newFile)
-        }))
+        if (Array.isArray(file)) {
+          file.forEach(item => this.compressImage(item.file, newFile => {
+            newFileList.push(newFile)
+          }))
+        } else {
+          this.compressImage(file.file, newFile => {
+            newFileList.push(newFile)
+          })
+        }
         for (let i = 0; i < newFileList.length; i++) {
           const params = new FormData()
           params.append('file', newFileList[i])
