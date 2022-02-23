@@ -39,9 +39,6 @@ export default {
     }
     this.init()
   },
-  beforeDestroy() {
-    localStorage.removeItem(ORDER_INFO_KEY)
-  },
   data() {
     return {
       showDialog: false,
@@ -73,6 +70,7 @@ export default {
       try {
         // 新订单需要创建订单
         this.orderId = await orderCreate()
+        localStorage.removeItem(ORDER_INFO_KEY)
         await handlePay(this.orderId, () => {
           // 支付成功后的回调函数
           this.payResult = true

@@ -28,8 +28,16 @@
       placeholder="可选择报价赔付"
       :content="insurancePrice >= 0 ? (insurancePrice === 0 ? '未保价0元' : `已保价¥${insurancePrice}`) :''"
       @click="modalPriceVisible=true"/>
-    <!--    <div class="title">物品图片</div>-->
-    <!--    <van-uploader v-model="fileList" class="upload" multiple :max-count="6" deletable :after-read="afterRead"/>-->
+    <div class="title">物品图片</div>
+    <van-uploader
+      v-model="fileList"
+      class="upload"
+      multiple
+      :max-count="6"
+      deletable
+      capture="camera"
+      accept="image/*"
+      :after-read="afterRead"/>
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
     </div>
@@ -86,6 +94,7 @@ export default {
   data() {
     return {
       fileList: [],
+      imgUrlList: [],
       distance: 0,
       desc: '',
       receiptDateTimeStr: '',
@@ -183,7 +192,8 @@ export default {
         receiptDateTimeStr: this.receiptDateTimeStr,
         receiptDateTime: this.receiptDateTime,
         deliverDateTimeStr: this.deliverDateTimeStr,
-        deliverDateTime: this.deliverDateTime
+        deliverDateTime: this.deliverDateTime,
+        imgUrlList: this.imgUrlList
       })
       localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
         ...this.orderInfo,
@@ -197,24 +207,31 @@ export default {
         receiptDateTimeStr: this.receiptDateTimeStr,
         receiptDateTime: this.receiptDateTime,
         deliverDateTimeStr: this.deliverDateTimeStr,
-        deliverDateTime: this.deliverDateTime
+        deliverDateTime: this.deliverDateTime,
+        imgUrlList: this.imgUrlList
       }))
       this.$router.replace({name: 'orderConfirm'})
     },
-    afterRead(file) {
-      this.compressImage(file.file, async file => {
-        const loading = $loading()
-        try {
-          let params = new FormData()
-          params.append('file', file)
+    async afterRead(file) {
+      const loading = $loading()
+      try {
+        const newFileList = []
+        file.forEach(item => this.compressImage(item.file, newFile => {
+          newFileList.push(newFile)
+        }))
+        for (let i = 0; i < newFileList.length; i++) {
+          const params = new FormData()
+          params.append('file', newFileList[i])
           const result = await fileUpload(params)
-          this.faceImgUrl = `https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`
-        } catch (e) {
-          $error(e)
-        } finally {
-          loading.clear()
+          this.imgUrlList.push(`https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`)
         }
-      })
+        console.log('---imgUrlList')
+        console.log(this.imgUrlList)
+      } catch (e) {
+        $error(e)
+      } finally {
+        loading.clear()
+      }
     },
     compressImage(file, success) {
       // 图片小于1M不压缩
@@ -233,7 +250,7 @@ export default {
           const loading = $loading()
           const w = img.width
           const h = img.height
-          const quality = 0.5  // 默认图片质量为0.92
+          const quality = 0.2  // 默认图片质量为0.92
           // 生成canvas
           const canvas = document.createElement('canvas')
           const ctx = canvas.getContext('2d')

@@ -20,6 +20,9 @@
       <span>保价</span>
       <span>￥{{ info.insurancePrice || 0 }}</span>
     </div>
+    <div class="img-wrapper">
+      <img v-for="(item,index) in info.imgUrlList" :key="index" :src="item" alt="">
+    </div>
   </Card>
 </template>
 
@@ -43,18 +46,23 @@ export default {
 .item-wrapper {
   display: flex;
   justify-content: space-between;
-  padding: 30px 0 0;
+  padding: 30px 0;
   font-size: 32px;
   line-height: 44px;
   color: #333333;
+  @include border-1px(#e6e6e6, 0, bottom);
 
   &:first-child {
     padding-top: 0;
   }
+}
 
-  &:not(:last-child) {
-    padding-bottom: 30px;
-    @include border-1px(#e6e6e6, 0, bottom);
+.img-wrapper {
+  img {
+    width: 160px;
+    height: 160px;
+    margin-right: 20px;
+    margin-top: 30px;
   }
 }
 </style>

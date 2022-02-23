@@ -17,7 +17,7 @@ import ModalCertification from '@/components/Home/ModalCertification'
 import {mapActions} from 'vuex'
 import {$error, $loading} from '@/utils'
 import {userExitAddress} from '@/service'
-import {EXIST_ADDRESS_KEY} from '@/constants'
+import {EXIST_ADDRESS_KEY, ORDER_INFO_KEY} from '@/constants'
 
 export default {
   components: {ModalCertification, Phone, Online, Tabs},
@@ -29,6 +29,7 @@ export default {
   },
   created() {
     this.init()
+    localStorage.removeItem(ORDER_INFO_KEY)
     this.setOrderInfo({})
   },
   methods: {
