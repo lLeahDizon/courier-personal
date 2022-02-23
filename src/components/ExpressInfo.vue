@@ -141,7 +141,7 @@ export default {
             toReceipt = true
           }
           if (JSON.parse(isEdit)) {
-            if (data.receiptDetailAddress === this.address && data.receiptHouseNumber === this.number.trim()) {
+            if (data.receiptDetailAddress === this.address && data.receiptHouseNumber === this.number?.trim()) {
               $error('收发件地址相同，请更改！')
             }
             localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
@@ -152,10 +152,10 @@ export default {
               deliverLongitude: this.lng,
               deliverName: this.name.trim(),
               deliverPhone: this.tel.trim(),
-              deliverHouseNumber: this.number.trim()
+              deliverHouseNumber: this.number?.trim()
             }))
           } else {
-            if (this.orderInfo.receiptDetailAddress === this.address && this.orderInfo.receiptHouseNumber === this.number.trim()) {
+            if (this.orderInfo.receiptDetailAddress === this.address && this.orderInfo.receiptHouseNumber === this.number?.trim()) {
               $error('收发件地址相同，请更改！')
             }
             this.setOrderInfo({
@@ -166,7 +166,7 @@ export default {
               deliverLongitude: this.lng,
               deliverName: this.name.trim(),
               deliverPhone: this.tel.trim(),
-              deliverHouseNumber: this.number.trim()
+              deliverHouseNumber: this.number?.trim()
             })
           }
           break
@@ -178,7 +178,7 @@ export default {
             toReceipt = true
           }
           if (JSON.parse(isEdit)) {
-            if (data.deliverDetailAddress === this.address && data.deliverHouseNumber === this.number.trim()) {
+            if (data.deliverDetailAddress === this.address && data.deliverHouseNumber === this.number?.trim()) {
               $error('收发件地址相同，请更改！')
             }
             localStorage.setItem(ORDER_INFO_KEY, JSON.stringify({
@@ -189,10 +189,10 @@ export default {
               receiptLongitude: this.lng,
               receiptName: this.name.trim(),
               receiptPhone: this.tel.trim(),
-              receiptHouseNumber: this.number.trim()
+              receiptHouseNumber: this.number?.trim()
             }))
           } else {
-            if (this.orderInfo.deliverDetailAddress === this.address && this.orderInfo.deliverHouseNumber === this.number.trim()) {
+            if (this.orderInfo.deliverDetailAddress === this.address && this.orderInfo.deliverHouseNumber === this.number?.trim()) {
               $error('收发件地址相同，请更改！')
             }
             this.setOrderInfo({
@@ -203,7 +203,7 @@ export default {
               receiptLongitude: this.lng,
               receiptName: this.name.trim(),
               receiptPhone: this.tel.trim(),
-              receiptHouseNumber: this.number.trim()
+              receiptHouseNumber: this.number?.trim()
             })
           }
           break

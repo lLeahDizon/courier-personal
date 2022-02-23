@@ -57,8 +57,10 @@ export default {
       try {
         const {itemDetail} = await orderConfirmInfo({
           ...this.info,
-          deliverDetailAddress: this.info.deliverDetailAddress + this.info.deliverHouseNumber,
-          receiptDetailAddress: this.info.receiptDetailAddress + this.info.receiptNumber
+          deliverHouseNumber: this.info.deliverHouseNumber || '',
+          receiptHouseNumber: this.info.receiptHouseNumber || '',
+          deliverDetailAddress: this.info.deliverDetailAddress + (this.info.deliverHouseNumber || ''),
+          receiptDetailAddress: this.info.receiptDetailAddress + (this.info.receiptHouseNumber || '')
         })
         this.itemDetail = itemDetail
       } catch (e) {

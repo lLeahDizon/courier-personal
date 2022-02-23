@@ -18,7 +18,7 @@
     </div>
     <div class="item-wrapper">
       <span>保价</span>
-      <span>￥{{ info.insurancePrice }}</span>
+      <span>￥{{ info.insurancePrice || 0 }}</span>
     </div>
   </Card>
 </template>

@@ -76,7 +76,7 @@ export function CoolWPDistance(lng1, lat1, lng2, lat2) {
   if (distance >= 500 && distance < 700) desc = '5-10'
   if (distance >= 700 && distance < 1200) desc = '6-15'
   if (distance >= 1200) desc = '7-12'
-  return {distance: distance || 0, desc}
+  return {distance: distance || 0, desc: desc || '1-6'}
 }
 
 export function getTimeArea() {

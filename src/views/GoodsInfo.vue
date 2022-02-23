@@ -1,6 +1,6 @@
 <template>
   <div class="GoodsInfo-wrapper">
-    <header v-if="distance">
+    <header v-if="distance >= 0">
       <h1 class="title">发件距离</h1>
       <p class="desc">根据您当前的收发件信息，距离约为 <span class="number">{{ distance }}km</span></p>
       <p v-if="desc" class="desc time">预计 <span class="number">{{ desc }}小时内</span> 送达</p>
@@ -28,8 +28,8 @@
       placeholder="可选择报价赔付"
       :content="insurancePrice >= 0 ? (insurancePrice === 0 ? '未保价0元' : `已保价¥${insurancePrice}`) :''"
       @click="modalPriceVisible=true"/>
-    <div class="title">物品图片</div>
-    <van-uploader v-model="fileList" class="upload" multiple :max-count="6" deletable :after-read="afterRead"/>
+    <!--    <div class="title">物品图片</div>-->
+    <!--    <van-uploader v-model="fileList" class="upload" multiple :max-count="6" deletable :after-read="afterRead"/>-->
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
     </div>
@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       fileList: [],
-      distance: '',
+      distance: 0,
       desc: '',
       receiptDateTimeStr: '',
       receiptDateTime: '',
