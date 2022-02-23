@@ -34,6 +34,14 @@ export function orderPay(id) {
   })
 }
 
+// 订单待支付
+export function orderUnPay(id) {
+  return Request({
+    url: `/order/unPay?id=${id}`,
+    method: 'get'
+  })
+}
+
 // 订单取消
 export function orderCancel(id) {
   return Request({

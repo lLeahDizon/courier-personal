@@ -74,7 +74,7 @@ export default {
       }, () => {
         this.payResult = false
         this.showDialog = true
-      })
+      }, true)
     },
     showModal(evaluate) {
       this.modalEvaluateVisible = true

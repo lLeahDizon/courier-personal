@@ -1,7 +1,7 @@
 import {ImagePreview, Toast} from 'vant'
 import Vue from 'vue'
 import {getBrowserType} from '@/utils/browser'
-import {orderPay} from '@/service'
+import {orderPay, orderUnPay} from '@/service'
 import {$error} from '@/utils/error'
 
 export * from './error'
@@ -142,12 +142,13 @@ export function structureQs(queryString) {
  * @param success 成功回调
  * @param cancel 取消回调
  * @param fail 失败回调
+ * @param isDetail 是否是待支付
  * @return {Promise<void>}
  */
-export async function handlePay(orderId, success, cancel, fail) {
+export async function handlePay(orderId, success, cancel, fail, isDetail = false) {
   const loading = $loading()
   try {
-    const obj = await orderPay(orderId)
+    const obj = isDetail ? await orderUnPay(orderId) : await orderPay(orderId)
     if (obj) {
       obj.package = obj.packageStr
       const req = JSON.parse(JSON.stringify(obj))
