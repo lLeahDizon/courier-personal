@@ -71,6 +71,9 @@ export default {
       }
     },
     changeManagementVisible() {
+      if (!this.isManagement && !this.list.length) {
+        return
+      }
       this.isManagement = !this.isManagement
     },
     async onClickDelete() {
@@ -134,6 +137,7 @@ export default {
       color: #333333;
       line-height: 47px;
       border-radius: 50px;
+      min-width: 164px;
       @include border-1px(#aaaaaa, 50px);
 
       &.red {
