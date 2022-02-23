@@ -179,6 +179,9 @@ export default {
       if (!this.receiptDateTime) {
         return $error('请选择期望送达时间')
       }
+      if (!this.imgUrlList.length) {
+        return $error('请添加物品图片')
+      }
       this.setOrderInfo({
         ...this.orderInfo,
         distance: this.distance,
@@ -230,8 +233,6 @@ export default {
           const result = await fileUpload(params)
           this.imgUrlList.push(`https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`)
         }
-        console.log('---imgUrlList')
-        console.log(this.imgUrlList)
       } catch (e) {
         $error(e)
       } finally {
@@ -345,6 +346,12 @@ export default {
     font-size: 32px;
     line-height: 44px;
     color: #333333;
+
+    &:before {
+      content: '*';
+      color: #f12323;
+      padding-right: 12px;
+    }
   }
 
   > .upload {
