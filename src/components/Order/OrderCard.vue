@@ -3,7 +3,7 @@
     <Card class-prefix="OrderCard">
       <div class="head">
         <span class="number">订单编号：{{ info.orderNum }}</span>
-        <span :class="info.transportSheetStatus === 40 && info.orderStatus === 25 ? 'gray-deep' : orderStatus[info.transportSheetStatus].className">
+        <span :class="info.transportSheetStatus === 40 && info.orderStatus === 25 ? 'red' : orderStatus[info.transportSheetStatus].className">
           {{ info.transportSheetStatus === 40 && info.orderStatus === 25 ? '退款中' : orderStatus[info.transportSheetStatus].name }}
         </span>
       </div>

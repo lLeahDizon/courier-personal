@@ -215,6 +215,7 @@ export default {
       this.$router.replace({name: 'orderConfirm'})
     },
     async afterRead(file) {
+      console.log('---afterRead')
       const loading = $loading()
       try {
         const newFileList = []
@@ -233,6 +234,7 @@ export default {
           const result = await fileUpload(params)
           this.imgUrlList.push(`https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`)
         }
+        console.log(this.imgUrlList)
       } catch (e) {
         $error(e)
       } finally {
@@ -311,7 +313,11 @@ export default {
 @import "~@/styles/mixins.scss";
 
 .GoodsInfo-wrapper {
-  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px 120px;
+  height: 100vh;
+  overflow-y: scroll;
 
   header {
     padding: 40px 0;
