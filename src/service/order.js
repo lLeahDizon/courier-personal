@@ -9,6 +9,15 @@ export function orderConfirmInfo(data) {
   })
 }
 
+// 订单确认页信息
+export function orderPreInfo(data) {
+  return Request({
+    url: '/order/confirm/info',
+    method: 'post',
+    data
+  })
+}
+
 // 创建订单
 export function orderCreate() {
   return Request({

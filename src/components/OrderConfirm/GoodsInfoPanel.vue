@@ -21,7 +21,9 @@
       <span>￥{{ info.insurancePrice || 0 }}</span>
     </div>
     <div class="img-wrapper">
-      <img v-for="(item,index) in info.imgUrlList" :key="index" :src="item" alt="">
+      <van-image v-for="(item,index) in info.imgUrlList" :key="index" lazy-load :src="item">
+        <template v-slot:error>正在加载</template>
+      </van-image>
     </div>
   </Card>
 </template>
@@ -58,11 +60,12 @@ export default {
 }
 
 .img-wrapper {
-  img {
+  padding-top: 30px;
+
+  ::v-deep .van-image {
     width: 160px;
     height: 160px;
     margin-right: 20px;
-    margin-top: 30px;
   }
 }
 </style>

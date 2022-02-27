@@ -32,10 +32,9 @@
     <van-uploader
       v-model="fileList"
       class="upload"
-      multiple
       :max-count="6"
       deletable
-      accept="image/*"
+      :before-delete="beforeDelete"
       :after-read="afterRead"/>
     <div class="btn-wrapper">
       <button class="btn" @click="onSubmit">确认发布订单</button>
@@ -214,95 +213,97 @@ export default {
       }))
       this.$router.replace({name: 'orderConfirm'})
     },
-    async afterRead(file) {
-      console.log('---afterRead')
-      const loading = $loading()
-      try {
-        const newFileList = []
-        if (Array.isArray(file)) {
-          file.forEach(item => this.compressImage(item.file, newFile => {
-            newFileList.push(newFile)
-          }))
-        } else {
-          this.compressImage(file.file, newFile => {
-            newFileList.push(newFile)
-          })
-        }
-        for (let i = 0; i < newFileList.length; i++) {
+    beforeDelete(file, detail) {
+      this.imgUrlList.splice(detail.index, 1)
+      return true
+    },
+    afterRead(file) {
+      this.compressImage(file.file, async newFile => {
+        const loading = $loading()
+        try {
+          console.log(newFile)
           const params = new FormData()
-          params.append('file', newFileList[i])
+          params.append('file', newFile)
           const result = await fileUpload(params)
           this.imgUrlList.push(`https://huanqiulvdi.oss-accelerate.aliyuncs.com/${result}`)
-        }
-        console.log(this.imgUrlList)
-      } catch (e) {
-        $error(e)
-      } finally {
-        loading.clear()
-      }
-    },
-    compressImage(file, success) {
-      // 图片小于1M不压缩
-      if (file.size < Math.pow(1024, 2) * 2) {
-        return success(file)
-      }
-      const name = file.name //文件名
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = e => {
-        const src = e.target.result
-
-        const img = new Image()
-        img.src = src
-        img.onload = () => {
-          const loading = $loading()
-          const w = img.width
-          const h = img.height
-          const quality = 0.2  // 默认图片质量为0.92
-          // 生成canvas
-          const canvas = document.createElement('canvas')
-          const ctx = canvas.getContext('2d')
-          // 创建属性节点
-          const anw = document.createAttribute('width')
-          anw.nodeValue = w
-          const anh = document.createAttribute('height')
-          anh.nodeValue = h
-          canvas.setAttributeNode(anw)
-          canvas.setAttributeNode(anh)
-
-          // 铺底色 PNG转JPEG时透明区域会变黑色
-          ctx.fillStyle = '#fff'
-          ctx.fillRect(0, 0, w, h)
-
-          ctx.drawImage(img, 0, 0, w, h)
-          // quality值越小，所绘制出的图像越模糊
-          const base64 = canvas.toDataURL('image/jpeg', quality) // 图片格式jpeg或webp可以选0-1质量区间
-
-          console.log(`原图${(src.length / 1024).toFixed(2)}kb`, `新图${(base64.length / 1024).toFixed(2)}kb`)
-
-          // 去掉url的头，并转换为byte
-          const bytes = window.atob(base64.split(',')[1])
-          // 处理异常,将ascii码小于0的转换为大于0
-          // eslint-disable-next-line no-undef
-          const ab = new ArrayBuffer(bytes.length)
-          // eslint-disable-next-line no-undef
-          const ia = new Uint8Array(ab)
-          for (let i = 0; i < bytes.length; i++) {
-            ia[i] = bytes.charCodeAt(i)
-          }
-          file = new Blob([ab], {type: 'image/jpeg'})
-          file.name = name
-
+        } catch (e) {
+          $error(e)
+        } finally {
           loading.clear()
-
-          success(file)
         }
-        img.onerror = e => {
+      })
+      return true
+    },
+    compressImage(files, success) {
+      const newFiles = [].concat(files)
+      for (let i = 0; i < newFiles.length; i++) {
+        let file = newFiles[i]
+        // 图片小于1M不压缩
+        if (file.size < Math.pow(1024, 2) * 2) {
+          return success(file)
+        }
+        const name = file.name //文件名
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = e => {
+          const loading = $loading()
+          const src = e.target.result
+
+          const img = new Image()
+          img.src = src
+          img.onload = () => {
+            const loading = $loading()
+            const w = img.width
+            const h = img.height
+            const quality = 0.2  // 默认图片质量为0.92
+            // 生成canvas
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+            // 创建属性节点
+            const anw = document.createAttribute('width')
+            anw.nodeValue = w
+            const anh = document.createAttribute('height')
+            anh.nodeValue = h
+            canvas.setAttributeNode(anw)
+            canvas.setAttributeNode(anh)
+
+            // 铺底色 PNG转JPEG时透明区域会变黑色
+            ctx.fillStyle = '#fff'
+            ctx.fillRect(0, 0, w, h)
+
+            ctx.drawImage(img, 0, 0, w, h)
+            // quality值越小，所绘制出的图像越模糊
+            const base64 = canvas.toDataURL('image/jpeg', quality) // 图片格式jpeg或webp可以选0-1质量区间
+
+            console.log(`原图${(src.length / 1024).toFixed(2)}kb`, `新图${(base64.length / 1024).toFixed(2)}kb`)
+
+            // 去掉url的头，并转换为byte
+            const bytes = window.atob(base64.split(',')[1])
+            // 处理异常,将ascii码小于0的转换为大于0
+            // eslint-disable-next-line no-undef
+            const ab = new ArrayBuffer(bytes.length)
+            // eslint-disable-next-line no-undef
+            const ia = new Uint8Array(ab)
+            for (let i = 0; i < bytes.length; i++) {
+              ia[i] = bytes.charCodeAt(i)
+            }
+            file = new Blob([ab], {type: 'image/jpeg'})
+            file.name = name
+
+            loading.clear()
+
+            console.log('---压缩完成')
+
+            success(file)
+          }
+          img.onerror = e => {
+            $error(e)
+          }
+          loading.clear()
+        }
+        reader.onerror = e => {
           $error(e)
         }
-      }
-      reader.onerror = e => {
-        $error(e)
       }
     }
   }

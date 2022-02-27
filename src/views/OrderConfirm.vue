@@ -24,13 +24,21 @@ import PriceInfoPanel from '@/components/OrderConfirm/PriceInfoPanel'
 import ModalResult from '@/components/OrderConfirm/ModalResult'
 import {$error, $loading, CoolWPDistance, getBrowserType, handlePay} from '@/utils'
 import {initWeChatEnv} from '@/utils/weixin'
-import {orderConfirmInfo, orderCreate} from '@/service'
+import {orderConfirmInfo, orderCreate, orderPreInfo} from '@/service'
 import {ORDER_INFO_KEY} from '@/constants'
 
 export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
-  created() {
-    this.info = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
+  async created() {
+    const {isPre = false, id} = this.$route.query
+    console.log(isPre)
+    if (JSON.parse(isPre)) {
+      const data = await orderPreInfo(id)
+      console.log(data)
+      this.info = data
+    } else {
+      this.info = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
+    }
     const {distance} = CoolWPDistance(Number(this.info.deliverLongitude), Number(this.info.deliverLatitude), Number(this.info.receiptLongitude), Number(this.info.receiptLatitude))
     this.info.distance = distance
     const browserType = getBrowserType()
