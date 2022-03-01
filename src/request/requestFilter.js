@@ -44,7 +44,7 @@ export function handleResponse(response) {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.setItem(TOKEN_KEY, token)
   }
-  if (!code) {
+  if (code === 200) {
     return data
   } else {
     switch (code) {
