@@ -30,12 +30,11 @@ import {ORDER_INFO_KEY} from '@/constants'
 export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
   async created() {
-    const {isPre = false, id} = this.$route.query
-    console.log(isPre)
+    const {isPre = 'false', id} = this.$route.query
     if (JSON.parse(isPre)) {
       const data = await orderPreInfo(id)
-      console.log(data)
       this.info = data
+      localStorage.setItem(ORDER_INFO_KEY, JSON.stringify(data))
     } else {
       this.info = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
     }

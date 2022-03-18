@@ -10,11 +10,10 @@ export function orderConfirmInfo(data) {
 }
 
 // 订单确认页信息
-export function orderPreInfo(data) {
+export function orderPreInfo(preSheetId) {
   return Request({
-    url: '/order/confirm/info',
-    method: 'post',
-    data
+    url: `/order/pre/transport/sheet/info?preSheetId=${preSheetId}`,
+    method: 'get'
   })
 }
 
