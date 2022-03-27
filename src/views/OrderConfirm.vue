@@ -30,20 +30,27 @@ import {ORDER_INFO_KEY} from '@/constants'
 export default {
   components: {ModalResult, PriceInfoPanel, PayPanel, GoodsInfoPanel, BaseInfoPanel},
   async created() {
-    const {isPre = 'false', id} = this.$route.query
-    if (JSON.parse(isPre)) {
-      const data = await orderPreInfo(id)
-      this.info = data
-      localStorage.setItem(ORDER_INFO_KEY, JSON.stringify(data))
-    } else {
-      this.info = JSON.parse(localStorage.getItem(ORDER_INFO_KEY))
-    }
-    const {distance} = CoolWPDistance(Number(this.info.deliverLongitude), Number(this.info.deliverLatitude), Number(this.info.receiptLongitude), Number(this.info.receiptLatitude))
-    this.info.distance = distance
     const browserType = getBrowserType()
     if (browserType.weChat) {
       initWeChatEnv()
     }
+    const {isPre = 'false', id} = this.$route.query
+    const storageData = JSON.parse(localStorage.getItem(ORDER_INFO_KEY)) || {}
+    if (!storageData.isPre && JSON.parse(isPre)) {
+      try {
+        const data = await orderPreInfo(id)
+        data.isPre = true
+        this.info = data
+        localStorage.removeItem(ORDER_INFO_KEY)
+        localStorage.setItem(ORDER_INFO_KEY, JSON.stringify(data))
+      } catch (e) {
+        $error(e)
+      }
+    } else {
+      this.info = storageData
+    }
+    const {distance} = CoolWPDistance(Number(this.info.deliverLongitude), Number(this.info.deliverLatitude), Number(this.info.receiptLongitude), Number(this.info.receiptLatitude))
+    this.info.distance = distance
     this.init()
   },
   data() {
