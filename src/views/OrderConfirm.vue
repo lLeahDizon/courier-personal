@@ -48,6 +48,8 @@ export default {
       }
     } else {
       this.info = storageData
+      delete storageData.isPre
+      localStorage.setItem(ORDER_INFO_KEY, JSON.stringify(storageData))
     }
     const {distance} = CoolWPDistance(Number(this.info.deliverLongitude), Number(this.info.deliverLatitude), Number(this.info.receiptLongitude), Number(this.info.receiptLatitude))
     this.info.distance = distance
