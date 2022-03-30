@@ -87,6 +87,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "address-info" */ 'src/views/AddressInfo')
   },
   {
+    path: '/invoice/info',
+    name: 'invoiceInfo',
+    meta: {
+      title: '申请发票'
+    },
+    component: () => import(/* webpackChunkName: "invoice-info" */ 'src/views/InvoiceInfo')
+  },
+  {
+    path: '/invoice/apply',
+    name: 'invoiceApply',
+    meta: {
+      title: '申请发票'
+    },
+    component: () => import(/* webpackChunkName: "invoice-apply" */ 'src/views/InvoiceApply')
+  },
+  {
     path: '/address/confirm',
     name: 'addressConfirm',
     meta: {

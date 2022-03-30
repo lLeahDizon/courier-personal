@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import {$message} from '@/utils'
-
 export default {
   data() {
     return {
@@ -40,7 +38,7 @@ export default {
       this.$router.push({name: 'addressInfo'})
     },
     handle2Invoice() {
-      $message('即将上线，尽请期待')
+      this.$router.push({name: 'invoiceInfo'})
     }
   }
 }

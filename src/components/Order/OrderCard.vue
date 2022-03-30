@@ -42,6 +42,7 @@ import {$error, $loading} from '@/utils'
 import {orderCancel} from '@/service'
 import ModalCancel from '@/components/Order/ModalCancel'
 
+// todo 订单新增开票状态的前置判断
 export default {
   props: ['info'],
   components: {ModalCancel, Card},
